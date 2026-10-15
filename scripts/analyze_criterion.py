@@ -89,6 +89,9 @@ def main():
         crit_dir = AOT_ROOT / "data" / "results" / "criterion_full"
         tag = "全量1001块"
 
+    for p in (NAMED_PATH, dim_dir, crit_dir):
+        if not p.exists():
+            raise SystemExit(f"错误：缺少 {p}（--full 需先跑 score_dimensions.py --full 与 score_criterion.py --full）")
     named = json.loads(NAMED_PATH.read_text(encoding="utf-8"))
     dim_names = {cl["cluster"]: cl["dimension"]["name"] for cl in named["clusters"]}
 

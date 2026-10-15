@@ -40,11 +40,12 @@ NEW_DIMS = [
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--v2", action="store_true", help="使用 v2 结果（默认 v1 向后兼容）")
+    ap.add_argument("--v2", action="store_true", help="兼容参数：现在默认即 v2（v1 的 k18_named.json 已废弃）")
+    ap.add_argument("--v1", action="store_true", help="旧 v1 结果（需本地仍有 clusters/k18_named.json）")
     ap.add_argument("--full", action="store_true", help="使用全量评分（scores_full → profiles_full），输出报告 v2.0")
     args = ap.parse_args()
 
-    v2 = args.v2
+    v2 = not args.v1
     full = args.full
     named_path = NAMED_V2 if (v2 or full) else NAMED_V1
     prof_path = PROFILES_V2 if (v2 or full) else PROFILES_V1
@@ -56,6 +57,10 @@ def main():
     else:
         version = "v1.0" if v2 else "v0.2"
 
+    for p, hint in ((named_path, "name_clusters.py --v2 --k 25"),
+                    (prof_path, "score_dimensions.py + aggregate_profiles.py --out " + str(prof_path))):
+        if not p.exists():
+            raise SystemExit(f"错误：缺少 {p}（先跑 {hint}）")
     named = json.loads(named_path.read_text(encoding="utf-8"))
     profiles = json.loads(prof_path.read_text(encoding="utf-8"))
     matrix = json.loads(mat_path.read_text(encoding="utf-8"))
