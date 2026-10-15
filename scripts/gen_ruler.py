@@ -62,6 +62,8 @@ def render_dimension(cl) -> str:
 
 
 def main():
+    import argparse
+    argparse.ArgumentParser(description=f"生成 AoT 尺子锚点（需 DEEPSEEK_API_KEY）→ {OUT_DIR}").parse_args()
     from openai import OpenAI
 
     key = load_key()
