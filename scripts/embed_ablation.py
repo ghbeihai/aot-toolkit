@@ -12,7 +12,6 @@
 from __future__ import annotations
 
 import glob
-import re
 from pathlib import Path
 
 import numpy as np
@@ -66,6 +65,14 @@ def variant(c, mode):
 
 
 def main():
+    import argparse
+    import sys
+    argparse.ArgumentParser(
+        description="AoT 因子链拼接策略消融（A/B/C/D 四种拼接 → BGE-M3 嵌入 → KMeans 轮廓系数）。"
+                    f"需要本地模型目录 {MODEL_DIR}").parse_args()
+    if not MODEL_DIR.exists():
+        print(f"错误：未找到 BGE-M3 模型目录 {MODEL_DIR}（请先下载 BAAI/bge-m3 到该处）", file=sys.stderr)
+        sys.exit(1)
     from sklearn.cluster import KMeans
     from sklearn.metrics import silhouette_score
     from sentence_transformers import SentenceTransformer

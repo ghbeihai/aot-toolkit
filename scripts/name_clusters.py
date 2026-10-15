@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 from pathlib import Path
 
 AOT_ROOT = Path(__file__).resolve().parent.parent
