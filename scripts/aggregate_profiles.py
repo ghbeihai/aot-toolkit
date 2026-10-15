@@ -17,7 +17,18 @@ def main():
     ap = argparse.ArgumentParser(description="AoT 人物画像汇总")
     ap.add_argument("scores_dir", help="score_dimensions.py 产出的 scores/ 目录")
     ap.add_argument("--out", default="people_profiles.json", help="输出文件名")
+    ap.add_argument("--names", default="",
+                    help="pid→人读名映射：'zhanglinjun=张林军,kangyuhua=康玉华' 或 JSON 文件路径")
     args = ap.parse_args()
+    name_map = {}
+    if args.names:
+        if Path(args.names).is_file():
+            name_map = json.loads(Path(args.names).read_text(encoding="utf-8"))
+        else:
+            for kv in args.names.split(","):
+                if "=" in kv:
+                    k, v = kv.split("=", 1)
+                    name_map[k.strip()] = v.strip()
 
     scores_dir = Path(args.scores_dir)
     if not scores_dir.exists():
@@ -41,9 +52,9 @@ def main():
                 continue
             dim = entry.get("dim", "")
             dim_name = entry.get("dim_name", dim)
-            score = entry.get("score", 0)
-            if score <= 0:
-                continue
+            score = entry.get("score")
+            if not isinstance(score, (int, float)) or score <= 0 or entry.get("failed"):
+                continue  # 失败分（None/failed）不进画像
             by_person[pid][dim]["scores"].append(score)
             if "dim_name" not in by_person[pid][dim]:
                 by_person[pid][dim]["dim_name"] = dim_name
@@ -51,8 +62,9 @@ def main():
             evs = entry.get("evidence", [])
             if evs:
                 by_person[pid][dim]["evidences"].extend(evs[:2])  # 每维最多存 2 条
-            if "person" in entry and pid not in person_names:
-                person_names[pid] = entry["person"]
+            for nk in ("display_name", "person_name", "name"):
+                if entry.get(nk) and pid not in person_names:
+                    person_names[pid] = entry[nk]
 
     profiles = {}
     for pid, dims in by_person.items():
@@ -77,7 +89,9 @@ def main():
         top5 = dim_means[:5]
 
         profiles[pid] = {
-            "name": person_names.get(pid, pid),
+            "pid": pid,
+            # 优先 --names 映射，其次评分里带的人读名；都没有才退回 pid
+            "name": name_map.get(pid) or person_names.get(pid, pid),
             "n_dims": len(dim_means),
             "top5": top5,
         }
