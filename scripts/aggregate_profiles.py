@@ -45,6 +45,8 @@ def main():
             if score <= 0:
                 continue
             by_person[pid][dim]["scores"].append(score)
+            if "dim_name" not in by_person[pid][dim]:
+                by_person[pid][dim]["dim_name"] = dim_name
             # 收集 evidence
             evs = entry.get("evidence", [])
             if evs:
@@ -59,7 +61,7 @@ def main():
             scores = data["scores"]
             if not scores:
                 continue
-            dim_name = dim
+            dim_name = data.get("dim_name", dim)
             mean = sum(scores) / len(scores)
             # 取该维前 2 条 evidence
             evidence = data["evidences"][:2] if data["evidences"] else []
