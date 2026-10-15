@@ -6,7 +6,7 @@
 - 双轮平均：temperature 0.3 / 0.7 两轮取均值，压低评分抖动；
 - 每轮打乱构念顺序；
 - 断点续跑：已完成的 (person, chunk, construct) 跳过；
-- 无 API key 时进入模拟模式（确定性启发式，结果带 simulated 标记）。
+- 无 API key 直接报错退出 1（模拟模式已移除）；429/5xx/截断指数退避（llm_common）；温度/模型来自 config/llm.yaml。
 
 用法：
     python3 scripts/score_thinking.py                 # 全量 49 块 × 12 构念 × 双轮
@@ -16,23 +16,20 @@ from __future__ import annotations
 
 import json
 import sys
-import os
-import re
-import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 import yaml
+
+import llm_common
 
 AOT_ROOT = Path(__file__).resolve().parent.parent
 CONSTRUCTS_PATH = AOT_ROOT / "config" / "thinking_constructs.yaml"
 LLM_PATH = AOT_ROOT / "config" / "llm.yaml"
 CORPUS_DIR = AOT_ROOT / "data" / "corpus"
 OUT_DIR = AOT_ROOT / "data" / "results" / "scores"
-ENV_PATH = AOT_ROOT / ".env"
 
-MAX_TEXT_CHARS = 6000  # 控制单次输入 token，超长截断
 
 SYSTEM_PROMPT = """你是一位严谨的思维测量编码器（thinking-pattern encoder）。
 
@@ -77,108 +74,26 @@ def render_definition(c: dict) -> str:
     return "\n".join(lines)
 
 
-def load_key() -> Optional[str]:
-    k = os.environ.get("DEEPSEEK_API_KEY")
-    if k:
-        return k
-    if ENV_PATH.exists():
-        for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line.startswith("DEEPSEEK_API_KEY="):
-                return line.split("=", 1)[1].strip().strip('"').strip("'")
-    return None
-
-
 class ThinkingScorer:
-    def __init__(self, api_key: Optional[str] = None):
-        self.api_key = api_key or load_key()
-        if not self.api_key:
-            print("错误：未检测到 DEEPSEEK_API_KEY。\n"
-                  "请先 export DEEPSEEK_API_KEY=sk-... 或在 .env 文件中配置。",
-                  file=sys.stderr)
-            sys.exit(1)
-        self.simulated = False
-        try:
-            from openai import OpenAI
-        except ImportError:
-            print("[warn] openai 未安装，尝试 pip install openai ...")
-            os.system(f"{os.sys.executable} -m pip install -q openai")
-            from openai import OpenAI
-        self.client = OpenAI(api_key=self.api_key, base_url="https://api.deepseek.com", timeout=120)
-
-    def _call_once(self, definition: str, name: str, text: str, temperature: float) -> dict:
-        user = (
-            f"【思维构念定义】\n{definition}\n\n"
-            f"【待分析文本】\n{text}\n\n请按系统要求输出 JSON。"
-        )
-        resp = self.client.chat.completions.create(
-            model="deepseek-chat",
-            temperature=temperature,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user},
-            ],
-        )
-        content = resp.choices[0].message.content or ""
-        return json.loads(content)
-
-    def _simulate(self, name: str, definition: str, text: str) -> dict:
-        tokens = set(re.findall(r"[\u4e00-\u9fff]{2,}", text))
-        hits = 0
-        total = 0
-        for w in re.findall(r"[\u4e00-\u9fff]{2,}", definition):
-            total += 1
-            if w in tokens:
-                hits += 1
-        score = 1 if total == 0 else max(1, min(7, round(hits / max(total, 1) * 50)))
-        return {
-            "score": score,
-            "evidence": [text[:60] + ("…" if len(text) > 60 else "")],
-            "confidence": 0.1,
-            "simulated": True,
-        }
+    def __init__(self, cfg: dict):
+        self.cfg = cfg
+        self.client = llm_common.make_client(llm_common.require_key(AOT_ROOT), cfg)  # 无 key → 退出 1
 
     def score_once(self, definition: str, name: str, text: str) -> dict:
-        """双轮评分（0.3/0.7 各一次，取平均），返回结构化结果。"""
-        raw_scores: List[int] = []
-        evidence: List[str] = []
-        confidences: List[float] = []
-        simulated = False
-        for t in (0.3, 0.7):
-            for attempt in range(2):
-                try:
-                    data = self._call_once(definition, name, text, t) if not self.simulated else self._simulate(name, definition, text)
-                    simulated = simulated or self.simulated or data.get("simulated", False)
-                    score = int(data["score"])
-                    if 1 <= score <= 7:
-                        raw_scores.append(score)
-                        ev = data.get("evidence", [])
-                        for e in ev:
-                            e = str(e).strip()
-                            if e and e not in evidence and len(evidence) < 3:
-                                evidence.append(e)
-                        confidences.append(float(data.get("confidence", 0.5)))
-                        break
-                except Exception as ex:
-                    if attempt == 1:
-                        print(f"    [warn] {name} t={t} 失败: {ex}")
-                    time.sleep(1.5)
-        if not raw_scores:
-            return {"score": None, "raw_scores": [], "evidence": [], "confidence": 0.0,
-                    "simulated": False, "failed": True}  # 全部重试失败：不伪装成 0 分
-        return {
-            "score": round(sum(raw_scores) / len(raw_scores), 2),
-            "raw_scores": raw_scores,
-            "evidence": evidence,
-            "confidence": round(sum(confidences) / len(confidences), 2) if confidences else 0.0,
-            "simulated": simulated,
-        }
+        """多温度（config temperatures，默认 0.3/0.7）各一次取均值。"""
+        text, truncated = llm_common.truncate(text, self.cfg)
+        user = f"【思维构念定义】\n{definition}\n\n【待分析文本】\n{text}\n\n请按系统要求输出 JSON。"
+        return llm_common.score_1to7(
+            self.client, self.cfg,
+            [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user}],
+            label=name, truncated=truncated)
 
 
-def load_corpus() -> List[dict]:
+def load_corpus(corpus_dir: Path = CORPUS_DIR) -> List[dict]:
+    if not corpus_dir.is_dir() or not any(corpus_dir.glob("*.json")):
+        sys.exit(f"错误：语料目录 {corpus_dir} 不存在或没有 *.json；先用 scripts/prepare_corpus.py 生成")
     people = []
-    for p in sorted(CORPUS_DIR.glob("*.json")):
+    for p in sorted(corpus_dir.glob("*.json")):
         d = json.loads(p.read_text(encoding="utf-8"))
         people.append({"pid": d["person"], "name": d.get("name", d["person"]), "items": d["items"]})
     return people
@@ -190,43 +105,48 @@ def main():
     ap.add_argument("--pilot", nargs="*", default=None,
                     help="试点模式：'人数 块数'，如 --pilot 1 2（第 1 人前 2 块）")
     ap.add_argument("--constructs", type=int, default=None, help="只用前 N 个构念")
+    ap.add_argument("--corpus-dir", default=str(CORPUS_DIR), help="语料目录（默认 data/corpus）")
+    ap.add_argument("--out-dir", default=str(OUT_DIR), help="输出目录")
+    ap.add_argument("--dry-run", action="store_true", help="只打印调用次数，不调用 LLM")
     args = ap.parse_args()
 
     constructs = yaml.safe_load(CONSTRUCTS_PATH.read_text(encoding="utf-8"))["constructs"]
     if args.constructs:
         constructs = constructs[: args.constructs]
-    llm_cfg = yaml.safe_load(LLM_PATH.read_text(encoding="utf-8"))["llm"]
-
-    scorer = ThinkingScorer()
-    if scorer.simulated:
-        print("[!] 未找到 DEEPSEEK_API_KEY，进入模拟模式（结果带 simulated 标记）")
-
-    people = load_corpus()
+    llm_cfg = llm_common.load_llm_cfg(LLM_PATH, section="llm")
+    out_dir = Path(args.out_dir)
+    people = load_corpus(Path(args.corpus_dir))
     if args.pilot is not None:
         vals = args.pilot if args.pilot else ["1", "2"]
         n_p, n_c = int(vals[0]), int(vals[1])
         people = [dict(p, items=p["items"][:n_c]) for p in people[:n_p]]
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    done_calls = 0
+    done_calls, n_failed = 0, 0
 
     def build_tasks():
         for p in people:
-            out_path = OUT_DIR / f"{p['pid']}.json"
+            out_path = out_dir / f"{p['pid']}.json"
             existing = {}
             if out_path.exists():
                 existing = json.loads(out_path.read_text(encoding="utf-8"))
             for item in p["items"]:
-                text = item["text"][:MAX_TEXT_CHARS]
+                text = item["text"]
+                if not text.strip():
+                    continue
                 cid = item["id"]
                 for c in constructs:
                     key = f"{cid}::{c['id']}"
-                    if key in existing and (existing[key].get("score") or 0) > 0 and not existing[key].get("simulated", False):
+                    e = existing.get(key) or {}
+                    if (e.get("score") or 0) > 0 and not e.get("simulated") and not e.get("failed"):
                         continue  # 断点续跑
                     yield p, out_path, existing, key, c, text
 
     tasks = list(build_tasks())
-    print(f"[info] 任务总量：{len(people)} 人 × {len(constructs)} 构念 × 双轮，预计 {len(tasks)*2} 次调用（含续跑跳过）")
+    print(f"[info] 任务总量：{len(people)} 人 × {len(constructs)} 构念 × {len(llm_cfg['temperatures'])} 轮，预计 {len(tasks)*len(llm_cfg['temperatures'])} 次调用（已跳过续跑项）")
+    if args.dry_run:
+        return
+    scorer = ThinkingScorer(llm_cfg)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     def run_task(t):
         p, out_path, existing, key, c, text = t
@@ -238,7 +158,7 @@ def main():
         res["chunk"] = key.split("::")[0]
         return p, out_path, existing, key, res
 
-    with ThreadPoolExecutor(max_workers=llm_cfg.get("concurrency", 12)) as ex:
+    with ThreadPoolExecutor(max_workers=int(llm_cfg.get("concurrency", 8))) as ex:
         futs = {ex.submit(run_task, t): t for t in tasks}
         for fut in as_completed(futs):
             t = futs[fut]
@@ -246,13 +166,17 @@ def main():
                 p, out_path, existing, key, res = fut.result()
                 existing[key] = res
                 out_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
-                done_calls += 2
-                if done_calls % 20 == 0 or done_calls == len(tasks) * 2:
-                    print(f"  [prog] {done_calls}/{len(tasks)*2} 次调用完成", flush=True)
-            except Exception as ex:
-                print(f"  [err] {t[3]} 失败: {ex}")
+                done_calls += 1
+                n_failed += bool(res.get("failed"))
+                if done_calls % 20 == 0 or done_calls == len(tasks):
+                    print(f"  [prog] {done_calls}/{len(tasks)} 项完成（失败 {n_failed}）", flush=True)
+            except Exception as e:  # noqa: BLE001
+                n_failed += 1
+                print(f"  [err] {t[3]} 失败: {e}", file=sys.stderr)
 
-    print(f"[ok] 打分完成，结果在 {OUT_DIR}")
+    print(f"[ok] 打分完成，结果在 {out_dir}（失败 {n_failed}）")
+    if n_failed:
+        sys.exit(3)
 
 
 if __name__ == "__main__":

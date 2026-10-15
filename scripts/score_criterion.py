@@ -13,16 +13,16 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+import llm_common
+
 AOT_ROOT = Path(__file__).resolve().parent.parent
 CORPUS_DIR = AOT_ROOT / "data" / "corpus"
 OUT_DIR = AOT_ROOT / "data" / "results" / "criterion"
-ENV_PATH = AOT_ROOT / ".env"
-MAX_TEXT_CHARS = 6000
+LLM_PATH = AOT_ROOT / "config" / "llm.yaml"
 
 TOOLS = [
     {
@@ -110,84 +110,32 @@ SYSTEM_PROMPT = """你是一位严谨的心理学测量编码器（psychometric 
 规则：评分基于文本本身；evidence 逐字引用原文；confidence 表示把握程度。"""
 
 
-def load_key() -> str | None:
-    # 优先读环境变量
-    env_key = os.environ.get("DEEPSEEK_API_KEY")
-    if env_key:
-        return env_key.strip()
-    # 回退读 .env 文件
-    if ENV_PATH.exists():
-        for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line.startswith("DEEPSEEK_API_KEY="):
-                return line.split("=", 1)[1].strip().strip('"').strip("'")
-    return None
-
-
 def render_tool(t) -> str:
     return f"工具名称：{t['name']}\n构念说明：{t['desc']}"
 
 
 class ToolScorer:
-    def __init__(self, key: str | None):
-        if not key:
-            print("错误：未检测到 DEEPSEEK_API_KEY。\n"
-                  "请先 export DEEPSEEK_API_KEY=sk-... 或在 .env 文件中配置。",
-                  file=sys.stderr)
-            sys.exit(1)
-        self.key = key
-        self.simulated = False
-        from openai import OpenAI
-        self.client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=120)
-
-    def _call(self, desc: str, text: str, temp: float) -> dict:
-        user = f"【效标工具构念】\n{desc}\n\n【待分析文本】\n{text}\n\n请按系统要求输出 JSON。"
-        resp = self.client.chat.completions.create(
-            model="deepseek-chat",
-            temperature=temp,
-            response_format={"type": "json_object"},
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user},
-            ],
-        )
-        return json.loads(resp.choices[0].message.content or "{}")
+    def __init__(self, cfg: dict):
+        self.cfg = cfg
+        self.client = llm_common.make_client(llm_common.require_key(AOT_ROOT), cfg)  # 无 key → 退出 1
 
     def score(self, desc: str, text: str) -> dict:
-        scores, confs, evs = [], [], []
-        for temp in (0.3, 0.7):
-            for attempt in range(2):
-                try:
-                    data = self._call(desc, text, temp)
-                    s = int(data["score"])
-                    if 1 <= s <= 7:
-                        scores.append(s)
-                        confs.append(float(data.get("confidence", 0.5)))
-                        for e in data.get("evidence", []):
-                            e = str(e).strip()
-                            if e and e not in evs and len(evs) < 3:
-                                evs.append(e)
-                        break
-                except Exception as ex:
-                    if attempt == 1:
-                        print(f"    [warn] t={temp} 失败: {ex}")
-                    time.sleep(1.5)
-        if not scores:
-            return {"score": None, "raw_scores": [], "evidence": [], "confidence": 0.0,
-                    "simulated": False, "failed": True}  # 全部重试失败：不伪装成 0 分
-        return {
-            "score": round(sum(scores) / len(scores), 2),
-            "raw_scores": scores,
-            "evidence": evs,
-            "confidence": round(sum(confs) / len(confs), 2) if confs else 0.0,
-        }
+        text, truncated = llm_common.truncate(text, self.cfg)
+        user = f"【效标工具构念】\n{desc}\n\n【待分析文本】\n{text}\n\n请按系统要求输出 JSON。"
+        return llm_common.score_1to7(
+            self.client, self.cfg,
+            [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user}],
+            label=desc.split("\n")[0][:30], truncated=truncated)
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--pilot", nargs="*", default=None, help="试点：'人数 块数'，如 --pilot 1 2")
     ap.add_argument("--full", action="store_true", help="使用全量语料 data/corpus_full，输出到 criterion_full")
-    ap.add_argument("--workers", type=int, default=12, help="并发数（默认 12）")
+    ap.add_argument("--corpus-dir", help="语料目录（默认 data/corpus；--full 时 data/corpus_full）")
+    ap.add_argument("--out-dir", help="输出目录（默认 data/results/criterion；--full 时 criterion_full）")
+    ap.add_argument("--workers", type=int, default=None, help="并发数（默认 config/llm.yaml concurrency）")
+    ap.add_argument("--dry-run", action="store_true", help="只打印调用次数，不调用 LLM")
     ap.add_argument("--max-runtime", type=int, default=0, help="主动限时退出（秒）")
     args = ap.parse_args()
 
@@ -196,6 +144,11 @@ def main():
     if args.full:
         corpus_dir = AOT_ROOT / "data" / "corpus_full"
         out_dir = AOT_ROOT / "data" / "results" / "criterion_full"
+    corpus_dir = Path(args.corpus_dir) if args.corpus_dir else corpus_dir
+    out_dir = Path(args.out_dir) if args.out_dir else out_dir
+    if not corpus_dir.is_dir() or not any(corpus_dir.glob("*.json")):
+        sys.exit(f"错误：语料目录 {corpus_dir} 不存在或没有 *.json；先用 scripts/prepare_corpus.py 生成")
+    cfg = llm_common.load_llm_cfg(LLM_PATH, section="llm")
 
     people = []
     for p in sorted(corpus_dir.glob("*.json")):
@@ -206,12 +159,6 @@ def main():
         n_p, n_c = int(vals[0]), int(vals[1])
         people = [dict(p, items=p["items"][:n_c]) for p in people[:n_p]]
 
-    key = load_key()
-    scorer = ToolScorer(key)
-    if scorer.simulated:
-        print("[!] 无 API key，进入模拟模式")
-
-    out_dir.mkdir(parents=True, exist_ok=True)
     tasks = []
     for p in people:
         out_path = out_dir / f"{p['pid']}.json"
@@ -219,15 +166,22 @@ def main():
         if out_path.exists():
             existing = json.loads(out_path.read_text(encoding="utf-8"))
         for item in p["items"]:
-            text = item["text"][:MAX_TEXT_CHARS]
+            text = item["text"]
+            if not text.strip():
+                continue
             for t in TOOLS:
                 key_t = f"{item['id']}::{t['tool']}"
-                if key_t in existing and (existing[key_t].get("score") or 0) > 0 and not existing[key_t].get("simulated", False):
+                e = existing.get(key_t) or {}
+                if (e.get("score") or 0) > 0 and not e.get("simulated") and not e.get("failed"):
                     continue
                 tasks.append((p, out_path, existing, key_t, t, text))
 
-    print(f"[info] 效标代理：{len(people)} 人 × {len(TOOLS)} 工具，待打分 {len(tasks)} 条 × 双轮 = {len(tasks)*2} 次调用")
-    done = 0
+    print(f"[info] 效标代理：{len(people)} 人 × {len(TOOLS)} 工具，待打分 {len(tasks)} 条 × {len(cfg['temperatures'])} 轮 = {len(tasks)*len(cfg['temperatures'])} 次调用")
+    if args.dry_run:
+        return
+    scorer = ToolScorer(cfg)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    done, n_failed = 0, 0
     t0 = time.time()
 
     def run(t):
@@ -239,7 +193,7 @@ def main():
         res["chunk"] = key_t.split("::")[0]
         return p, out_path, existing, key_t, res
 
-    with ThreadPoolExecutor(max_workers=args.workers) as ex:
+    with ThreadPoolExecutor(max_workers=args.workers or int(cfg.get("concurrency", 8))) as ex:
         futs = {ex.submit(run, t): t for t in tasks}
         for fut in as_completed(futs):
             t = futs[fut]
@@ -247,17 +201,21 @@ def main():
                 p, out_path, existing, key_t, res = fut.result()
                 existing[key_t] = res
                 out_path.write_text(json.dumps(existing, ensure_ascii=False, indent=2), encoding="utf-8")
-                done += 2
-                if done % 40 == 0 or done == len(tasks) * 2:
-                    print(f"  [prog] {done}/{len(tasks)*2}", flush=True)
-            except Exception as ex:
-                print(f"  [err] {t[3]} 失败: {ex}")
+                done += 1
+                n_failed += bool(res.get("failed"))
+                if done % 20 == 0 or done == len(tasks):
+                    print(f"  [prog] {done}/{len(tasks)}（失败 {n_failed}）", flush=True)
+            except Exception as e:  # noqa: BLE001
+                n_failed += 1
+                print(f"  [err] {t[3]} 失败: {e}", file=sys.stderr)
             if args.max_runtime and time.time() - t0 > args.max_runtime:
                 print(f"  [timeout] 已运行 {int(time.time()-t0)}s，主动退出", flush=True)
                 ex.shutdown(wait=False, cancel_futures=True)
                 break
 
-    print(f"[ok] 效标代理评分（本批）完成，结果在 {out_dir}")
+    print(f"[ok] 效标代理评分（本批）完成，结果在 {out_dir}（失败 {n_failed}）")
+    if n_failed:
+        sys.exit(3)
 
 
 if __name__ == "__main__":
