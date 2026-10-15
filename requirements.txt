@@ -1,0 +1,9 @@
+# aot-toolkit 依赖
+pyyaml>=6.0
+openai>=1.30
+python-dotenv>=1.0
+# 构建尺子/研究脚本（embed_cluster / embed_ablation / sensitivity）
+numpy>=1.24
+scikit-learn>=1.3
+# 可选：本地嵌入模型
+# sentence-transformers>=2.7
