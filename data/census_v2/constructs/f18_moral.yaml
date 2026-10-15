@@ -1,0 +1,253 @@
+# =============================================================================
+# AoT 思维构念普查 v2 · F18 道德认知家族（社会认知/情绪/动机/价值集群贡献）
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产(量表题面/词表) B=LLM自举
+# 文献出处：s4_social_emotion.md 台账（Graham/Haidt/Nosek 2009; Haidt 2001; Rest et al. 1999）
+# =============================================================================
+
+family_id: F18
+family_name: 道德认知
+dimension: 道德判断与价值取向
+disposition: independent-v2
+models:
+  - name: 道德基础理论(五基础)
+    author: Graham, Haidt & Nosek
+    year: 2009
+    source: Graham, Haidt & Nosek (2009) Liberals and Conservatives Rely on Different Sets of Moral Foundations. JPSP 96(5):1029-1046; MFQ-30; 中文版 MFQ-C 38 题 α=.93
+    url: http://pages.stern.nyu.edu/~jhaidt/articles/graham.haidt.nosek.2009.liberals-and-conservatives.pub064.pdf
+    verified: verified
+  - name: 社会直觉模型
+    author: Haidt
+    year: 2001
+    source: Haidt (2001) The emotional dog and its rational tail. Psychological Review 108(4):814-834
+    url: https://pages.uoregon.edu/uophil/files/HaidtEmotionalDog.pdf
+    verified: verified
+  - name: 道德四成分模型
+    author: Rest, Narvaez, Bebeau & Thoma
+    year: 1999
+    source: "Rest et al. (1999) Postconventional Moral Thinking: A Neo-Kohlbergian Approach. Erlbaum; DIT2 J. Educ. Psychol. 91(4):644"
+    url: https://ethicaldevelopment.ua.edu/about-the-dit/
+    verified: verified
+  - name: 道德发展六阶段
+    author: Kohlberg
+    year: 1981
+    source: Kohlberg (1981) The Philosophy of Moral Development. Harper & Row
+    url: ""
+    verified: claimed
+
+iso_groups:
+  - group_id: iso-f18-f9-moral-vs-epistemic
+    primary: f18-010
+    primary_name: 道德判断层级
+    aliases: [反思判断(F9 epi-003), 论证推理层级(F9 epi-007)]
+    members: [f18-010, f18-009]
+    note: 切开关系——F18 管"道德内容与道德推理阶段"，F9 管"一般知识如何被评估/证据如何权衡"；聚类时勿把道德判断混入知识论反思判断。
+  - group_id: iso-f18-f8-moral-motive
+    primary: f18-011
+    primary_name: 道德动机/道德优先性
+    aliases: [内隐动机(F8 mot-004), 动机-目标一致性(F8 mot-014)]
+    members: [f18-011]
+    note: 道德动机是"道德目标压过自利"的优先性，F8 是成就/权力/亲和的内隐需要；相邻但不同域。
+
+chinese_applicability: |
+  A 级资产为 MFT 五基础的 MFQ 题面与 LIWC-22 moralization 词类锚点；
+  中文版 MFQ-C 已修订（38 题 6 维度，α=.93，Front. Psychiatry 2024）可直接转文本判定。
+  Haidt 社会直觉模型与 Rest 四成分为理论框架，无公开中文词表，对应词元 B 级自举；
+  聚类后可用中文 MFQ-C 五基础得分做外部效标，校准 LLM 道德偏好画像刻度。
+
+constructs:
+  - id: f18-001
+    name: 关怀/伤害基础
+    en: harm-care-foundation
+    dimension: 道德判断与价值取向
+    question: 文本是否对他人受苦、伤害、脆弱高度敏感并以此作道德判断依据？
+    factor: harm-care
+    adjectives: [仁慈的, 护弱的, 痛惜的, 反残忍的]
+    synonyms: [关怀, 伤害厌恶, 保护弱者, 共情道德]
+    verbs: [护弱, 痛惜, 谴责伤害, 关怀]
+    nouns: [苦难, 伤害, 脆弱, 共情]
+    anchors:
+      positive: "看到别人受伤害我很难受，这种事绝对不能发生。"
+      negative: "吃点苦、受点伤算什么，没什么大不了的。"
+    source: Graham et al. 2009 (Harm/care); MFQ-C
+    lexicon_grade: A
+    tags: [sketch-道德偏好]
+
+  - id: f18-002
+    name: 公平/互惠基础
+    en: fairness-reciprocity-foundation
+    dimension: 道德判断与价值取向
+    question: 文本是否以公正、权利、背叛、互惠为道德核心关切？
+    factor: fairness-reciprocity
+    adjectives: [公正的, 讲权利的, 反背叛的, 求对等的]
+    synonyms: [公平, 公正, 权利, 互惠, 背叛厌恶]
+    verbs: [求公平, 护权利, 谴责背叛, 对等]
+    nouns: [公正, 权利, 背叛, 互惠]
+    anchors:
+      positive: "这不公平，他凭什么能多占一份？"
+      negative: "谁有本事谁多拿，天经地义。"
+    source: Graham et al. 2009 (Fairness/reciprocity); MFQ-C
+    lexicon_grade: A
+
+  - id: f18-003
+    name: 内群体/忠诚基础
+    en: ingroup-loyalty-foundation
+    dimension: 道德判断与价值取向
+    question: 文本是否以对集体忠诚、背叛群体、爱国团结为道德标尺？
+    factor: ingroup-loyalty
+    adjectives: [忠诚的, 护群体的, 反卖国的, 团结的]
+    synonyms: [忠诚, 爱国, 集体忠诚, 背叛群体]
+    verbs: [护群体, 讲忠诚, 斥叛徒, 团结]
+    nouns: [忠诚, 群体, 背叛, 国家]
+    anchors:
+      positive: "吃里扒外、背叛自己人，这是最可耻的。"
+      negative: "我忠于我自己，谈不上什么背叛群体。"
+    source: Graham et al. 2009 (Ingroup/loyalty); MFQ-C
+    lexicon_grade: A
+
+  - id: f18-004
+    name: 权威/尊重基础
+    en: authority-respect-foundation
+    dimension: 道德判断与价值取向
+    question: 文本是否以尊重权威、服从秩序、传统层级为道德义务？
+    factor: authority-respect
+    adjectives: [守序的, 尊长的, 服从的, 重传统的]
+    synonyms: [权威, 尊重, 秩序, 服从, 传统]
+    verbs: [守秩序, 尊长, 服从, 敬传统]
+    nouns: [权威, 秩序, 传统, 层级]
+    anchors:
+      positive: "长辈和规矩要尊重，以下犯上是不对的。"
+      negative: "凭什么他是权威我就得听，规矩也可以改。"
+    source: Graham et al. 2009 (Authority/respect); MFQ-C
+    lexicon_grade: A
+
+  - id: f18-005
+    name: 圣洁/纯洁基础
+    en: purity-sanctity-foundation
+    dimension: 道德判断与价值取向
+    question: 文本是否以纯洁、污秽、堕落、神圣为道德判断依据？
+    factor: purity-sanctity
+    adjectives: [圣洁的, 洁净的, 反堕落的, 重神圣的]
+    synonyms: [纯洁, 圣洁, 污秽厌恶, 神圣, 堕落]
+    verbs: [守纯洁, 嫌恶污秽, 斥堕落, 神圣化]
+    nouns: [纯洁, 污秽, 神圣, 堕落]
+    anchors:
+      positive: "这种做法太肮脏、太低俗，简直是堕落。"
+      negative: "吃吃喝喝、怎么舒服怎么来，谈不上什么堕落。"
+    source: Graham et al. 2009 (Purity/sanctity); MFQ-C
+    lexicon_grade: A
+
+  - id: f18-006
+    name: 道德直觉优先
+    en: moral-intuition-primacy
+    dimension: 道德判断与价值取向
+    question: 文本是否先有快速道德好恶直觉，再补理由（理性尾随直觉）？
+    factor: moral-intuition-primacy
+    adjectives: [凭直觉的, 第一反应的, 预感对错的, 快判断的]
+    synonyms: [道德直觉, 直觉优先, 情感先行, 第一反应]
+    verbs: [凭直觉判, 第一反应, 预感冒犯, 立刻厌恶]
+    nouns: [直觉, 第一反应, 预感, 道德厌恶]
+    anchors:
+      positive: "我一看就知道这事不对，身体先有反应，道理是后想的。"
+      negative: "我先把利弊想清楚，才决定这事对不对。"
+    source: Haidt 2001 (social intuitionist model)
+    lexicon_grade: B
+    tags: [sketch-双过程]
+
+  - id: f18-007
+    name: 道德事后合理化
+    en: post-hoc-moral-rationalization
+    dimension: 道德判断与价值取向
+    question: 文本是否为已做出的道德判断事后编造理由（推理服务于直觉结论）？
+    factor: post-hoc-moral-rationalization
+    adjectives: [找理由的, 自圆其说的, 事后补证的, 巧辩的]
+    synonyms: [事后合理化, 道德合理化, 自圆其说, 辩护性推理]
+    verbs: [找理由, 自圆其说, 事后补证, 巧辩]
+    nouns: [理由, 自圆其说, 辩护, 合理化]
+    anchors:
+      positive: "我已经觉得他不对了，接下来只想找几条理由撑这个结论。"
+      negative: "理由是什么就是什么，我不让结论倒过来挑理由。"
+    source: Haidt 2001; 与 F2 省力处理 dp-006 相邻
+    lexicon_grade: B
+
+  - id: f18-008
+    name: 道德失声
+    en: moral-dumbfounding
+    dimension: 道德判断与价值取向
+    question: 文本是否在说不出理由时仍固执坚持道德判断（理由缺位但判断不松）？
+    factor: moral-dumbfounding
+    adjectives: [固执的, 理屈仍坚的, 说不出理由仍判的]
+    synonyms: [道德失声, 说不出来但就是不对, 理由缺位]
+    verbs: [固执坚持, 说不出理由仍判, 拒绝松动]
+    nouns: [说不出来, 固执, 理由缺位]
+    anchors:
+      positive: "我也说不上为什么不对，但我就是知道这是错的。"
+      negative: "我要是说不出理由，就得重新想想我那个判断站不站得住。"
+    source: Haidt, Bjorklund & Murphy 2000 (moral dumbfounding); Haidt 2001
+    lexicon_grade: B
+
+  - id: f18-009
+    name: 道德敏感性
+    en: moral-sensitivity
+    dimension: 道德判断与价值取向
+    question: 文本是否能识别情境中的道德含义、察觉他人视角与利害（Rest 成分一）？
+    factor: moral-sensitivity
+    adjectives: [敏感的, 察利害的, 顾他人视角的, 觉察的]
+    synonyms: [道德敏感, 觉察情境道德含义, 识利害]
+    verbs: [觉察, 识别道德含义, 顾他人视角, 识利害]
+    nouns: [敏感, 情境, 他人视角, 利害]
+    anchors:
+      positive: "我第一时间就意识到这句话可能伤到人，会顾及别人感受。"
+      negative: "我压根没意识到这事还有什么道德不道德的。"
+    source: "Rest et al. 1999 (component 1: sensitivity)"
+    lexicon_grade: B
+
+  - id: f18-010
+    name: 道德判断层级
+    en: moral-judgment-level
+    dimension: 道德判断与价值取向
+    question: 文本的道德推理停留在避罚/得利，还是习俗规范，抑或普遍原则（Kohlberg/Rest 层级）？
+    factor: moral-judgment
+    adjectives: [原则性的, 守规范的, 计利害的, 重普遍权利的]
+    synonyms: [道德判断, 道德推理阶段, 原则导向, 习俗导向]
+    verbs: [做道德判断, 按原则推, 依规范判, 计后果]
+    nouns: [道德判断, 原则, 规范, 后果]
+    anchors:
+      positive: "对错要看它是否符合普遍正义和人的尊严，而不是看会不会受罚。"
+      negative: "不被抓、不吃亏的事，就没什么不对。"
+    source: "Rest et al. 1999 (component 2: judgment); Kohlberg 1981"
+    lexicon_grade: B
+    tags: [iso-f18-f9]
+
+  - id: f18-011
+    name: 道德动机/道德优先性
+    en: moral-motivation-priority
+    dimension: 道德判断与价值取向
+    question: 文本是否把道德目标置于自利之上、优先做正确的事（Rest 成分三）？
+    factor: moral-motivation
+    adjectives: [重道义的, 舍利取义的, 优先道德的, 尽责的]
+    synonyms: [道德动机, 道德优先, 舍利取义, 道德承诺]
+    verbs: [优先做对的事, 舍利取义, 承诺道德, 尽责]
+    nouns: [道义, 道德优先, 责任, 承诺]
+    anchors:
+      positive: "哪怕对我不利，我也会先把该做的、正确的事做了。"
+      negative: "有利可图我才管，道义不能当饭吃。"
+    source: "Rest et al. 1999 (component 3: motivation)"
+    lexicon_grade: B
+    tags: [iso-f18-f8]
+
+  - id: f18-012
+    name: 道德品格/践行
+    en: moral-character-action
+    dimension: 道德判断与价值取向
+    question: 文本是否表现出把道德判断付诸行动、克服障碍坚持践行（Rest 成分四）？
+    factor: moral-character
+    adjectives: [坚毅的, 践行的, 克服困难的, 有恒心的]
+    synonyms: [道德品格, 道德践行, 意志力, 知行合一]
+    verbs: [践行, 克服障碍, 坚持做对的事, 知行合一]
+    nouns: [品格, 践行, 意志力, 恒心]
+    anchors:
+      positive: "定了该做的事，再难我也会坚持做下去。"
+      negative: "道理我都懂，但真要做起来太麻烦就算了。"
+    source: "Rest et al. 1999 (component 4: character)"
+    lexicon_grade: B

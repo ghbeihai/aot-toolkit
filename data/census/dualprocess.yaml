@@ -1,0 +1,305 @@
+# =============================================================================
+# AoT 思维构念普查 · F2 双过程/理性家族
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产(量表题面/LIWC词类) B=LLM自举
+# 文献出处复用 Unit9 综述与总报告
+# =============================================================================
+
+family_id: F2
+family_name: 双过程/理性
+dimension: 理性思考
+models:
+  - name: 双过程理论 System 1/2
+    author: Kahneman & Frederick
+    year: 2002
+    source: Kahneman & Frederick (2002) Representativeness revisited; Frederick (2005) J. Econ. Perspectives 19:25-42
+    url: http://link.springer.com/content/pdf/10.3758/s13428-015-0576-1.pdf
+    verified: verified
+  - name: 认知反思测验 CRT
+    author: Frederick
+    year: 2005
+    source: Frederick (2005) Cognitive Reflection and Decision Making. J. Economic Perspectives 19(4):25-42
+    url: ""
+    verified: verified
+  - name: 主动开放思维 AOT
+    author: Stanovich & West; Svedholm-Häkkinen & Lindeman
+    year: 2016
+    source: "Svedholm-Häkkinen & Lindeman. Actively open-minded thinking: shortened scale. Thinking & Reasoning"
+    url: http://people.uncw.edu/hakanr/documents/Openmindednessscale.pdf
+    verified: verified
+  - name: 认知需求 NFC
+    author: Cacioppo & Petty
+    year: 1982
+    source: Cacioppo & Petty (1982) The need for cognition. J. Personality and Social Psychology
+    url: ""
+    verified: claimed
+  - name: 认知闭合需求 NFCS
+    author: Kruglanski
+    year: 1993
+    source: Kruglanski & Webster (1996) Motivated closing of the mind. Psychological Review
+    url: ""
+    verified: claimed
+  - name: 省力处理 miserly processing
+    author: Toplak, West & Stanovich
+    year: 2013
+    source: "Toplak, West & Stanovich (2013) Assessing miserly information processing: expanded CRT. Thinking & Reasoning 20:147-168"
+    url: ""
+    verified: verified
+  - name: 反思-直觉双维
+    author: Pennycook
+    year: 2016
+    source: Pennycook et al. (2016) Is the CRT a measure of both reflection and intuition? Behavior Research Methods
+    url: http://link.springer.com/content/pdf/10.3758/s13428-015-0576-1.pdf
+    verified: verified
+
+iso_groups:
+  - group_id: iso-f2-analytic-intuitive
+    primary: dp-008
+    primary_name: 分析加工(System2)
+    aliases: [分析-整体(F1 cgs-001), 直觉-分析(F1 cgs-009)]
+    members: [dp-007, dp-008]
+    note: 双过程的 System1/2 与 F1 分析-整体、CSI 直觉-分析共享"快直觉 vs 慢分析"内核
+  - group_id: iso-f2-reflection
+    primary: dp-001
+    primary_name: 认知反思
+    aliases: [直觉-分析(F1 cgs-009), 反思判断(F9 epi-003)]
+    members: [dp-001]
+    note: CRT 认知反思同时与 F1 风格层、F9 反思判断层相邻，聚类时注意三重合并
+
+chinese_applicability: |
+  本家族 A 级资产最丰富：CRT/AOT/NFC/NFCS 均有成题面，中文修订版（如 CRT-7、AOT 简版）已被中文学界使用。
+  可直接迁移 LIWC 认知机制词类（insight/cause/discrepancy/tentative/certainty）及其中文版 C-LIWC / SCLIWC（Gao et al. 2013, 面向微博约91心理类目）。
+  System1/2 本身是理论构念而非词表，词元为 B 级自举；建议聚类后用 CRT/NFC 得分做外部效标。
+
+constructs:
+  - id: dp-001
+    name: 认知反思
+    en: cognitive-reflection
+    dimension: 理性思考
+    question: 文本是否表现出"抑制直觉答案、再做一步分析核对"的倾向？
+    factor: cognitive-reflection
+    adjectives: [审慎的, 复核的, 抑制冲动的, 深思的, 慢半拍的]
+    synonyms: [反思力, 认知反思, 抑制直觉, 再想一步]
+    verbs: [复核, 质疑第一反应, 抑制, 再算一遍, 核对]
+    nouns: [第一反应, 直觉答案, 复查, 陷阱题, 推敲]
+    anchors:
+      positive: 直觉虽然告诉我一个答案，但我还是停下来再验算一遍才放心。
+      negative: 我一看就觉得是这个，直接答了。
+    source: Frederick 2005 (CRT); Toplak et al. 2013
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-元认知, sketch-推理习惯]
+
+  - id: dp-002
+    name: 主动开放思维
+    en: actively-open-minded-thinking
+    dimension: 理性思考
+    question: 文本是否主动寻找反证、愿意被对立论证说服、按新证据修正信念？
+    factor: actively-open-minded-thinking
+    adjectives: [开放的, 求反证的, 可被说服的, 修正信念的, 不固执的]
+    synonyms: [开放思维, 主动开放, 反证搜索, 信念修正]
+    verbs: [找反证, 被说服, 修正, 重新考虑, 倾听反对意见]
+    nouns: [反证, 对立论证, 信念更新, 新证据, 偏见]
+    anchors:
+      positive: 我会特意去想想有没有证据是跟我看法相反的。
+      negative: 我认定的事，别人再怎么说也很难动摇我。
+    source: Stanovich & West; Svedholm-Häkkinen & Lindeman (AOT 简版题面)
+    lexicon_grade: A
+    tags: [sketch-元认知]
+    note: 与 F9 epi-014 开放思想跨家族同构
+
+  - id: dp-003
+    name: 认知需求
+    en: need-for-cognition
+    dimension: 理性思考
+    question: 文本是否表现出享受思考、主动投入认知努力、喜欢复杂问题？
+    factor: need-for-cognition
+    adjectives: [爱思考的, 享受推理的, 主动动脑的, 偏好复杂的]
+    synonyms: [认知需求, 爱动脑, 思考享受]
+    verbs: [琢磨, 推理, 钻研, 动脑, 深究]
+    nouns: [思考, 复杂问题, 推理乐趣, 认知努力]
+    anchors:
+      positive: 我就喜欢琢磨复杂问题，想明白本身就很过瘾。
+      negative: 能简单处理就别绕复杂了，费那个劲干嘛。
+    source: Cacioppo & Petty 1982 (NFC 题面)
+    lexicon_grade: A
+    tags: [sketch-推理习惯]
+
+  - id: dp-004
+    name: 认知闭合需求
+    en: need-for-cognitive-closure
+    dimension: 理性思考
+    question: 文本是否渴望确定答案、厌恶模糊、急于下结论以终结不确定？
+    factor: need-for-closure
+    adjectives: [求确定的, 厌恶模糊的, 急于定论的, 求快的, 排斥歧义的]
+    synonyms: [认知闭合, 求确定, 厌恶模糊]
+    verbs: [定论, 求确定, 结束讨论, 不容模糊, 一刀切]
+    nouns: [确定答案, 模糊, 歧义, 闭合, 黑与白]
+    anchors:
+      positive: 我受不了这事悬着，赶紧给个准话。
+      negative: 事情本来就有两面性，悬着也正常。
+    source: Kruglanski & Webster 1996 (NFCS 题面)
+    lexicon_grade: A
+
+  - id: dp-005
+    name: 信念偏差
+    en: belief-bias
+    dimension: 理性思考
+    question: 文本判断论证时，是看逻辑结构，还是被结论是否符合既有信念牵着走？
+    factor: belief-bias
+    adjectives: [先信结论的, 无视逻辑的, 顺信念的, 反逻辑的]
+    synonyms: [信念偏差, 结论先行, 先入为主]
+    verbs: [轻信, 护信念, 曲解逻辑, 顺结论]
+    nouns: [既有信念, 结论, 逻辑形式, 偏见]
+    anchors:
+      positive: 这结论我认同，所以这套论证肯定没问题。
+      negative: 哪怕结论我不喜欢，逻辑对我还是认。
+    source: Evans 1983 / Toplak et al. 2013
+    lexicon_grade: B
+
+  - id: dp-006
+    name: 省力处理倾向
+    en: miserly-processing
+    dimension: 理性思考
+    question: 文本是否倾向走认知捷径、不投入计算资源、接受第一个够用的答案？
+    factor: miserly-processing
+    adjectives: [走捷径的, 偷懒的, 浅尝的, 满足于够好的]
+    synonyms: [省力处理, 认知吝啬, 满意即可, 走捷径]
+    verbs: [走捷径, 偷懒, 浅尝辄止, 满足于, 不深究]
+    nouns: [捷径, 第一个答案, 认知努力, 满意解]
+    anchors:
+      positive: 第一个看起来对的答案就够了，不用再费劲。
+      negative: 第一个答案总让我不放心，得多想几层。
+    source: Toplak, West & Stanovich 2013
+    lexicon_grade: B
+
+  - id: dp-007
+    name: 直觉加工(System1)
+    en: intuitive-processing
+    dimension: 理性思考
+    question: 文本是否依赖快速、自动、联想式的直觉加工？
+    factor: intuitive-processing
+    adjectives: [快速的, 自动的, 联想的, 整体的, 不费力的]
+    synonyms: [系统一, 直觉加工, 快思考]
+    verbs: [直觉判断, 联想, 自动反应, 脱口而出]
+    nouns: [直觉, 联想, 快思考, 第一感]
+    anchors:
+      positive: 凭感觉一秒就有答案，不用想。
+      negative: 我得慢慢推，不推不快。
+    source: Kahneman & Frederick 2002
+    lexicon_grade: B
+
+  - id: dp-008
+    name: 分析加工(System2)
+    en: analytic-processing
+    dimension: 理性思考
+    question: 文本是否依赖慢、受控、规则化的分析加工？
+    factor: analytic-processing
+    adjectives: [慢速的, 受控的, 规则化的, 费力的, 序列的]
+    synonyms: [系统二, 分析加工, 慢思考, 受控加工]
+    verbs: [分析, 推演, 受控加工, 逐步骤]
+    nouns: [慢思考, 规则, 受控加工, 计算]
+    anchors:
+      positive: 这需要一步一步慢慢推，急不得。
+      negative: 这种事凭感觉就够了，不用算。
+    source: Kahneman & Frederick 2002
+    lexicon_grade: B
+    note: 与 F1 cgs-001/cgs-009 同组
+
+  - id: dp-009
+    name: 反思-直觉双维
+    en: reflection-intuition-double
+    dimension: 理性思考
+    question: 文本在反思倾向与直觉信赖上各自处于什么位置？
+    factor: reflection-intuition
+    adjectives: [重反思的, 重直觉的, 依赖第六感的]
+    synonyms: [反思倾向, 直觉信赖, 双维]
+    verbs: [信赖直觉, 反复推敲, 跟随第六感]
+    nouns: [第六感, 推敲, 直觉信赖]
+    anchors:
+      positive: 我既信直觉，也会在关键处停下来推敲。
+      negative: 我基本跟着直觉走，很少回头想。
+    source: Pennycook et al. 2016 (CRT-Reflective vs CRT-Intuitive)
+    lexicon_grade: A
+
+  - id: dp-010
+    name: 信念修正倾向
+    en: belief-updating
+    dimension: 理性思考
+    question: 文本是否根据新证据主动更新原有判断？
+    factor: belief-updating
+    adjectives: [可更新的, 愿改的, 顽固的, 固守的]
+    synonyms: [信念更新, 修正, 改主意]
+    verbs: [更新, 改判, 修正, 推翻自己]
+    nouns: [新证据, 旧判断, 更新, 反转]
+    anchors:
+      positive: 新数据一出来，我就把之前的判断改了。
+      negative: 不管新证据怎么说，我还是原来的看法。
+    source: Stanovich & West (AOT 题面); LIWC discrepancy/certainty
+    lexicon_grade: B
+    tags: [sketch-元认知]
+
+  - id: dp-011
+    name: 去动机推理(反证搜索)
+    en: disconfirmatory-reasoning
+    dimension: 理性思考
+    question: 文本是先找支持自己的证据，还是主动搜反例？
+    factor: disconfirmatory-reasoning
+    adjectives: [求反例的, 不护短的, 证实偏差的, 找支持的]
+    synonyms: [去动机推理, 反例搜索, 证伪倾向]
+    verbs: [证伪, 找反例, 证实, 找支持, 自我反驳]
+    nouns: [反例, 证实偏差, 证伪, 搜索方向]
+    anchors:
+      positive: 我先找这个说法哪里不对。
+      negative: 我先看看哪些说法能支持我的观点。
+    source: Kuhn 1991; Stanovich & West
+    lexicon_grade: B
+
+  - id: dp-012
+    name: 认知复杂性容忍
+    en: tolerance-for-inconsistency
+    dimension: 理性思考
+    question: 文本能否容忍矛盾、歧义、同时持有多种解释而不急着消除？
+    factor: tolerance-for-inconsistency
+    adjectives: [容忍矛盾的, 接受歧义的, 非黑即白的, 求中庸的]
+    synonyms: [容忍模糊, 容忍矛盾, 歧义耐受]
+    verbs: [并存, 容忍, 悬置, 消除矛盾]
+    nouns: [矛盾, 歧义, 多解释, 悬置]
+    anchors:
+      positive: 这事两边都有道理，先都放着不矛盾。
+      negative: 自相矛盾的东西我没法接受，必须选一边。
+    source: Kruglanski NFCS; Rokeach 教条主义
+    lexicon_grade: B
+
+  - id: dp-013
+    name: 元认知监控
+    en: metacognitive-monitoring
+    dimension: 理性思考
+    question: 文本是否表现出对自己理解程度、确信度的觉察与校准？
+    factor: metacognitive-monitoring
+    adjectives: [自知的, 校准的, 过度自信的, 不确定标注的]
+    synonyms: [元认知监控, 确信度校准, 理解觉察]
+    verbs: [觉察, 校准, 标注不确定, 自评理解]
+    nouns: [确信度, 理解程度, 不确定, 过度自信]
+    anchors:
+      positive: 我知道自己哪块其实没完全搞懂，会标出来。
+      negative: 我觉得我都搞懂了，不会有问题。
+    source: Flavell 1979; Nelson & Narens 1990; Jersakova et al.
+    lexicon_grade: B
+    tags: [sketch-元认知]
+
+  - id: dp-014
+    name: 加工深度(精细加工)
+    en: depth-of-processing
+    dimension: 理性思考
+    question: 文本对信息是浅加工(表面复述)还是深加工(联系、推论、精细化)？
+    factor: depth-of-processing
+    adjectives: [深加工的, 精细的, 表面的, 浅尝的]
+    synonyms: [精细加工, 加工深度, 深加工]
+    verbs: [联系, 推论, 精细加工, 表面复述]
+    nouns: [深加工, 表面特征, 精细化, 联想]
+    anchors:
+      positive: 我会把新信息跟已知的东西串起来想。
+      negative: 我记个大概就行，不用往深了想。
+    source: Cacioppo & Petty ELM; LIWC cognitive mechanism words
+    lexicon_grade: B

@@ -1,0 +1,270 @@
+# =====================================================================
+# AoT · 思维层因子链普查 — F5 解释水平/抽象家族
+# 阶段：SPI 同构管线 第1-2阶段（模型普查 + 五层词元编码）
+# 编码方式：词元为可直接嵌入的中文词项；五层 = adjectives/synonyms/verbs/nouns + anchors
+# 出处复用：artifacts/思维量化_推理论证归因集群_调研报告.md（F7）
+# =====================================================================
+
+family_id: F5
+family_name: 解释水平/抽象（Construal Level & Linguistic Abstraction）
+dimension: 抽象层级
+
+models:
+  - name: 建构水平理论 CLT
+    author: Trope, Y.; Liberman, N.
+    year: 2010
+    venue: Construal-Level Theory of Psychological Distance, American Psychologist 65(2)（时间/空间/社会/假设 四维距离→抽象）
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3152826/
+    status: verified
+  - name: 语言范畴模型 LCM
+    author: Semin, G. R.; Fiedler, K.
+    year: 1989
+    venue: The Cognitive Functions of Linguistic Categories in Describing Persons, JPSP 57(2)（描述动作动词→解释动作动词→状态动词→形容词，抽象度递增）
+    url: https://www.uni-muenster.de/imperia/md/content/psyifp/aeechterhoff/vorlesungkommunikation/semin_fiedler_cogfunctoflingcategor_jpsp_1989.pdf
+    status: verified
+  - name: 具体性词级常模
+    author: Brysbaert, M.; Warriner, A. B.; Kuperman, V.
+    year: 2014
+    venue: Concreteness ratings for 40 thousand English lemmas, Behavior Research Methods 46(3)
+    url: https://link.springer.com/article/10.3758/s13428-013-0403-5
+    status: verified
+  - name: 行为识别量表 BIF
+    author: Vallacher, R. R.; Wegner, D. M.
+    year: 1989
+    venue: The Theory of Action Identification（BIF 25 题，抽象/具体行为识别）；动态版 Nguyen et al. 2023 JESP
+    url: https://www.sciencedirect.com/science/article/abs/pii/S0022103123000501
+    status: verified
+
+chinese_applicability: |
+  中文落地路径充足：① 中文具体性常模——Yao et al. 2017（1100 词六维）、ANCW 2023（4030 词）、谢志鹏&毕冉 2022（大规模自动构建中文具体度词典，北大学报 58(1)）；② LCM 词性梯度可由中文分词+词性标注（动作动词/状态动词/形容词占比）直接计算；③ CLT 距离维度由 LLM 零样本判定；④ 文本平均抽象度=逐词查中文具体度常模后取均值/分布。
+
+iso_groups:
+  - group_id: iso-abstract-trait
+    primary: abs-008 形容词特质化层
+    aliases: [高层抽象, 特质化语言, 形容词化]
+    members: [abs-008, abs-009 高层行为识别, abs-001 抽象语言倾向]
+    note: LCM 形容词层 ≈ BIF 高抽象识别 ≈ 文本高抽象度，三者语义同构
+  - group_id: iso-concrete-action
+    primary: abs-006 动作动词具体层
+    aliases: [低层具体, 行为化描述]
+    members: [abs-006, abs-010 低层行为识别, abs-002 具体语言倾向]
+    note: LCM 动作动词层 ≈ BIF 低抽象识别 ≈ 文本高具体度，三者语义同构
+
+cross_family_iso:
+  - abs-008 形容词特质化: ↔ F4 att-008 基本归因错误（偏好特质/个人化形容词）
+
+constructs:
+
+  - id: abs-001
+    name: 抽象语言倾向
+    en: abstract-language-bias
+    dimension: 抽象层级
+    question: 他的文本平均停留在哪一层——抽象概念词，还是具体实例词？
+    factor: abstract-language-bias
+    adjectives: [抽象的, 概念化的, 概括的, 高维的, 宏观的]
+    synonyms: [从概念出发, 谈本质, 上升到理论, 高度概括]
+    verbs: [抽象, 概括, 归纳, 提炼, 升华]
+    nouns: [抽象, 概念, 本质, 原理, 规律, 框架]
+    anchors:
+      positive: 这件事的本质是信任成本的二次贴现——任何组织一旦需要冗长的审批流程，就说明底层信任已经定价。
+      negative: 昨天下午三点我们在会议室吵了两个小时，最后张总拍板说先做 A 方案。
+    source: "Snefjella & Kuperman 2015（文本具体性随心理距离曲线变化）；Brysbaert 2014 常模聚合"
+    lexicon_grade: B
+    seed_ref: true
+    tags: [sketch-抽象层级]
+
+  - id: abs-002
+    name: 具体语言倾向
+    en: concrete-language-bias
+    dimension: 抽象层级
+    question: 他是否大量停留在具体场景、数字、人名、时间地点？
+    factor: concrete-language-bias
+    adjectives: [具体的, 具象的, 细节的, 场景化的, 实打实的]
+    synonyms: [举个例子, 具体来说, 数字是, 当时现场]
+    verbs: [举例, 描述, 罗列, 还原]
+    nouns: [具体, 实例, 场景, 细节, 数据点]
+    anchors:
+      positive: 上周一上午十点，客户王总在电话里说预算砍到八万，比上轮少了四成。
+      negative: 客户预算出现了方向性收紧，整体趋紧。
+    source: "Brysbaert 2014 具体性常模；Snefjella & Kuperman 2015"
+    lexicon_grade: B
+    tags: [sketch-抽象层级]
+
+  - id: abs-003
+    name: 时间距离抽象
+    en: temporal-distance-construal
+    dimension: 抽象层级
+    question: 他谈远期/过去事件时是否明显更抽象、谈眼前事件时更具体？
+    factor: temporal-distance
+    adjectives: [远期的, 长期的, 未来导向的]
+    synonyms: [长远来看, 十年后, 回头看, 从长计议]
+    verbs: [展望, 回溯, 远期规划]
+    nouns: [时间距离, 远期, 长期, 远景]
+    anchors:
+      positive: 十年后回头看，这次调整只是组织演进路上一次正常的阵痛。
+      negative: 就这个月的目标，我们先把这周的 KPI 拆到天。
+    source: "Trope & Liberman 2010 CLT 维度 #time"
+    lexicon_grade: A
+
+  - id: abs-004
+    name: 社会距离抽象
+    en: social-distance-construal
+    dimension: 抽象层级
+    question: 他谈远关系人/外群体时是否更抽象、谈亲近对象时更具体？
+    factor: social-distance
+    adjectives: [疏离的, 泛化的]
+    synonyms: [那些用户, 大众, 外人, 普遍人群]
+    verbs: [泛化描述, 归类]
+    nouns: [社会距离, 群体, 陌生人, 大众]
+    anchors:
+      positive: 广大用户群体的核心诉求本质上是效率与确定性。
+      negative: 我妈昨天又打电话问我这个按钮怎么找不到。
+    source: "Trope & Liberman 2010 CLT 维度 #social"
+    lexicon_grade: A
+
+  - id: abs-005
+    name: 假设性距离抽象
+    en: hypothetical-distance-construal
+    dimension: 抽象层级
+    question: 他谈"假如/不太可能发生"的反事实情形时是否更抽象？
+    factor: hypothetical-distance
+    adjectives: [假设的, 虚拟的, 反事实的]
+    synonyms: [假如, 万一, 假设, 倘若]
+    verbs: [假设, 推演, 反事实思考]
+    nouns: [假设性, 反事实, 可能世界]
+    anchors:
+      positive: 假如监管突然收紧，整个商业模式的假设都要重写。
+      negative: 今天先按已经落地的这个版本执行。
+    source: "Trope & Liberman 2010 CLT 维度 #hypotheticality"
+    lexicon_grade: A
+
+  - id: abs-006
+    name: 动作动词具体层（LCM 低层）
+    en: lcm-descriptive-action-verb
+    dimension: 抽象层级
+    question: 描述他人行为时，他是否多用可观察的动作动词（"他拍了桌子"），而非特质词？
+    factor: lcm-action-verb
+    adjectives: [动作性的, 可观察的, 具体的]
+    synonyms: [他做了什么, 动作描述, 行为层面]
+    verbs: [拍, 推, 写, 拿, 走, 说, 递, 按]
+    nouns: [动作动词, 行为, 举动]
+    anchors:
+      positive: 他当时把文件往桌上一推，站起来说了句"不谈了"。
+      negative: 他当时表现得很不专业、很情绪化。
+    source: "Semin & Fiedler 1989 LCM 第1-2级（descriptive/interpretive action verbs）"
+    lexicon_grade: A
+
+  - id: abs-007
+    name: 状态动词层（LCM 中层）
+    en: lcm-state-verb
+    dimension: 抽象层级
+    question: 他是否用状态/心理动词（"讨厌、欣赏、信任"）来描述人，介于动作与特质之间？
+    factor: lcm-state-verb
+    adjectives: [状态性的, 心理的]
+    synonyms: [他讨厌, 他信任, 他欣赏]
+    verbs: [讨厌, 信任, 欣赏, 憎恨, 羡慕, 鄙视]
+    nouns: [状态动词, 心理状态]
+    anchors:
+      positive: 他从心底里不信任销售部给的数据。
+      negative: 他当时把报表重重摔在桌上。
+    source: "Semin & Fiedler 1989 LCM 第3级（state verbs）"
+    lexicon_grade: A
+
+  - id: abs-008
+    name: 形容词特质化层（LCM 高层）
+    en: lcm-adjective-trait
+    dimension: 抽象层级
+    question: 描述他人时，他是否直接用特质形容词（"靠谱、懒散、慷慨"），跳过具体行为？
+    factor: lcm-adjective
+    adjectives: [特质化的, 概括的, 定性的]
+    synonyms: [他就是个靠谱的人, 性格, 人品, 特质]
+    verbs: [定性, 贴标签, 归为]
+    nouns: [特质, 形容词, 品性, 人格]
+    anchors:
+      positive: 这个人很靠谱，交给他的事不用再盯。
+      negative: 他这季度三次按时交付、一次提前，有具体记录可查。
+    source: "Semin & Fiedler 1989 LCM 第4级（adjectives，抽象度最高、最不可验证）"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-抽象层级]
+
+  - id: abs-009
+    name: 高层行为识别（BIF 抽象）
+    en: bif-abstract-identification
+    dimension: 抽象层级
+    question: 他描述自己行为时，是否倾向说"这是在追求职业发展"而非"这是在改简历"？
+    factor: bif-abstract
+    adjectives: [高位的, 目的导向的, 意义化的]
+    synonyms: [本质上是, 为了, 意味着, 这是在]
+    verbs: [追求, 实现, 象征, 代表]
+    nouns: [行为意义, 目的, 身份, 理想]
+    anchors:
+      positive: 现在每天加班改方案，本质上是在为下一个职业台阶做准备。
+      negative: 现在每天加班改方案，就是坐在电脑前一页一页地改。
+    source: "Vallacher & Wegner 1989 BIF 高抽象选项"
+    lexicon_grade: A
+
+  - id: abs-010
+    name: 低层行为识别（BIF 具体）
+    en: bif-concrete-identification
+    dimension: 抽象层级
+    question: 他描述行为时，是否倾向停在动作本身（"在拧螺丝"）而非目的？
+    factor: bif-concrete
+    adjectives: [低位的, 动作导向的, 细节的]
+    synonyms: [就是在做, 具体动作, 手头上]
+    verbs: [做, 操作, 执行, 摆弄]
+    nouns: [动作, 操作, 手头事]
+    anchors:
+      positive: 他现在就是对着 Excel 一格一格填数。
+      negative: 他现在是在为公司构建数据资产。
+    source: "Vallacher & Wegner 1989 BIF 低抽象选项"
+    lexicon_grade: A
+
+  - id: abs-011
+    name: 心理距离（整体）
+    en: psychological-distance
+    dimension: 抽象层级
+    question: 他整体谈论对象时，距离自我"此时此地"有多远（时间+空间+社会+假设合成）？
+    factor: psychological-distance
+    adjectives: [疏离的, 遥远的, 非切身的]
+    synonyms: [离我们很远, 不切身, 非眼前]
+    verbs: [远离, 抽离]
+    nouns: [心理距离, 距离感, 疏离]
+    anchors:
+      positive: 这些都是三年后、千里之外、跟我们部门毫无关系的事。
+      negative: 这事就发生在今天下午、我们这个会议室里。
+    source: "Trope & Liberman 2010 四维距离合成；Bar-Anan et al. IAT 研究"
+    lexicon_grade: A
+
+  - id: abs-012
+    name: 抽象-具体往返频率
+    en: abstraction-concrete-shifting-frequency
+    dimension: 抽象层级
+    question: 他在一段话内从概念降到实例、再从实例升到概念的切换频率如何？
+    factor: abstraction-shifting
+    adjectives: [往返的, 张弛的, 上下穿梭的]
+    synonyms: [从概念落到例子, 再从例子上升, 抽象↔具体来回切]
+    verbs: [穿梭, 切换, 来回, 下沉, 上升]
+    nouns: [往返频率, 切换, 张弛]
+    anchors:
+      positive: 信任成本上升了——就像昨天那张三级审批单，本质上就是流程在给信任定价。
+      negative: 整篇要么全是抽象概念，要么全是流水账，没有一次来回切换。
+    source: "CLT + LCM 合成指标（按句切分后相邻句抽象度差分的方差）"
+    lexicon_grade: B
+    tags: [sketch-抽象层级]
+
+  - id: abs-013
+    name: 可验证性梯度
+    en: verifiability-gradient
+    dimension: 抽象层级
+    question: 他用的表述离"可被反例直接驳倒"有多远——越抽象越难验证？
+    factor: verifiability
+    adjectives: [可验证的, 可驳倒的, 模糊的, 含糊的]
+    synonyms: [说不准, 没法证伪, 含混, 怎么说都行]
+    verbs: [验证, 证伪, 反驳]
+    nouns: [可验证性, 模糊度, 证伪空间]
+    anchors:
+      positive: 他说"转化率会在两个月内跌破 1.5%"，这个是可以直接用数据检验的。
+      negative: 他说"转化率长期来看不太乐观"，这种表述怎么解读都行、无从反驳。
+    source: "Semin & Fiedler 1989 LCM 抽象度越高→可验证性越低；Korman & Khemlani 解释完备性"
+    lexicon_grade: B

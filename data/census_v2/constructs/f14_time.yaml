@@ -1,0 +1,273 @@
+# =============================================================================
+# F14 时间取向家族 —— SPI 同构因子链编码
+# family_id: F14
+# 来源：Zimbardo & Boyd 1999 ZTPI 五维（Tao 2015 中文版）+
+#       Atance & O'Neill 2001 情景未来思维 + 延迟折扣/现在偏差（Ainslie/Kirby）。
+# 自陈时间态度构念，无现成中文时间取向词表，B 级为主。
+# =============================================================================
+
+family_id: F14
+family_name: 时间取向
+family_name_en: Time Perspective and Temporal Orientation
+sketch_dimension: [推理习惯]
+
+models:
+  - name: 津巴多时间视角量表 ZTPI（56 题 5 维）
+    author: Zimbardo, P. G. & Boyd, J. N.
+    year: 1999
+    source: "Putting Time in Perspective: A Valid, Reliable Individual-Differences Metric, JPSP, 77(6), 1271-1288"
+    url: https://doi.org/10.1037/0022-3514.77.6.1271
+    verified: verified
+  - name: ZTPI 中文版修订
+    author: Tao, M. 等
+    year: 2015
+    source: 津巴多时间洞察力量表中文版修订（系统综述确认中文学术界采用）
+    url: https://www.frontiersin.org/articles/10.3389/fpsyg.2021.627578/full
+    verified: claimed-textbook
+  - name: 情景未来思维 EFT
+    author: Atance, C. M. & O'Neill, D. K.
+    year: 2001
+    source: "Episodic Future Thinking, Trends in Cognitive Sciences, 5(12), 533-539"
+    url: https://doi.org/10.1016/S1364-6613(00)01804-0
+    verified: verified
+  - name: 心理时间旅行/前瞻
+    author: Suddendorf, T. & Corballis, M. C.
+    year: 2007
+    source: "The Evolution of Foresight: What Is Mental Time Travel?, Behavioral and Brain Sciences, 30(3), 299-351"
+    url: https://doi.org/10.1017/S0140525X07001975
+    verified: verified
+  - name: 延迟折扣/现在偏差（货币选择问卷 MCQ）
+    author: Kirby, K. N., Petry, N. M. & Bickel, W. K.
+    year: 1999
+    source: "Heroin Addicts Have Higher Discount Rates for Delayed Rewards, JEP:General, 128(1), 78-87"
+    url: https://doi.org/10.1037/0096-3445.128.1.78
+    verified: verified
+
+chinese_applicability: >
+  ZTPI 有中文版修订（Tao 2015 及后续简版），五维题面可直接 LLM 自举判定。
+  EFT 靠编码"未来想象中感官/场景细节密度"，文本侧可由 LLM 计数。
+  延迟折扣是行为选择任务（算 k 值），文本只能捕"及时行乐/等不及"语言代理，
+  故为 C 偏 B。整体无现成中文时间取向思维词表，B 级为主。
+
+iso_groups:
+  - group_id: iso-F14-001
+    primary: 未来取向
+    aliases: [未来脚本, 情景未来思维]
+    members: [f14-005, f14-007, f14-008, f14-012]
+    note: 与 F12 nar-012 未来脚本(future-script) 跨族同构——本族测"对未来的态度取向与细节密度"，nar-012 测叙事中未来脚本内容，互为侧写。
+  - group_id: iso-F14-002
+    primary: 现在取向
+    aliases: [现在享乐, 现在偏差, 延迟折扣]
+    members: [f14-003, f14-009, f14-010]
+    note: 现在享乐、现在偏差、延迟折扣不耐共享"看重即时满足"内核。
+  - group_id: iso-F14-003
+    primary: 宿命/受控感
+    aliases: [现在宿命]
+    members: [f14-004]
+    note: 与 F4 att-002 外归因、att-012 运气/偶然归因邻接。
+
+constructs:
+
+  - id: f14-001
+    name: 过去消极
+    en: past-negative time perspective
+    dimension: 时间取向
+    question: 此人是否对过去持厌恶/懊悔/负面态度，反复回想痛苦经历？
+    factor: past-negative
+    adjectives: [沉湎过去痛苦的, 懊悔的, 对过去耿耿于怀的, 反刍式回顾的]
+    synonyms: [过去全是伤疤, 想起就难受, 当年真不该, 那些痛苦的日子, 一直放不下过去]
+    verbs: [反刍, 懊悔, 回想痛苦, 纠结过去, 放不下]
+    nouns: [过去, 痛苦记忆, 懊悔, 反刍, 遗憾]
+    anchors:
+      positive: "一想起当年那些事，心里就堵得慌，过不去那道坎。"
+      negative: "过去的就翻篇了，没什么好反复回味的。"
+    source: "Zimbardo & Boyd 1999 ZTPI"
+    lexicon_grade: B
+
+  - id: f14-002
+    name: 过去积极/怀旧
+    en: past-positive / nostalgic time perspective
+    dimension: 时间取向
+    question: 此人是否对过去抱温暖/怀旧/感恩态度，美化与珍藏旧日时光？
+    factor: past-positive
+    adjectives: [怀旧的, 恋旧的, 温暖回望的, 感恩过去的, 念旧的]
+    synonyms: [想当年多好, 回忆都是甜的, 那时候真幸福, 最怀念的日子, 旧时真好]
+    verbs: [怀旧, 珍藏回忆, 温暖回望, 念旧, 美化过去]
+    nouns: [过去, 怀旧, 美好回忆, 旧日时光, 温情]
+    anchors:
+      positive: "小时候的夏天才叫夏天，想起来心里都是暖的。"
+      negative: "过去好也好不到哪去，别老拿现在比。"
+    source: "Zimbardo & Boyd 1999 ZTPI"
+    lexicon_grade: B
+
+  - id: f14-003
+    name: 现在享乐
+    en: present-hedonistic time perspective
+    dimension: 时间取向
+    question: 此人是否以享受当下为导向，追求即时快乐，不顾长远后果？
+    factor: present-hedonistic
+    adjectives: [及时行乐的, 活在当下的, 追求享乐的, 今朝有酒今朝醉的]
+    synonyms: [活在当下, 及时行乐, 爽了再说, 今朝有酒今朝醉, 管那么远干嘛]
+    verbs: [享受当下, 追求即时快乐, 及时行乐, 今朝有酒今朝醉]
+    nouns: [当下, 享乐, 即时快乐, 今朝, 感官满足]
+    anchors:
+      positive: "想那么远干嘛，先爽了再说，活在当下最重要。"
+      negative: "光顾眼前痛快，以后的坑谁来填。"
+    source: "Zimbardo & Boyd 1999 ZTPI"
+    lexicon_grade: B
+    tags: [iso-f14-009]
+
+  - id: f14-004
+    name: 现在宿命
+    en: present-fatalistic time perspective
+    dimension: 时间取向
+    question: 此人是否认为人生被外力/运气/命运掌控，努力无用，消极听天由命？
+    factor: present-fatalistic
+    adjectives: [宿命的, 听天由命的, 认命的, 觉得努力无用的, 被命运摆布的]
+    synonyms: [命里有时终须有, 反正都注定了, 努力也没用, 听天由命吧, 老天爷安排]
+    verbs: [认命, 听天由命, 觉得被操控, 放弃掌控, 归因命运]
+    nouns: [命运, 宿命, 运气, 天意, 受控感]
+    anchors:
+      positive: "该咋样就咋样，命里注定的，再怎么努力也白搭。"
+      negative: "命运掌握在自己手里，不是躺平等安排。"
+    source: "Zimbardo & Boyd 1999 ZTPI"
+    lexicon_grade: B
+    tags: [iso-att-002, iso-att-012]
+
+  - id: f14-005
+    name: 未来导向
+    en: future-oriented time perspective
+    dimension: 时间取向
+    question: 此人是否以未来目标为导向，做长期规划、延迟满足、为将来打算？
+    factor: future-oriented
+    adjectives: [着眼未来的, 计划性强的, 目标导向的, 为长远打算的, 自律规划的]
+    synonyms: [得为以后打算, 按计划一步步来, 长远考虑, 目标在前方, 延迟满足]
+    verbs: [规划未来, 设目标, 延迟满足, 着眼长远, 按计划推进]
+    nouns: [未来, 目标, 计划, 长远, 延迟满足]
+    anchors:
+      positive: "现在吃苦是为了五年后那个目标，一步步按计划来。"
+      negative: "想那么远干嘛，走一步看一步。"
+    source: "Zimbardo & Boyd 1999 ZTPI"
+    lexicon_grade: B
+    tags: [iso-nar-012]
+
+  - id: f14-006
+    name: 平衡时间视角
+    en: balanced time perspective
+    dimension: 时间取向
+    question: 此人是否在过去/现在/未来五维间配比均衡（DBTP 偏离小），不极端偏向某一维？
+    factor: balanced-time-perspective
+    adjectives: [时间配比均衡的, 不极端的, 张弛有度的, 能收能放的]
+    synonyms: [该怀旧怀旧, 该享受享受, 该规划规划, 不偏科, 有张有弛]
+    verbs: [平衡, 调配时间取向, 张弛有度]
+    nouns: [平衡时间视角, DBTP, 时间配比, 均衡]
+    anchors:
+      positive: "该回味过去回味，该活在当下活在，也不忘规划未来，不偏一头。"
+      negative: "要么全沉过去，要么全押未来，从来走极端。"
+    source: "Stolarski et al. 2011 DBTP; Zimbardo & Boyd 2008"
+    lexicon_grade: B
+
+  - id: f14-007
+    name: 情景未来思维细节密度
+    en: episodic future thinking detail density
+    dimension: 时间取向
+    question: 此人想象未来事件时是否包含丰富感官/场景/情境细节（而非抽象概念）？
+    factor: episodic-future-detail
+    adjectives: [未来想象具体生动的, 画面感强的, 细节丰富的, 能预演场景的]
+    synonyms: [我能想到那天阳光打在脸上, 连空气味道都想得到, 像放电影一样]
+    verbs: [预演, 具象想象, 细节铺陈, 场景建构, 感官预体验]
+    nouns: [情景未来思维, 细节, 场景, 感官, 预体验]
+    anchors:
+      positive: "我都能预演那天推开会议室门的样子，桌上的光、大家的表情都清楚。"
+      negative: "未来就是个模糊概念，哪想得到什么具体画面。"
+    source: "Atance & O'Neill 2001 EFT"
+    lexicon_grade: B
+
+  - id: f14-008
+    name: 心理时间旅行/前瞻
+    en: mental time travel / prospection
+    dimension: 时间取向
+    question: 此人是否习惯性把自己投射到未来做"预演性思考"，用过去经验模拟未来？
+    factor: prospection
+    adjectives: [爱做前瞻预演的, 往未来投射的, 预先在脑中跑一遍的]
+    synonyms: [我先在脑子里过一遍, 提前预演, 想到以后会怎样, 把自己放到未来看]
+    verbs: [心理时间旅行, 前瞻, 预演, 投射到未来, 模拟]
+    nouns: [前瞻, 心理时间旅行, 预演, 投射, 模拟]
+    anchors:
+      positive: "重要的事我都会先在脑子里把整个过程预演一遍。"
+      negative: "过好眼前就行，没想过把自己放到以后去想。"
+    source: "Suddendorf & Corballis 2007 BBS"
+    lexicon_grade: B
+
+  - id: f14-009
+    name: 现在偏差/即时偏好
+    en: present bias
+    dimension: 时间取向
+    question: 此人是否系统性高估即时回报、对近期与远期回报权重严重不对称（今朝有酒今朝醉式选择）？
+    factor: present-bias
+    adjectives: [等不及的, 即时满足的, 只盯眼前的, 短期偏好的]
+    synonyms: [现在就要, 等不了以后, 眼前到手最好, 以后再说先现在, 即时满足]
+    verbs: [即时满足, 等不及, 高估当下, 现在就要]
+    nouns: [现在偏差, 即时满足, 短期偏好, 当下权重]
+    anchors:
+      positive: "一个月后给我一千不如现在给我五百，我等不了。"
+      negative: "多等一阵能拿更多，不急这一时。"
+    source: "Laibson 1997; Ainslie picoeconomics"
+    lexicon_grade: C
+    tags: [iso-f14-003]
+
+  - id: f14-010
+    name: 延迟折扣不耐
+    en: delay discounting impatience
+    dimension: 时间取向
+    question: 此人对延迟奖励是否折扣率极高（越晚的钱越不值钱），表现出跨期决策的冲动性？
+    factor: delay-discounting
+    adjectives: [折扣率高的, 对延迟不耐烦的, 跨期冲动的]
+    synonyms: [以后的钱不算钱, 等的时间越长越不值, 拖太久就没吸引力了]
+    verbs: [折扣, 不耐延迟, 跨期权衡, 高估即时]
+    nouns: [延迟折扣, k 值, 跨期选择, 即时奖励]
+    anchors:
+      positive: "一年后那笔钱对我来说跟没有差不多，越早拿到越好。"
+      negative: "晚拿的钱贬值没那么夸张，耐心等得到更多。"
+    source: "Kirby, Petry & Bickel 1999 MCQ"
+    lexicon_grade: C
+
+  - id: f14-011
+    name: 实施意向
+    en: implementation intentions
+    dimension: 时间取向
+    question: 此人是否把未来目标转成"如果遇到 X 情境就做 Y"的具体执行计划（if-then）？
+    factor: implementation-intention
+    adjectives: [把计划落到具体情境的, if-then 式的, 执行计划明确的]
+    synonyms: [一旦到了那个点我就做, 如果遇到这种情况就上, 定好触发条件]
+    verbs: [制定 if-then 计划, 设定触发情境, 落地执行意向]
+    nouns: [实施意向, if-then, 触发条件, 执行计划]
+    anchors:
+      positive: "我定好了：每天一到家，立刻先把那二十分钟写作做了。"
+      negative: "光想着要做，没定过具体什么情境下怎么执行。"
+    source: "Gollwitzer 1999 American Psychologist"
+    lexicon_grade: B
+
+  - id: f14-012
+    name: 未来脚本
+    en: future script
+    dimension: 时间取向
+    question: 此人叙事中是否包含关于未来自我的连贯脚本/剧本（要成为谁、走哪条路）？
+    factor: future-script
+    adjectives: [有未来人生剧本的, 自我叙事指向未来的, 有人生规划线的]
+    synonyms: [以后我要成为那样的人, 我的人生剧本是, 未来那条路是这么走的]
+    verbs: [写未来脚本, 构想人生剧本, 规划未来自我]
+    nouns: [未来脚本, 人生剧本, 未来自我, 规划线]
+    anchors:
+      positive: "十年后的我应该已经在那个领域站稳了，剧本我心里有数。"
+      negative: "以后什么样没谱，走哪算哪。"
+    source: "McAdams 叙事身份; 与 F12 nar-012 互指"
+    lexicon_grade: B
+    tags: [iso-nar-012]
+
+stats:
+  constructs: 12
+  iso_groups: 3
+  grade_A: 0
+  grade_B: 10
+  grade_C: 2

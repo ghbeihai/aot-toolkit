@@ -1,0 +1,308 @@
+# =============================================================================
+# AoT 思维构念普查 · F1 认知风格家族
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产(量表题面/LIWC词类) B=LLM自举
+# 文献出处复用 Unit9_Atlas_of_Thinking_综合调研.md 与总报告，不重新全网检索
+# =============================================================================
+
+family_id: F1
+family_name: 认知风格
+dimension: 认知风格
+models:
+  - name: 场依存-场独立
+    author: Witkin
+    year: 1962
+    source: Witkin et al. (1962) Personality through Perception; Tinajero & Páramo (1998) Eur. J. Psychol. Educ. 13(2):227-251
+    url: https://zero.sci-hub.se/5797/bbaeaa0c7f572c78ba05cca43f08b48e/10.2307@23420177.pdf
+    verified: claimed
+  - name: 认知风格分析 CSA（整体-分析 / 言语-表象）
+    author: Riding & Cheema
+    year: 1991
+    source: Riding & Cheema (1991) Cognitive Styles—An Overview and Integration. Educational Psychology 11(3-4):193-215
+    url: ""
+    verified: verified
+  - name: 认知风格清单 CoSI（knowing/planning/creating）
+    author: Cools & Van den Broeck
+    year: 2007
+    source: Cools & Van den Broeck (2007) Hunt's conceptual styles and personality traits
+    url: ""
+    verified: claimed
+  - name:  Kirton 适应-创新量表 KAI
+    author: Kirton
+    year: 1976
+    source: Kirton (1976) Adaptors and innovators. Human Relations
+    url: ""
+    verified: claimed
+  - name: 分析-整体认知
+    author: Nisbett, Peng, Choi, Norenzayan
+    year: 2001
+    source: "Nisbett et al. (2001) Culture and Systems of Thought: Holistic vs Analytic. Psychological Review"
+    url: http://matt.colorado.edu/teaching/highcog/spr10/outlines/npcn1o.pdf
+    verified: verified
+  - name: 认知风格指数 CSI（直觉-分析）
+    author: Allinson & Hayes
+    year: 1996
+    source: Allinson & Hayes (1996) The Cognitive Style Index. Journal of Management Studies
+    url: https://www.cognitivestyleindex.com/_files/ugd/832dc3_ade6bf0c543c42eb9d22b5fafa9bd498.pdf
+    verified: verified
+  - name: 认知风格统一框架
+    author: Kozhevnikov
+    year: 2007
+    source: Kozhevnikov (2007) Cognitive Styles in the Context of Modern Psychology. Psychological Bulletin 133(3):464-481
+    url: http://5y1.org/file/10372/cognitive-styles-in-the-context-of-modern-psychology.pdf
+    verified: verified
+
+iso_groups:
+  - group_id: iso-f1-analytic-holistic
+    primary: cgs-001
+    primary_name: 分析-整体
+    aliases: [整体-分析(Riding), 系统化-直觉加工]
+    members: [cgs-001, cgs-003, cgs-014]
+    note: 场依存≈分析-整体≈系统-直觉，跨 Riding/Nisbett/Kozhevnikov 成组；与 F2 分析加工(dp-008)跨家族相邻
+  - group_id: iso-f1-intuition-analysis
+    primary: cgs-009
+    primary_name: 直觉-分析(CSI)
+    aliases: [认知反思(F2 dp-001)]
+    members: [cgs-009]
+    note: CSI 直觉-分析与 F2 CRT 认知反思共享"快直觉 vs 慢分析"内核，聚类层先合并观测
+
+chinese_applicability: |
+  认知风格原为自陈量表+行为反应时，中文无公开的"风格→词项"对照表，故本家族多数构念词元为 B 级自举；
+  可直接迁移的 A 级资产为：LIWC "Analytic Thinking" 变量（Pennebaker et al. 2015，C-LIWC 黄金兰等 2012《中華心理學刊》54(2):185-201 约6800词已汉化）、
+  以及各量表英文题面（CSI/CoSI/KAI）的中译词元。建议聚类后用 C-LIWC 分析类词频做外部粗校验。
+
+constructs:
+  - id: cgs-001
+    name: 分析-整体
+    en: analytic-holistic
+    dimension: 认知风格
+    question: 文本倾向于把对象拆成孤立部件按规则推理，还是置于情境/关系网中整体把握？
+    factor: analytic-holistic
+    adjectives: [分析的, 拆解的, 孤立的, 规则导向的, 整体的, 场域的, 关系导向的, 情境化的, 辩证的, 线性的, 系统的]
+    synonyms: [分析型, 整体型, 场独立, 场依存, 对象焦点, 场域焦点, 规则推理, 情境推理]
+    verbs: [拆分, 归类, 抽象, 推演, 联系, 权衡, 整合, 对照, 还原, 统揽]
+    nouns: [部件, 类别, 规则, 逻辑, 情境, 关系, 场域, 背景, 网络, 全局]
+    anchors:
+      positive: 先把问题拆成几个独立变量，再逐一套用规则判断。
+      negative: 这事得放在整个来龙去脉里看，单独拎出来哪一块都说不清。
+    source: Nisbett et al. 2001; Kozhevnikov 2007; LIWC Analytic Thinking
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-抽象层级, sketch-注意力]
+
+  - id: cgs-002
+    name: 场依存-场独立
+    en: field-dependence-independence
+    dimension: 认知风格
+    question: 文本是否依赖上下文/社会线索来定位信息，还是能从背景中分离出目标对象？
+    factor: field-dependence
+    adjectives: [依赖情境的, 受背景干扰的, 独立的, 分化的, 嵌进背景的, 抽离的]
+    synonyms: [场依存, 场独立, 整体知觉, 分化知觉, 背景依赖]
+    verbs: [依附, 嵌入, 抽离, 分离, 定位, 受扰]
+    nouns: [背景, 场, 图形, 线索, 参照框架, 社会线索]
+    anchors:
+      positive: 离开当时那几个人和氛围，我根本想不起来这句话是什么意思。
+      negative: 不管周围怎么乱，我一眼就能把目标从背景里挑出来。
+    source: Witkin 1962; Tinajero & Páramo 1998
+    lexicon_grade: B
+    tags: [sketch-注意力]
+
+  - id: cgs-003
+    name: 整体-分析(Riding)
+    en: wholist-analytic
+    dimension: 认知风格
+    question: 文本倾向于先见森林还是先见树木？
+    factor: wholist-analytic
+    adjectives: [总览的, 鸟瞰的, 逐点的, 细分的, 全局先于局部的]
+    synonyms: [整体型, 分析型, 鸟瞰式, 逐点式]
+    verbs: [总览, 鸟瞰, 细分, 逐点, 对比, 概括]
+    nouns: [全局, 局部, 概览, 细节, 对比]
+    anchors:
+      positive: 我习惯先看全貌，再决定要不要钻进某个细节。
+      negative: 不给我拆成一个个小要点，我就抓不住重点。
+    source: Riding & Cheema 1991
+    lexicon_grade: B
+    note: 与 cgs-001 同组(iso-f1-analytic-holistic)
+
+  - id: cgs-004
+    name: 言语型-表象型
+    en: verbal-imagery
+    dimension: 认知风格
+    question: 文本倾向用语言命题组织思路，还是用视觉/表象画面组织思路？
+    factor: verbal-imagery
+    adjectives: [言语的, 命题的, 视觉的, 表象的, 图像化的, 语词的]
+    synonyms: [言语型, 表象型, 语词思考, 画面思考]
+    verbs: [描述, 陈述, 想象, 勾画, 映现, 命名]
+    nouns: [语句, 命题, 画面, 表象, 心象, 示意图]
+    anchors:
+      positive: 我脑子里会先浮现出一个画面，再把它说成话。
+      negative: 我更习惯直接用概念和句子把事情讲清楚，不太靠想象画面。
+    source: Riding & Cheema 1991; Kozhevnikov 2007
+    lexicon_grade: B
+
+  - id: cgs-005
+    name: 知道型风格(knowing)
+    en: knowing-style
+    dimension: 认知风格
+    question: 文本是否追求把事情弄清楚、获得确定的知识结构？
+    factor: knowing-style
+    adjectives: [求知的, 求真的, 结构化的, 重事实的, 重知识的]
+    synonyms: [知道型, 知识导向, 求知风格]
+    verbs: [弄清, 查证, 整理, 求知, 核实]
+    nouns: [事实, 知识, 定义, 信息, 确定结构]
+    anchors:
+      positive: 我先得把基本概念和事实搞准，才谈得上后面的判断。
+      negative: 我不太纠结细节对不对，先把事情推动起来再说。
+    source: Cools & Van den Broeck 2007 (CoSI knowing)
+    lexicon_grade: A
+    tags: [sketch-元认知]
+
+  - id: cgs-006
+    name: 计划型风格(planning)
+    en: planning-style
+    dimension: 认知风格
+    question: 文本是否强调预先规划、步骤、结构化路径？
+    factor: planning-style
+    adjectives: [计划的, 有序的, 步骤化的, 前瞻的, 结构化的]
+    synonyms: [计划型, 规划导向, 步骤风格]
+    verbs: [规划, 排序, 分步, 预演, 排程]
+    nouns: [计划, 步骤, 流程, 路线图, 优先级]
+    anchors:
+      positive: 动手之前我会先把步骤和时间排好。
+      negative: 走一步看一步，计划赶不上变化。
+    source: Cools & Van den Broeck 2007 (CoSI planning)
+    lexicon_grade: A
+
+  - id: cgs-007
+    name: 创造型风格(creating)
+    en: creating-style
+    dimension: 认知风格
+    question: 文本是否偏好开放式探索、打破常规、产生新做法？
+    factor: creating-style
+    adjectives: [创新的, 开放的, 探索的, 越界的, 试验的]
+    synonyms: [创造型, 创新导向, 探索风格]
+    verbs: [探索, 试验, 越界, 翻新, 发散]
+    nouns: [新做法, 可能性, 创意, 实验, 空白]
+    anchors:
+      positive: 现成办法我总觉得不够，想试个没试过的路子。
+      negative: 有成熟流程就照做，没必要另起炉灶。
+    source: Cools & Van den Broeck 2007 (CoSI creating)
+    lexicon_grade: A
+
+  - id: cgs-008
+    name: 适应-创新(KAI)
+    en: adaption-innovation
+    dimension: 认知风格
+    question: 文本倾向在现有框架内改良(适应)，还是跳出框架重构(创新)？
+    factor: adaption-innovation
+    adjectives: [保守改良的, 框架内的, 打破框架的, 重构的, 稳妥的, 颠覆的]
+    synonyms: [适应型, 创新型, 改良派, 颠覆派]
+    verbs: [改良, 修补, 重构, 推翻, 换框架]
+    nouns: [框架, 范式, 惯例, 突破, 改良]
+    anchors:
+      positive: 问题不大，在原有流程上改一改就够用。
+      negative: 我想把这套做法整个换掉，重来一遍。
+    source: Kirton 1976 (KAI)
+    lexicon_grade: A
+    tags: [sketch-抽象层级]
+
+  - id: cgs-009
+    name: 直觉-分析(CSI)
+    en: intuition-analysis
+    dimension: 认知风格
+    question: 文本倾向凭第一印象/感觉快速判断，还是按逻辑逐步分析？
+    factor: intuition-analysis
+    adjectives: [凭感觉的, 顿悟的, 直接的, 逻辑的, 步步推演的]
+    synonyms: [直觉型, 分析型, 凭直觉, 重分析]
+    verbs: [凭感觉, 顿悟, 推演, 核对, 逐一分析]
+    nouns: [直觉, 第一印象, 逻辑, 推论, 证据链]
+    anchors:
+      positive: 我扫一眼就大概知道是怎么回事，说不太清为什么。
+      negative: 我得一条一条把证据摆出来，才敢下结论。
+    source: Allinson & Hayes 1996 (CSI)
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-推理习惯, sketch-元认知]
+    note: 与 F2 dp-001 认知反思跨家族同组
+
+  - id: cgs-010
+    name: 言语-视觉认知偏好
+    en: verbal-visual-preference
+    dimension: 认知风格
+    question: 文本作者处理信息时更依赖语词还是图像空间表征？
+    factor: verbal-visual-preference
+    adjectives: [语词的, 符号的, 空间的, 图形的, 方位的]
+    synonyms: [语词偏好, 视觉偏好, 空间思考]
+    verbs: [命名, 陈述, 作图, 定位, 描绘]
+    nouns: [语词, 符号, 图形, 空间, 方位]
+    anchors:
+      positive: 给我一张图我立马懂了，一大段文字反而绕。
+      negative: 我更习惯读文字说明，看图总抓不住重点。
+    source: Riding & Cheema 1991; Alfred & Kraemer 2017 (Dev. Neuropsychol.)
+    lexicon_grade: B
+
+  - id: cgs-011
+    name: 分类广度(宽泛-精细)
+    en: category-width
+    dimension: 认知风格
+    question: 文本倾向把事物宽泛归并，还是严格细分？
+    factor: category-width
+    adjectives: [宽泛的, 包容的, 精细的, 苛严的, 松的, 紧的]
+    synonyms: [宽分类, 窄分类, 包容度, 归类宽松]
+    verbs: [归并, 细分, 囊括, 排除, 划界]
+    nouns: [类别, 边界, 包容, 归类, 门槛]
+    anchors:
+      positive: 这些差不多算一类，不用分得那么死。
+      negative: 差一点都不能算同类，边界必须划清。
+    source: Klein 1953 / Kozhevnikov 2007 (知觉层风格)
+    lexicon_grade: B
+
+  - id: cgs-012
+    name: 冲动-反思
+    en: impulsivity-reflectivity
+    dimension: 认知风格
+    question: 文本倾向快速抢答(冲动)，还是反复核对后再回应(反思)？
+    factor: impulsivity-reflectivity
+    adjectives: [急躁的, 抢答的, 反复核对的, 迟疑的, 审慎的]
+    synonyms: [冲动型, 反思型, 快答, 慢核]
+    verbs: [抢答, 脱口而出, 复核, 掂量, 迟疑]
+    nouns: [第一反应, 核对, 犹豫, 确定性]
+    anchors:
+      positive: 我第一反应就是这个，先答了再说。
+      negative: 我总怕答错，要再核对一遍才敢说。
+    source: Kagan 1965 / Kozhevnikov 2007
+    lexicon_grade: B
+    tags: [sketch-元认知]
+
+  - id: cgs-013
+    name: 发散-聚合思维
+    en: divergent-convergent
+    dimension: 认知风格
+    question: 文本倾向产生多个可能(发散)，还是收敛到唯一正确答案(聚合)？
+    factor: divergent-convergent
+    adjectives: [发散的, 多向的, 聚合的, 收敛的, 求唯一解的]
+    synonyms: [发散思维, 聚合思维, 多解, 唯一解]
+    verbs: [发散, 联想, 收束, 求同, 聚焦]
+    nouns: [多个可能, 唯一解, 联想, 焦点, 思路]
+    anchors:
+      positive: 我先多列几个可能，不急着定。
+      negative: 我要的是唯一正确答案，列一堆没用。
+    source: Guilford 1967 / Kozhevnikov 2007
+    lexicon_grade: B
+
+  - id: cgs-014
+    name: 系统化-直觉加工
+    en: systematic-intuitive-processing
+    dimension: 认知风格
+    question: 文本倾向按系统化规则逐步骤加工，还是凭直觉整体把握？
+    factor: systematic-intuitive-processing
+    adjectives: [系统化的, 按步骤的, 直觉的, 整体把握的]
+    synonyms: [系统加工, 直觉加工, 按规则, 凭直觉]
+    verbs: [按步骤, 系统排查, 凭直觉, 整体把握]
+    nouns: [规则, 步骤, 直觉, 整体把握]
+    anchors:
+      positive: 我按一条一条规则系统地过一遍。
+      negative: 我凭整体感觉一下子就抓住了。
+    source: Kozhevnikov 2007; Evans 双过程
+    lexicon_grade: B
+    note: 与 cgs-001 同组(iso-f1-analytic-holistic)

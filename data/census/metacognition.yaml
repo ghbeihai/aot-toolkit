@@ -1,0 +1,308 @@
+# =============================================================================
+# F6 元认知家族 —— SPI 同构因子链编码（五层词元 → 嵌入 → 聚类 → LLM 判定）
+# family_id: F6
+# 说明：本文件由普查-拆因子-五层编码流水线生成；词项为可直接嵌入的中文词项。
+#       lexicon_grade: A=来自现成资产(LIWC词类/量表题面/图式名/编码手册)；
+#                      B=LLM 从理论原典自举(bootstrap，待人工抽审)。
+# =============================================================================
+
+family_id: F6
+family_name: 元认知
+family_name_en: Metacognition
+sketch_dimension: 元认知
+
+models:
+  - name: Flavell 元认知四成分模型
+    author: Flavell, J. H.
+    year: 1979
+    source: American Psychologist, 34(10), 906-911
+    url: https://stacks.stanford.edu/file/druid:mg885pk5612/mg885pk5612.pdf
+    verified: verified
+  - name: 元认知意识量表 MAI（8 子成分）
+    author: Schraw, G. & Dennison, R. S.
+    year: 1994
+    source: Contemporary Educational Psychology, 19(4), 460-475（52 题，α=.90）
+    url: https://www.sciencedirect.com/science/article/pii/S0361476X84710332
+    verified: verified
+  - name: 元记忆监控/控制闭环框架
+    author: Nelson, T. O. & Narens, L.
+    year: 1990
+    source: Psychology of Learning and Motivation, Vol.26
+    url: http://www.imbs.uci.edu/~lnarens/1990/Nelson&Narens_Book_Chapter_1990.pdf
+    verified: verified
+  - name: 元认知信心与校准（JOL 理由的 NLP）
+    author: Jersakova, R. et al.
+    year: n.d.
+    source: Journal of Memory and Language
+    url: https://eprints.whiterose.ac.uk/id/eprint/120718/1/JersakovaetalJMLpreproofs.pdf
+    verified: verified-method
+  - name: 反思判断发展模型
+    author: King, P. M. & Kitchener, K. S.
+    year: 1994
+    source: Developing Reflective Judgment, Jossey-Bass
+    url: https://www.sciencedirect.com/science/article/pii/0193397389900154
+    verified: claimed-textbook
+
+chinese_applicability: >
+  理论框架可直接迁移；MAI 已有中文修订版被国内学界采用（一方称）。
+  文本探测层依赖 SCLIWC（Gao 2013，91 类目）/C-LIWC（黄金兰 2012，约6800词）
+  的认知机制词类——insight/cause/discrepancy/tentative/certainty——成熟可用；
+  但"监控自身思维"的自由文本触发器词（如"我先列提纲/下一步该检查"）无现成中文词表，
+  需自建（本文件 B 级条目即此自举产物，待人工抽审）。
+
+iso_groups:
+  - group_id: iso-F6-001
+    primary: 理解监控
+    aliases: [元认知监控, comprehension monitoring]
+    members: [meta-006, meta-009]
+    note: MAI 的"理解监控"与 Nelson-Narens 的"监控(monitoring)"同指对 ongoing cognition 的在线评估，异名同构。
+  - group_id: iso-F6-002
+    primary: 认知控制
+    aliases: [元认知控制, 调试, regulation]
+    members: [meta-005, meta-007, meta-010]
+    note: 信息管理/调试/控制均属"调节(regulation)"侧面；控制为上位，调试为纠错子类，信息管理为执行子类。
+  - group_id: iso-F6-003
+    primary: 自我评估
+    aliases: [元认知评价, 反思判断, calibration 偏差]
+    members: [meta-008, meta-012, meta-011]
+    note: 评价/反思判断/校准均指向"对自己判断质量的事后评判"；与 F11 过度自信(heur-009)跨族同构。
+
+constructs:
+
+  - id: meta-001
+    name: 陈述性元认知知识
+    en: declarative metacognitive knowledge
+    dimension: 元认知
+    question: 此人是否能说出"我知道自己擅长什么、不擅长什么、用什么办法学"？
+    factor: metacognitive-declarative-knowledge
+    adjectives: [自知的, 有自知之明的, 自我认知清晰的, 内省的, 了解自己的, 有自我观照的, 清醒的]
+    synonyms: [对自己的了解, 知道自己几斤几两, 自我认识, 我知道我会什么, 自我画像]
+    verbs: [了解, 知道, 意识到, 清楚, 明白, 自评, 盘点自己]
+    nouns: [自我认知, 知识, 自我观照, 能力边界, 优势, 短板]
+    anchors:
+      positive: "我这种人不擅长死记硬背，但把例子讲一遍就能记住。"
+      negative: "谁来都一样吧，没觉得自己有什么特别擅长或不擅长的。"
+    source: "MAI 子成分-陈述性知识 (Schraw & Dennison 1994)"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-元认知]
+
+  - id: meta-002
+    name: 程序性元认知知识
+    en: procedural metacognitive knowledge
+    dimension: 元认知
+    question: 此人是否掌握并能说出"怎么做的流程/方法"？
+    factor: metacognitive-procedural-knowledge
+    adjectives: [懂方法的, 会用策略的, 流程化的, 套路熟的, 有章法的, 讲方法的]
+    synonyms: [知道该怎么干, 有一套办法, 方法论, 操作步骤, 怎么做]
+    verbs: [运用策略, 套用方法, 走流程, 按步骤, 用技巧, 调用]
+    nouns: [策略, 方法, 步骤, 流程, 技巧, 算法]
+    anchors:
+      positive: "遇到这种问题我一般先拆成三个子问题，再逐个验证。"
+      negative: "走一步看一步呗，没想过什么固定做法。"
+    source: "MAI 子成分-程序性知识 (Schraw & Dennison 1994)"
+    lexicon_grade: A
+
+  - id: meta-003
+    name: 条件性元认知知识
+    en: conditional metacognitive knowledge
+    dimension: 元认知
+    question: 此人是否懂得"何时、为何"用某种策略，而非机械套用？
+    factor: metacognitive-conditional-knowledge
+    adjectives: [懂得变通的, 看场合的, 知其所以然的, 会权衡时机的, 因地制宜的]
+    synonyms: [知道什么时候用, 看情况, 该用在哪, 为什么要这样, 条件判断]
+    verbs: [判断时机, 权衡, 选择, 区分, 视情况, 因地制宜]
+    nouns: [时机, 条件, 情境, 理由, 适用范围, 边界]
+    anchors:
+      positive: "这套办法只在数据干净的时候管用，数据乱了就得换路子。"
+      negative: "方法我倒是会，但用在哪、什么时候用，没细想过。"
+    source: "MAI 子成分-条件性知识 (Schraw & Dennison 1994)"
+    lexicon_grade: A
+
+  - id: meta-004
+    name: 计划
+    en: planning
+    dimension: 元认知
+    question: 此人动笔/动手前是否先定目标、排步骤？
+    factor: metacognitive-planning
+    adjectives: [有计划的, 预先安排的, 谋定后动的, 先想后做的, 列提纲的, 有预案的]
+    synonyms: [先做打算, 定个计划, 列提纲, 提前规划, 目标先行, 打腹稿]
+    verbs: [计划, 规划, 列提纲, 定目标, 排优先级, 预先安排, 打草稿]
+    nouns: [计划, 提纲, 目标, 步骤, 预案, 路线图]
+    anchors:
+      positive: "写之前我先列个三段提纲，再逐段填。"
+      negative: "想到哪写到哪，写着写着就出来了。"
+    source: "MAI 调节-计划 (Schraw & Dennison 1994)"
+    lexicon_grade: A
+
+  - id: meta-005
+    name: 信息管理
+    en: information management
+    dimension: 元认知
+    question: 此人是否按顺序、有条理地组织信息流？
+    factor: metacognitive-information-management
+    adjectives: [有条理的, 按部就班的, 分门别类的, 高效组织的, 有条不紊的]
+    synonyms: [按顺序来, 分类处理, 一步步推进, 信息归堆, 井井有条]
+    verbs: [组织, 排序, 分类, 分配, 分步, 整理, 调度]
+    nouns: [信息, 顺序, 类别, 流程, 资源, 材料]
+    anchors:
+      positive: "我把材料先分三类，一类看证据、一类看反例、一类先放着。"
+      negative: "材料堆一起看，看完才知道哪是哪。"
+    source: "MAI 调节-信息管理 (Schraw & Dennison 1994)"
+    lexicon_grade: A
+
+  - id: meta-006
+    name: 理解监控
+    en: comprehension monitoring
+    dimension: 元认知
+    question: 此人是否边读/边写边自问"我懂了吗、跟上了吗"？
+    factor: metacognitive-comprehension-monitoring
+    adjectives: [边读边想的, 自我检查的, 懂没懂在心里有数的, 警觉的, 走查的]
+    synonyms: [读懂没有, 跟上了吗, 我理解对没, 自查, 回头核对, 打个问号]
+    verbs: [监控, 检查, 核对, 追问自己, 确认, 走查, 自测]
+    nouns: [理解, 检查, 疑问, 断点, 自我提问, 核对]
+    anchors:
+      positive: "读到这儿我停下来想：这段到底在说什么，跟上没有？"
+      negative: "一路读下去就完了，没专门停下来想懂没懂。"
+    source: "MAI 调节-理解监控 (Schraw & Dennison 1994); Nelson-Narens monitoring"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-元认知]
+
+  - id: meta-007
+    name: 调试
+    en: debugging
+    dimension: 元认知
+    question: 此人发现卡住/出错后是否回头纠错、换路子？
+    factor: metacognitive-debugging
+    adjectives: [会纠错的, 能回头改的, 发现走偏会掉头的, 自我修正的]
+    synonyms: [哪里错了, 退回去重来, 发现不对就改, 纠错, 打补丁, 掉头]
+    verbs: [纠错, 修正, 退回, 重来, 调整, 补救, 打补丁]
+    nouns: [错误, 偏差, 卡点, 回头路, 修正, 调试]
+    anchors:
+      positive: "写到一半发现前提错了，赶紧退回去重推。"
+      negative: "将错就错写下去，写完再说。"
+    source: "MAI 调节-调试 (Schraw & Dennison 1994)"
+    lexicon_grade: A
+
+  - id: meta-008
+    name: 元认知评价
+    en: evaluation
+    dimension: 元认知
+    question: 此人事后是否评判自己这次想得好不好、哪里可改进？
+    factor: metacognitive-evaluation
+    adjectives: [会复盘的, 事后总结的, 自评得失的, 反思的, 检讨的]
+    synonyms: [事后回头看, 总结得失, 这次哪里没做好, 复盘, 自我评价, 打个分]
+    verbs: [评价, 复盘, 总结, 打分, 检讨, 反思, 掂量]
+    nouns: [评价, 复盘, 得失, 经验教训, 总结, 标尺]
+    anchors:
+      positive: "回头看，这次最大的问题是证据下得太早。"
+      negative: "做完就做完了，不回头想好坏。"
+    source: "MAI 调节-评价 (Schraw & Dennison 1994)"
+    lexicon_grade: A
+    tags: [sketch-元认知]
+
+  - id: meta-009
+    name: 元认知监控
+    en: monitoring
+    dimension: 元认知
+    question: 此人是否持续追踪自己当前认知状态（会没会、记得没记得、确定没确定）？
+    factor: metacognitive-monitoring
+    adjectives: [对自己状态有数的, 心里有数的, 实时追踪的, 自我觉察的, 有元觉察的]
+    synonyms: [我心里清楚, 我这会儿懂多少, 心里有谱, 自我追踪, 状态感知]
+    verbs: [监控, 觉察, 追踪, 评估状态, 把握, 心中有数]
+    nouns: [状态, 觉察, 把握, 自我监控, 元觉察, 进度]
+    anchors:
+      positive: "写到这儿我心里清楚：这块证据我还没拿准。"
+      negative: "写的时候不太分得清自己是真懂还是装懂。"
+    source: "Nelson & Narens 1990 monitoring"
+    lexicon_grade: A
+
+  - id: meta-010
+    name: 元认知控制
+    en: control / regulation
+    dimension: 元认知
+    question: 此人是否根据监控结果主动分配/收回认知资源（继续还是停、深想还是放过）？
+    factor: metacognitive-control
+    adjectives: [会调度注意力的, 能收能放的, 主动调节的, 自我管理的, 有执行力的]
+    synonyms: [该停就停, 要不要再花力气, 分配精力, 自我调节, 收放自如, 调度]
+    verbs: [控制, 调节, 分配, 终止, 继续投入, 调度, 收手]
+    nouns: [资源, 调节, 控制, 分配, 取舍, 投入]
+    anchors:
+      positive: "这个点想不下去就先放一放，回头再啃，别死磕。"
+      negative: "要么一直死磕，要么直接跳过，不会根据情况调整。"
+    source: "Nelson & Narens 1990 control"
+    lexicon_grade: A
+
+  - id: meta-011
+    name: 元认知信心与校准
+    en: confidence calibration
+    dimension: 元认知
+    question: 此人对自己判断的把握程度是否与实际正确率相称（不过度自信、不妄自菲薄）？
+    factor: metacognitive-calibration
+    adjectives: [把握有度的, 自信但不飘的, 校准良好的, 有谱的, 知之为知之的]
+    synonyms: [我大概八成有把握, 不太确定, 这事儿我拿不准, 信心匹配, 心里打个折]
+    verbs: [估计把握, 校准, 给信心, 掂量把握, 打折, 押注]
+    nouns: [把握, 信心, 校准, 概率, 确定度, 押注]
+    anchors:
+      positive: "这个结论我大概七成有把握，剩下三成还需要证据。"
+      negative: "我觉得肯定是这样，错不了。"
+    source: "Jersakova et al. JOL justifications; Steyvers & Peters 2025"
+    lexicon_grade: B
+    note_grade: bootstrap 自举：从校准理论转写为中文表达
+
+  - id: meta-012
+    name: 反思判断
+    en: reflective judgment
+    dimension: 元认知
+    question: 此人是否承认知识的不确定性、能在争议中权衡多种观点并给出有依据的判断？
+    factor: reflective-judgment
+    adjectives: [包容模糊的, 辩证的, 不下死结论的, 承认可错的, 开放式的, 审慎的]
+    synonyms: [这事儿没有标准答案, 两边都有道理, 取决于怎么看, 承认不确定, 辩证看]
+    verbs: [权衡, 辩证看待, 承认不确定, 保留判断, 多视角, 审慎下结论]
+    nouns: [不确定性, 多元视角, 辩证, 可错性, 判断, 争议]
+    anchors:
+      positive: "两边的证据都成立，我只能说在这个前提下更倾向哪边。"
+      negative: "这事就是对的/错的，没什么好争的。"
+    source: "King & Kitchener 1994 Reflective Judgment; Kitchener et al. 1989"
+    lexicon_grade: B
+    note_grade: bootstrap 自举
+
+  - id: meta-013
+    name: 元认知体验
+    en: metacognitive experience
+    dimension: 元认知
+    question: 此人在思考过程中是否报告"似曾相识/卡壳/快想起来了"这类主观体验？
+    factor: metacognitive-experience
+    adjectives: [有话到嘴边感的, 似曾相识的, 卡壳的, 灵光一闪的, 有内在感受的]
+    synonyms: [话到嘴边说不出, 有点眼熟, 卡壳了, 灵光一现, 心里一动, 这种感觉]
+    verbs: [体验到, 感到, 觉察到, 冒出, 卡壳, 似曾相识]
+    nouns: [体验, 感受, 卡壳, 顿悟, 似曾相识, 内在状态]
+    anchors:
+      positive: "写到这儿突然卡了一下，好像哪里不对，但说不上来。"
+      negative: "写就是写，没什么特别的感觉不感觉。"
+    source: "Flavell 1979 元认知体验成分"
+    lexicon_grade: B
+    note_grade: bootstrap 自举
+
+  - id: meta-014
+    name: 试探与确定性语言
+    en: tentativeness vs certainty language
+    dimension: 元认知
+    question: 此人用词在多大程度上流露"拿不准(tentative)"还是"拍板(certain)"？
+    factor: tentativeness-certainty-language
+    adjectives: [留余地的, 模棱两可的, 斩钉截铁的, 含糊的, 肯定的, 留活口的]
+    synonyms: [也许, 大概, 一定, 肯定, 可能吧, 显然, 说白了, 毫无疑问]
+    verbs: [推测, 断言, 猜测, 断定, 倾向于, 想必]
+    nouns: [可能性, 把握, 断言, 推测, 疑问, 结论]
+    anchors:
+      positive: "这大概说明……也不一定，再看一组数据才敢说。"
+      negative: "这就证明了，毫无疑问就是这个原因。"
+    source: "LIWC tentative/certainty 词类 (Pennebaker 2015; SCLIWC 可用)"
+    lexicon_grade: A
+
+stats:
+  constructs: 14
+  iso_groups: 3
+  grade_A: 11
+  grade_B: 3

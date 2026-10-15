@@ -1,0 +1,13 @@
+# AoT v0.1 —— LLM 打分协议（复用 SPI 已验证的 DeepSeek 双轮平均方案）
+llm:
+  provider: deepseek
+  base_url: https://api.deepseek.com
+  model: deepseek-chat
+  rounds: 2
+  temperatures: [0.3, 0.7]
+  timeout_seconds: 90
+  max_retries: 2
+  concurrency: 12
+  env_key: DEEPSEEK_API_KEY
+  env_file: ../.env
+  note: 与 SPI 六件套共用同一模型家族，保证人格侧/思维侧画像可直接对齐

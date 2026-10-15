@@ -1,0 +1,233 @@
+# =============================================================================
+# F15 反事实与后悔家族 —— SPI 同构因子链编码
+# family_id: F15
+# 来源：Roese 1997 反事实功能理论 + Kahneman & Miller 1986 标准理论 +
+#       Loomes & Sugden 1982 / Bell 1982 后悔理论。
+# 本族语言标记极强（"要是…就好了 / 至少 / 差一点 / 本可以 / 后悔 / 早知道"），
+# 故以 A 级为主——现成词表/语法标记可直接转文本判定。
+# =============================================================================
+
+family_id: F15
+family_name: 反事实与后悔
+family_name_en: Counterfactual Thinking and Regret
+sketch_dimension: [推理习惯, 归因结构]
+
+models:
+  - name: 反事实思维功能理论（上行/下行）
+    author: Roese, N. J.
+    year: 1997
+    source: "Counterfactual Thinking, Psychological Bulletin, 121(1), 133-148"
+    url: https://doi.org/10.1037/0033-2909.121.1.133
+    verified: verified
+  - name: 标准理论（反事实对照即情绪之源）
+    author: Kahneman, D. & Miller, D. T.
+    year: 1986
+    source: "Norm Theory: Comparing Reality to Its Alternatives, Psychological Review, 93(2), 136-153"
+    url: https://doi.org/10.1037/0033-295X.93.2.136
+    verified: verified
+  - name: 后悔理论
+    author: Loomes, G. & Sugden, R.
+    year: 1982
+    source: "Regret Theory: An Alternative Theory of Rational Choice under Uncertainty, Economic Journal, 92(368), 805-824"
+    url: https://doi.org/10.2307/2232629
+    verified: verified
+  - name: 假设思维/条件句表征
+    author: Evans, J. St. B. T. & Over, D. E.
+    year: 2004
+    source: "If: Denying the Antecedent, Oxford UP"
+    url: https://global.oup.com/academic/product/if-9780199251862
+    verified: claimed-textbook
+
+chinese_applicability: >
+  反事实是中文语法与词汇中标记最密集的思维构念："要是…就好了 / 早知道 /
+  本可以 / 差一点 / 差点 / 至少 / 当初…就"。这些是封闭词表级别的标记，
+  可直接计数（A 级），无需 LLM 大量自举。后悔情绪词（后悔/懊悔/懊恼/遗憾）
+  同样封闭。上行/下行方向、自我/他人参照需 LLM 判语义（A- 偏 B）。
+  跨族互指：与 F12 nar-003 救赎/污染序列、F5 abs-005 假设性距离邻接。
+
+iso_groups:
+  - group_id: iso-F15-001
+    primary: 反事实对照
+    aliases: [假设思维, 心理距离假设轴]
+    members: [f15-001, f15-002, f15-007]
+    note: 上行/下行反事实与假设思维共享"对现实做替代世界模拟"内核；与 F5 abs-005 假设性距离抽象跨族邻接。
+  - group_id: iso-F15-002
+    primary: 后悔情绪
+    aliases: [反事实后悔, 预期后悔]
+    members: [f15-005, f15-006]
+    note: 反事实后悔（事后）与预期后悔（事前）是同一情绪的时间两端。
+  - group_id: iso-F15-003
+    primary: 反事实叙事
+    aliases: [救赎/污染序列]
+    members: [f15-005]
+    note: 与 F12 nar-003 救赎序列 / nar-004 污染序列跨族互指——反事实"差一点更好/更糟"是叙事情绪的底层机制。
+
+constructs:
+
+  - id: f15-001
+    name: 上行反事实
+    en: upward counterfactual
+    dimension: 反事实与后悔
+    question: 此人是否频繁构造"当初要是再好一点，结果会更好"的替代世界（向上比、促改进、生懊悔）？
+    factor: upward-counterfactual
+    adjectives: [向上比的, 懊悔当初的, 总想本可以更好的, 不满足现实的]
+    synonyms: [要是当时再努力点就好了, 本可以更好, 当初就差一点, 早知道就那样做了, 差一步就成了]
+    verbs: [向上对比, 懊悔, 设想更优替代, 事后归因改进]
+    nouns: [上行反事实, 要是, 本可以, 后悔, 更优可能]
+    anchors:
+      positive: "要是当时再坚持一下就好了，本可以拿到那个 offer 的。"
+      negative: "结果就这样，没什么好'要是当时'的。"
+    source: "Roese 1997; 语言标记：要是…就好了/本可以/早知道"
+    lexicon_grade: A
+
+  - id: f15-002
+    name: 下行反事实
+    en: downward counterfactual
+    dimension: 反事实与后悔
+    question: 此人是否频繁构造"幸亏没更糟，至少现在这样"的替代世界（向下比、求安慰、生庆幸）？
+    factor: downward-counterfactual
+    adjectives: [向下比的, 自我安慰的, 庆幸没更糟的, 知足式对照的]
+    synonyms: [至少没更糟, 幸好没出事, 差点就完了, 算运气好, 比上不足比下有余]
+    verbs: [向下对比, 自我安慰, 设想更糟替代, 庆幸]
+    nouns: [下行反事实, 至少, 幸亏, 庆幸, 更糟可能]
+    anchors:
+      positive: "至少人没事，东西丢了就算了，比那惨多了强。"
+      negative: "别拿'更糟'来安慰自己，问题该解决还得解决。"
+    source: "Roese 1997; 语言标记：至少/幸亏/差点就"
+    lexicon_grade: A
+
+  - id: f15-003
+    name: 自我反事实
+    en: self-referenced counterfactual
+    dimension: 反事实与后悔
+    question: 此人反事实替代是否聚焦于"我自己当初本可以怎么做"（对内归因的反事实）？
+    factor: self-counterfactual
+    adjectives: [反求诸己式反事实的, 责怪自己当初的, 自我对照的]
+    synonyms: [我当初本该, 都怪我那时, 我本可以, 要是我当时…]
+    verbs: [自我对照, 反求诸己, 对自己当初做替代]
+    nouns: [自我反事实, 我当初, 本该, 自责]
+    anchors:
+      positive: "都怪我当初没多问一句，本可以避免这个错。"
+      negative: "出了事先看外部条件，别光往自己身上揽。"
+    source: "Kahneman & Miller 1986; Roese 1997"
+    lexicon_grade: A
+
+  - id: f15-004
+    name: 他人反事实/社会反事实
+    en: other-referenced / social counterfactual
+    dimension: 反事实与后悔
+    question: 此人反事实替代是否聚焦于"别人当初本可以怎么做"（社会对照、对他人生气/羡慕）？
+    factor: other-counterfactual
+    adjectives: [拿他人做反事实对照的, 替别人可惜的, 社会比较式反事实的]
+    synonyms: [他当初要是那样就好了, 换我就不会这样, 他本可以, 别人怎么就…]
+    verbs: [社会对照, 替他人设想, 对他人做替代]
+    nouns: [他人反事实, 别人当初, 替人可惜, 社会比较]
+    anchors:
+      positive: "他当初要是听劝就好了，何至于落到这步。"
+      negative: "别人的事别人担着，别老替他设想另一种走法。"
+    source: "Kahneman & Miller 1986; Roese & Olson"
+    lexicon_grade: A
+
+  - id: f15-005
+    name: 反事实后悔
+    en: regret (from counterfactual)
+    dimension: 反事实与后悔
+    question: 此人是否因"现实 vs 反事实更优结果"的差距而反复体验后悔/懊悔情绪？
+    factor: counterfactual-regret
+    adjectives: [后悔的, 懊悔的, 懊恼的, 遗憾的, 为过去决定愧疚的]
+    synonyms: [真后悔, 当初不该, 悔不当初, 太遗憾了, 想起来就懊恼]
+    verbs: [后悔, 懊悔, 懊恼, 遗憾, 为决定愧疚]
+    nouns: [后悔, 懊悔, 遗憾, 悔意, 反事实对照]
+    anchors:
+      positive: "现在一想就后悔，当初真不该签那份合同。"
+      negative: "决定做都做了，后悔没用，往前看。"
+    source: "Loomes & Sugden 1982; Bell 1982; 语言标记：后悔/懊悔/悔不当初"
+    lexicon_grade: A
+    tags: [iso-nar-003, iso-nar-004]
+
+  - id: f15-006
+    name: 预期后悔
+    en: anticipated regret
+    dimension: 反事实与后悔
+    question: 此人决策前是否预演"如果选了这个将来会后悔吗"，以此反向影响选择？
+    factor: anticipated-regret
+    adjectives: [事前预演后悔的, 怕将来后悔的, 为未来悔意做选择的]
+    synonyms: [现在不选以后会后悔, 别等将来后悔, 想想以后会不会后悔, 免得日后懊悔]
+    verbs: [预演后悔, 前瞻懊悔, 用未来悔意约束当下选择]
+    nouns: [预期后悔, 未来悔意, 事前懊悔, 选择约束]
+    anchors:
+      positive: "我得想清楚，现在图省事，以后八成要后悔。"
+      negative: "别还没做就先替未来的自己后悔，先做了再说。"
+    source: "Loomes & Sugden 1982; 预期后悔文献"
+    lexicon_grade: A
+
+  - id: f15-007
+    name: 假设思维/条件句表征
+    en: hypothetical thinking / conditional reasoning
+    dimension: 反事实与后悔
+    question: 此人是否习惯性用"如果…那么…"条件句构造可能性空间（而非只谈既成事实）？
+    factor: hypothetical-thinking
+    adjectives: [爱做条件推演的, 假设性思维的, 习惯想可能性的]
+    synonyms: [如果…就…, 假设是这样, 万一呢, 要是换个条件, 设想一下]
+    verbs: [假设, 条件推演, 构造可能性, 设想]
+    nouns: [假设, 条件句, 可能性, 反事实条件]
+    anchors:
+      positive: "如果当时预算再多点，这事完全是另一个走向。"
+      negative: "现实就是这样，扯那些假设的条件没意义。"
+    source: "Evans & Over 2004 If; 与 F5 abs-005 假设性距离邻接"
+    lexicon_grade: A
+    tags: [iso-abs-005]
+
+  - id: f15-008
+    name: 反事实因果推断
+    en: counterfactual-to-causal inference
+    dimension: 反事实与后悔
+    question: 此人是否通过"撤销某前因结果会不同"来推断因果关系（反事实即因果）？
+    factor: counterfactual-causal
+    adjectives: [用反事实推因果的, 做撤销实验式推断的, 从替代结果找原因的]
+    synonyms: [要不是因为它就不会这样, 撤掉那个原因结果就变了, 正是它导致的]
+    verbs: [反事实推因果, 撤销前因, 推断因果]
+    nouns: [反事实因果, 撤销, 因果推断, 必要原因]
+    anchors:
+      positive: "要不是当初那封邮件，这事根本不会发生，所以问题就在它。"
+      negative: "相关不等于因果，撤掉它结果未必真不同。"
+    source: "Roese 1997（反事实→因果推断功能）"
+    lexicon_grade: B
+
+  - id: f15-009
+    name: 近失/差一点
+    en: near-miss
+    dimension: 反事实与后悔
+    question: 此人是否频繁被"差一点/差点就成/险些"的近失事件触发强烈反事实与情绪（near-miss 放大）？
+    factor: near-miss
+    adjectives: [对差一点极敏感的, 被近失刺痛的, 老记着险些成的事的]
+    synonyms: [差一点就过了, 差点就成了, 险些, 就差那么一点, 临门一脚没进]
+    verbs: [捕捉近失, 为差一点波动, 放大临门一脚]
+    nouns: [近失, 差一点, 险些, near-miss, 临门一脚]
+    anchors:
+      positive: "就差那零点一分，差点就考上了，想起来堵得慌。"
+      negative: "差一点也是没成，别被'险些'牵着情绪走。"
+    source: "Kahneman & Miller 1986 标准理论; 语言标记：差一点/差点/险些"
+    lexicon_grade: A
+
+  - id: f15-010
+    name: 反事实反刍频率
+    en: counterfactual frequency / rumination
+    dimension: 反事实与后悔
+    question: 此人反事实思维是否高频、侵入式、反复出现（反事实反刍倾向高）？
+    factor: counterfactual-rumination
+    adjectives: [反复回想替代可能的, 反事实反刍的, 忍不住重想当初的]
+    synonyms: [我老忍不住想, 一遍遍地想, 翻来覆去地假设, 这事在脑子里转不停]
+    verbs: [反刍, 反复重想, 侵入式回想, 循环假设]
+    nouns: [反事实反刍, 频率, 侵入, 循环回想]
+    anchors:
+      positive: "这事我天天忍不住重想，要是换个做法会怎样。"
+      negative: "偶尔想一次就放下了，不会翻来覆去折磨自己。"
+    source: "Roese 1997; 反事实频率与反刍文献"
+    lexicon_grade: A
+
+stats:
+  constructs: 10
+  iso_groups: 3
+  grade_A: 9
+  grade_B: 1

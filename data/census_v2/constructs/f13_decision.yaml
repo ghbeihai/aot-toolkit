@@ -1,0 +1,315 @@
+# =============================================================================
+# F13 决策风格与风险偏好家族 —— SPI 同构因子链编码
+# family_id: F13
+# 来源：Scott & Bruce 1995 GDMS 五风格 + DOSPERT 领域风险偏好 +
+#       Anderson 2003 决策回避 + Schwartz 2002 最优化/满意化 + Klein 1998 RPD。
+# 多为自陈习惯/行为倾向构念，无现成中文思维词表，B 级为主。
+# =============================================================================
+
+family_id: F13
+family_name: 决策风格与风险偏好
+family_name_en: Decision-Making Styles and Risk Preference
+sketch_dimension: [推理习惯, 归因结构]
+
+models:
+  - name: 一般决策风格量表 GDMS（五风格）
+    author: Scott, S. G. & Bruce, R. A.
+    year: 1995
+    source: "Decision-Making Style: The Development and Assessment of a New Measure, Educational and Psychological Measurement, 55(5), 818-831"
+    url: https://doi.org/10.1177/0013164495055005017
+    verified: verified
+  - name: 领域特异风险取向量表 DOSPERT（修订短版）
+    author: Blais, A.-R. & Weber, E. U.
+    year: 2006
+    source: "A Domain-Specific Risk-Taking (DOSPERT) Scale for Adult Populations, Judgment and Decision Making, 1(2), 233-239"
+    url: https://journal.sjdm.org/jdm06005.pdf
+    verified: verified
+  - name: 风险感知心理测量范式（dread × unknown）
+    author: Slovic, P.
+    year: 1987
+    source: "Perception of Risk, Science, 236(4799), 280-285"
+    url: https://www.science.org/doi/10.1126/science.3561458
+    verified: verified
+  - name: 决策回避/不行动心理学
+    author: Anderson, C. J.
+    year: 2003
+    source: "The Psychology of Doing Nothing: Forms of Decision Avoidance Result from Reason and Emotion, Psychological Bulletin, 129(1), 139-167"
+    url: https://doi.org/10.1037/0033-2909.129.1.139
+    verified: verified
+  - name: 最优化 vs 满意化
+    author: Schwartz, B., Ward, A., Monterosso, J., et al.
+    year: 2002
+    source: "Maximizing versus Satisficing: Happiness Is a Matter of Choice, JPSP, 83(5), 1178-1197"
+    url: https://doi.org/10.1037/0022-3514.83.5.1178
+    verified: verified
+  - name: 识别启动决策 RPD（专家自然决策）
+    author: Klein, G.
+    year: 1998
+    source: "Sources of Power: How People Make Decisions, MIT Press"
+    url: https://www.gary-klein.com/rpd
+    verified: claimed-textbook
+
+chinese_applicability: >
+  GDMS、DOSPERT、Schwartz 最优化量表均有中文修订版（驾驶员群体 GDMS 修订
+  α=.88-.91；DOSPERT 中文多篇；MDMQ 中文）。但本族为自陈行为倾向，
+  无现成"决策风格→中文思维词表"，故以 B 级为主（LLM 从题面自举判定）。
+  文本侧可捕"我总问别人 / 我一直拖着 / 我拍脑袋定 / 我得比到最好"等习惯句。
+
+iso_groups:
+  - group_id: iso-F13-001
+    primary: 理性-直觉决策风格
+    aliases: [分析-直觉风格, System1/System2]
+    members: [f13-001, f13-002]
+    note: 与 F1 cgs-009 直觉-分析(CSI)、F2 dp-007 直觉加工/dp-008 分析加工跨族同构——去重，本族只保留"决策语境下"的行为标记，不再重复编码一般认知风格。
+  - group_id: iso-F13-002
+    primary: 风险规避/损失敏感
+    aliases: [损失厌恶]
+    members: [f13-007]
+    note: 与 F11 heur-007 损失厌恶跨族同构——同一内核的决策域侧写。
+  - group_id: iso-F13-003
+    primary: 决策回避/不行动
+    aliases: [拖延, 现状偏差, 推诿]
+    members: [f13-004, f13-009, f13-010]
+    note: GDMS 回避风格、Anderson 决策回避、MDMQ 拖延/推诿共享"能不选就不选"内核；与 F11 heur-012 现状偏差邻接。
+  - group_id: iso-F13-004
+    primary: 冲动-自发决断
+    aliases: [冲动-反思]
+    members: [f13-005]
+    note: 与 F1 cgs-012 冲动-反思部分重叠；本族特指"求快、即时拍板"的决策域版本。
+
+constructs:
+
+  - id: f13-001
+    name: 理性决策风格
+    en: rational decision-making style
+    dimension: 决策风格与风险偏好
+    question: 此人做决策是否系统性搜集信息、穷尽备选并逻辑比较后再定？
+    factor: rational-decision-style
+    adjectives: [深思熟虑的, 系统比较的, 穷尽信息的, 按逻辑推理的, 权衡利弊的]
+    synonyms: [得把选项都列出来, 一个个比, 先查清楚再定, 不能拍脑袋, 权衡一下]
+    verbs: [搜集信息, 列举备选, 逻辑比较, 权衡, 系统评估]
+    nouns: [备选, 信息, 利弊, 比较, 决策过程, 分析]
+    anchors:
+      positive: "先把几个方案的优缺点列成表，对比完再决定。"
+      negative: "差不多就定了，犯不着一个个查。"
+    source: "Scott & Bruce 1995 GDMS"
+    lexicon_grade: B
+    tags: [iso-cgs-009, iso-dp-008]
+
+  - id: f13-002
+    name: 直觉决策风格
+    en: intuitive decision-making style
+    dimension: 决策风格与风险偏好
+    question: 此人是否凭预感、情绪流、第六感直接下判断，而非推理？
+    factor: intuitive-decision-style
+    adjectives: [凭预感的, 跟着感觉走的, 靠第六感的, 直觉的, 情绪化判断的]
+    synonyms: [我就觉得是它, 直觉告诉我, 跟着感觉走, 说不上来但就是对, 心有所感]
+    verbs: [凭预感, 直觉判断, 跟着感觉, 心算, 第六感]
+    nouns: [预感, 直觉, 第六感, 感觉, 情绪, 一闪念]
+    anchors:
+      positive: "我也说不出理由，但直觉就是选这个。"
+      negative: "感觉归感觉，还是得拿数据说话。"
+    source: "Scott & Bruce 1995 GDMS"
+    lexicon_grade: B
+    tags: [iso-cgs-009, iso-dp-007]
+
+  - id: f13-003
+    name: 依赖决策风格
+    en: dependent decision-making style
+    dimension: 决策风格与风险偏好
+    question: 此人是否遇到重要决策必先征询他人、依赖专家或上级指引，不敢独自拍板？
+    factor: dependent-decision-style
+    adjectives: [依赖他人的, 爱问意见的, 不敢自决的, 听别人的, 求指引的]
+    synonyms: [我得先问问别人, 你帮我拿主意, 听领导的, 问问专家怎么说, 我不敢自己定]
+    verbs: [征询, 求助, 听取, 依赖他人, 请示, 找顾问]
+    nouns: [意见, 他人, 专家, 指引, 顾问, 商量]
+    anchors:
+      positive: "这么大的事我一个人不敢定，先听听大家怎么说。"
+      negative: "问一圈还是得自己拿主意，我直接定了。"
+    source: "Scott & Bruce 1995 GDMS"
+    lexicon_grade: B
+
+  - id: f13-004
+    name: 回避决策风格
+    en: avoidant decision-making style
+    dimension: 决策风格与风险偏好
+    question: 此人是否能拖就拖、能躲就躲，尽量推迟或逃避做决定？
+    factor: avoidant-decision-style
+    adjectives: [拖延的, 逃避的, 不敢面对的, 能躲则躲的, 无限推迟的]
+    synonyms: [再等等看, 先不决定, 拖着再说, 能不选就不选, 到时候再说]
+    verbs: [拖延, 逃避, 推迟, 回避, 搁置, 躲着]
+    nouns: [拖延, 回避, 推迟, 悬而未决, 逃避]
+    anchors:
+      positive: "这事先放放，过段时间再说，现在不想决定。"
+      negative: "拖着只会更糟，现在就得拍板。"
+    source: "Scott & Bruce 1995 GDMS"
+    lexicon_grade: B
+    tags: [iso-heur-012]
+
+  - id: f13-005
+    name: 自发即时决策风格
+    en: spontaneous decision-making style
+    dimension: 决策风格与风险偏好
+    question: 此人是否追求速度、享受快速决断，恨不得立刻定下来，嫌磨蹭？
+    factor: spontaneous-decision-style
+    adjectives: [求快的, 迫不及待的, 立即拍板的, 嫌磨蹭的, 冲动决断的]
+    synonyms: [赶紧定了吧, 别磨叽, 就现在, 一秒钟决定, 越快越好]
+    verbs: [立刻决定, 速断, 拍板, 急于, 抢先定]
+    nouns: [速度, 即时, 冲动, 快决断, 迫不及待]
+    anchors:
+      positive: "别想那么多了，现在就定，晚了就没了。"
+      negative: "急什么，多花点时间想清楚不亏。"
+    source: "Scott & Bruce 1995 GDMS"
+    lexicon_grade: B
+    tags: [iso-cgs-012]
+
+  - id: f13-006
+    name: 领域风险寻求
+    en: domain-specific risk taking
+    dimension: 决策风格与风险偏好
+    question: 此人是否在财务/健康/职业/娱乐/社交等领域主动寻求高风险高回报的选择？
+    factor: risk-taking
+    adjectives: [敢冒险的, 敢闯的, 追求刺激的, 敢下注的, 高风险偏好的]
+    synonyms: [搏一把, 富贵险中求, 这我敢试, 越刺激越来劲, 高风险高回报]
+    verbs: [冒险, 下注, 闯, 搏, 挑战高风险]
+    nouns: [风险, 冒险, 赌注, 刺激, 高回报, 不确定性]
+    anchors:
+      positive: "这种高风险的投资我敢上，大不了重来。"
+      negative: "稳一点，我不碰这种风险太大的。"
+    source: "Blais & Weber 2006 DOSPERT"
+    lexicon_grade: B
+
+  - id: f13-007
+    name: 领域风险规避
+    en: risk aversion
+    dimension: 决策风格与风险偏好
+    question: 此人是否在各领域系统性回避风险、偏好确定结果，宁可不赢也不愿输？
+    factor: risk-aversion
+    adjectives: [怕风险的, 求稳的, 厌恶损失的, 保守的, 落袋为安的]
+    synonyms: [稳字当头, 我怕担风险, 确定就行, 别赌, 落袋为安]
+    verbs: [规避风险, 求稳, 保守选择, 落袋为安, 不赌]
+    nouns: [风险厌恶, 确定性, 保守, 落袋, 稳健]
+    anchors:
+      positive: "我宁可少赚，也不要冒亏的风险，确定到手最好。"
+      negative: "一点风险都不冒，机会也就错过了。"
+    source: "Blais & Weber 2006 DOSPERT; Kahneman & Tversky 前景理论"
+    lexicon_grade: B
+    tags: [iso-heur-007]
+
+  - id: f13-008
+    name: 可怕风险敏感性
+    en: dread risk sensitivity
+    dimension: 决策风格与风险偏好
+    question: 此人是否对"失控、灾难性、致命、不公"的风险极度恐惧放大（dread 维度敏感）？
+    factor: dread-risk
+    adjectives: [怕灾难的, 对失控敏感的, 恐惧致命后果的, 灾难化的]
+    synonyms: [万一出大事怎么办, 想想就可怕, 受不了那种惨状, 太吓人了]
+    verbs: [恐惧, 灾难化, 放大, 对失控警觉]
+    nouns: [可怕风险, 灾难, 失控, 致命, 恐惧]
+    anchors:
+      positive: "这种事故一旦发生就是毁灭性的，光想就后怕。"
+      negative: "可能性极低，别把小概率灾难放大。"
+    source: "Slovic 1987 心理测量范式"
+    lexicon_grade: B
+
+  - id: f13-009
+    name: 决策回避/不行动
+    en: decision avoidance / doing nothing
+    dimension: 决策风格与风险偏好
+    question: 此人是否以"不选、拖延、推诿、干脆不管"来回避决策责任（而非中立无立场）？
+    factor: decision-avoidance
+    adjectives: [回避抉择的, 推卸决定的, 不作为的, 怕担责的, 拖着不办的]
+    synonyms: [我不想选, 别让我决定, 这事儿我不管, 推给别人, 不了了之]
+    verbs: [回避选择, 推诿, 不作为, 推托, 悬置]
+    nouns: [不行动, 回避, 推诿, 责任, 悬置]
+    anchors:
+      positive: "这种决定谁爱做谁做，我不想掺和，更不想担责任。"
+      negative: "总得有人拍板，躲是躲不过去的。"
+    source: "Anderson 2003 Psychological Bulletin"
+    lexicon_grade: B
+
+  - id: f13-010
+    name: 遗漏偏误
+    en: omission bias
+    dimension: 决策风格与风险偏好
+    question: 此人是否偏好"什么都不做"导致的坏结果，反感"主动行动"导致的同等坏结果？
+    factor: omission-bias
+    adjectives: [偏好不作为的, 嫌主动惹事的, 不动更安心的]
+    synonyms: [不动就没错, 做错了更难受, 别主动出手, 等等再说]
+    verbs: [偏好不作为, 回避行动, 被动等待]
+    nouns: [遗漏, 不作为, 主动 vs 被动, 偏误]
+    anchors:
+      positive: "眼睁睁看着不对也比我亲手把它弄糟强。"
+      negative: "不动和动了造成同样后果，不该厚此薄彼。"
+    source: "Spranca, Minsk & Baron 1991; Anderson 2003"
+    lexicon_grade: B
+
+  - id: f13-011
+    name: 最优化倾向
+    en: maximizing tendency
+    dimension: 决策风格与风险偏好
+    question: 此人是否凡事追求"最好的那个"，穷尽搜索、反复比较、怕错过最优解？
+    factor: maximizing
+    adjectives: [追求最优的, 挑三拣四的, 怕错过最好的, 穷尽比较的, 吹毛求疵的]
+    synonyms: [一定要找最好的, 再看看有没有更优的, 错过最优太亏, 比到极致]
+    verbs: [穷尽搜索, 反复比较, 追求最优, 权衡所有, 怕错过]
+    nouns: [最优, 最大化, 穷尽, 机会成本, 选择焦虑]
+    anchors:
+      positive: "总得把所有选项比到最好才甘心，不然总觉得亏。"
+      negative: "够好了就行，比来比去精力都搭进去了。"
+    source: "Schwartz et al. 2002 JPSP"
+    lexicon_grade: B
+
+  - id: f13-012
+    name: 满意化倾向
+    en: satisficing tendency
+    dimension: 决策风格与风险偏好
+    question: 此人是否设一个"够好即可"的阈值，第一个达标的选项就收手，不再搜索？
+    factor: satisficing
+    adjectives: [知足的, 够好就行的, 不追求极致的, 见好就收的, 务实的]
+    synonyms: [这个就够好了, 达标就行, 不再看了, 见好就收, 差不多就行]
+    verbs: [设阈值, 达标即停, 见好就收, 停止搜索]
+    nouns: [满意化, 阈值, 够好, 达标, 知足]
+    anchors:
+      positive: "这个已经满足要求了，就它了，不用再找。"
+      negative: "别将就，再比比看有没有更好的。"
+    source: "Schwartz et al. 2002 JPSP; Simon 满意化"
+    lexicon_grade: B
+
+  - id: f13-013
+    name: 专家直觉/识别启动决策
+    en: recognition-primed decision (expert intuition)
+    dimension: 决策风格与风险偏好
+    question: 此人是否凭经验模式识别，直接想到第一个可行方案并心理模拟其后果，而非罗列多选项？
+    factor: recognition-primed
+    adjectives: [靠经验一眼认出的, 凭模式匹配的, 老练直觉的, 现场快速识局的]
+    synonyms: [一看就知道该怎么办, 这种局我见过, 凭经验直接上, 脑子里过一遍就行]
+    verbs: [模式识别, 心理模拟, 凭经验决断, 识局, 推演后果]
+    nouns: [经验, 模式, 可行方案, 心理模拟, 直觉老练]
+    anchors:
+      positive: "这情形我熟，第一步就该这么处理，脑子里过一遍后果就行。"
+      negative: "先把所有方案摆出来系统比，别靠经验拍。"
+    source: "Klein 1998 Sources of Power"
+    lexicon_grade: B
+
+  - id: f13-014
+    name: 过度警觉/焦虑性匆忙
+    en: hypervigilance / panicked haste
+    dimension: 决策风格与风险偏好
+    question: 此人是否在压力下惊慌失措、饥不择食地匆忙抓选项，决策质量骤降？
+    factor: hypervigilance
+    adjectives: [惊慌的, 慌不择路的, 焦虑性匆忙的, 被逼急的]
+    synonyms: [赶紧抓一个再说, 慌了, 急得乱选, 没办法先上这个]
+    verbs: [惊慌, 慌乱选择, 饥不择食, 仓促抓选项]
+    nouns: [过度警觉, 惊慌, 仓促, 压力决策, 焦虑]
+    anchors:
+      positive: "来不及想了，先随便抓一个顶上，再不决定就完了。"
+      negative: "越急越不能乱选，稳住思路。"
+    source: "Janis & Mann 1977 冲突理论; MDMQ"
+    lexicon_grade: B
+
+stats:
+  constructs: 14
+  iso_groups: 4
+  grade_A: 0
+  grade_B: 14

@@ -1,0 +1,314 @@
+# =============================================================================
+# AoT Census · F7 概念隐喻 (Conceptual Metaphor)
+# 阶段：SPI 同构管线 第1-2阶段（模型普查 + 因子链五层编码）
+# 编码规则复用 artifacts/思维量化_集群调研_*.md 与总报告 §4.3/§5
+# 词元均为可直接嵌入的中文词项；lexicon_grade: A=现成资产 / B=LLM自举(bootstrap)
+# =============================================================================
+
+family_id: F7
+family_name: 概念隐喻（Conceptual Metaphor / 根隐喻系统）
+family_tag: sketch-根隐喻
+models:
+  - {name: "Contemporary Conceptual Metaphor Theory", author: "Lakoff & Johnson", year: 1980, source: "Metaphors We Live By, U Chicago Press", url: "http://escholarship.org/uc/item/4nv3j5j9.pdf", verified: true}
+  - {name: "Master Metaphor List (MML)", author: "Lakoff, Espenson & Schwartz", year: 1991, source: "Berkeley Cognitive Linguistics Research Group（经 Mason 2004 CorMet 转引核验存在；条目规模约千余条为广泛转引）", url: "https://preview.aclanthology.org/master-new-author-system-ui/J04-1002.pdf", verified: "claimed"}
+  - {name: "MetaNet 形式化帧-隐喻库", author: "Dodge, Hong & Stickles", year: 2015, source: "MetaNet: Deep Semantic Automatic Metaphor Analysis, ArgMining@NAACL", url: "https://aclanthology.org/W15-1405.pdf", verified: true}
+  - {name: "MIP/MIPVU 隐喻识别协议", author: "Pragglejaz Group / Steen et al.", year: 2010, source: "A Method for Linguistic Metaphor Identification, John Benjamins", url: "https://www.asau.ru/files/pdf/2294288.pdf", verified: true}
+  - {name: "中文隐喻知识图谱嵌入", author: "Song et al.", year: 2021, source: "IEEE/ACM TASLP 29", url: "https://ieeexplore.ieee.org/abstract/document/9292078/", verified: true}
+  - {name: "MultiCMET 中文多模态隐喻基准", author: "Zhang et al.", year: 2023, source: "Findings EMNLP 2023（13,820 图文对 + 域词表）", url: "https://aclanthology.org/anthology-files/anthology-files/anthology-files/pdf/findings/2023.findings-emnlp.409.pdf", verified: true}
+
+# 异名同构去重表（跨族：agency/communion 与 F12 叙事身份共享）
+iso_groups:
+  - group_id: iso-agency
+    primary: agency（能动性主题）
+    aliases: [agency-theme, 自我掌控, 自主-掌控]
+    members: [met-015, nar-001, nar-009]   # nar-* 见 narrative.yaml
+  - group_id: iso-communion
+    primary: communion（交流/归属主题）
+    aliases: [communion-theme, 亲密-归属, 联结-融合]
+    members: [met-016, nar-002, nar-010]
+  - group_id: iso-war
+    primary: 战争隐喻
+    aliases: [竞争即战争, conflict-is-war, argument-is-war]
+    members: [met-002]
+
+chinese_applicability: >-
+  中文隐喻 NLP 世界领先：Song 2021 中文隐喻知识图谱、MultiCMET 2023（1.38 万图文对+域词表）、CM-Gen 中文隐喻生成均成熟可用，
+  源域识别可直接落中文。缺口：MML/MetaNet 为英文库，SOURCE IS TARGET 映射名需做跨语言迁移；
+  本族形容词/动词/名词词项为 LLM 自举的中文表达（B 级），锚句为中文示例，供嵌入与 LLM 零样本判定用。
+
+# =============================================================================
+constructs:
+
+  - id: met-001
+    name: 旅程隐喻
+    en: journey-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把人生/事业/问题当作一段有起点、路径、方向、障碍与终点的旅程来讲述？
+    factor: journey-metaphor
+    adjectives: [漫长的, 曲折的, 顺直的, 迷失的, 向前的, 停滞的, 转折的, 歧路的, 平坦的, 跋涉的]
+    synonyms: [人生如旅途, 一路走来, 站在十字路口, 方向感, 走到尽头, 上坡下坡, 终点线, 启程]
+    verbs: [前行, 跋涉, 迷路, 转向, 抵达, 启程, 徘徊, 跨越, 踏上, 摸索]
+    nouns: [旅程, 道路, 方向, 终点, 起点, 岔路口, 旅途, 路标, 征途, 路径]
+    anchors:
+      positive: "这一路走来，我们先是走错了岔路，后来终于找到了正确的方向，一步步走向终点。"
+      negative: "这件事就是成了，没什么过程可言，结果摆在眼前。"
+    source: "Lakoff & Johnson 1980; MML 条目 #LIFE IS A JOURNEY"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-根隐喻]
+
+  - id: met-002
+    name: 战争隐喻
+    en: war-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把争论/竞争/对抗描述为攻防、胜负、阵营与武器的战争？
+    factor: war-metaphor
+    adjectives: [尖锐的, 猛烈的, 攻讦的, 溃败的, 对峙的, 强势的, 节节败退的, 围攻的]
+    synonyms: [唇枪舌剑, 针锋相对, 正面交锋, 战线, 击退对手, 占领高地, 兵败如山倒, 不宣而战]
+    verbs: [攻击, 反击, 防御, 击溃, 争夺, 对峙, 突围, 施压, 宣战, 退守]
+    nouns: [战场, 攻击, 防守, 胜利, 失败, 武器, 阵营, 攻势, 战线, 弹药]
+    anchors:
+      positive: "我们必须正面回击这种论调，守住自己的阵地，把对方的论点一个个击溃。"
+      negative: "大家意见不同而已，坐下来把事情说清楚就好。"
+    source: "Lakoff & Johnson 1980; MML 条目 #ARGUMENT IS WAR"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-根隐喻]
+
+  - id: met-003
+    name: 建筑隐喻
+    en: building-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把理论/体系/关系描述为有地基、结构、支撑、可坍塌的建筑？
+    factor: building-metaphor
+    adjectives: [稳固的, 摇摇欲坠的, 扎实的, 架空的, 崩塌的, 牢固的, 脆弱的]
+    synonyms: [理论大厦, 打下地基, 架构, 支撑点, 土崩瓦解, 根基动摇, 承重墙, 框架]
+    verbs: [建立, 搭建, 支撑, 夯实, 坍塌, 加固, 奠基, 搭建]
+    nouns: [地基, 框架, 结构, 支柱, 大厦, 砖瓦, 蓝图, 承重墙]
+    anchors:
+      positive: "这套理论必须先打好地基，再一层层搭建框架，否则迟早会坍塌。"
+      negative: "想法不错，但它不需要什么结构，想到哪说到哪。"
+    source: "Lakoff & Johnson 1980; MML 条目 #THEORIES ARE BUILDINGS"
+    lexicon_grade: A
+    tags: [sketch-根隐喻]
+
+  - id: met-004
+    name: 机器隐喻
+    en: machine-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把人/组织/社会描述为由零件驱动、可调试、会故障的机械装置？
+    factor: machine-metaphor
+    adjectives: [高效的, 失灵的, 精密的, 卡壳的, 上紧发条的, 运转的, 僵化的]
+    synonyms: [一台机器, 运转良好, 出了故障, 零件, 上紧发条, 传送带, 齿轮咬合, 松了螺丝]
+    verbs: [运转, 驱动, 调试, 卡壳, 拆卸, 上油, 校准, 驱动]
+    nouns: [机器, 齿轮, 零件, 开关, 引擎, 螺丝, 传送带, 发条]
+    anchors:
+      positive: "整个组织像一台上紧发条的机器，每个齿轮都得咬合，哪个零件卡了壳就会停摆。"
+      negative: "人不是机器，没法按固定流程重复运转。"
+    source: "MetaNet frame MACHINE；Lakoff 1980 设备/机械域（自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-根隐喻]
+
+  - id: met-005
+    name: 有机体/生命隐喻
+    en: organism-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把抽象系统（社会/市场/组织）描述为有生长、成熟、衰亡的生命体？
+    factor: organism-metaphor
+    adjectives: [蓬勃的, 萎缩的, 茁壮的, 衰败的, 萌发的, 老化的, 有生机的]
+    synonyms: [生态, 茁壮成长, 开花结果, 新陈代谢, 生根发芽, 有机体, 枝繁叶茂, 垂暮]
+    verbs: [生长, 萌发, 凋零, 繁衍, 扎根, 成熟, 枯萎, 孕育]
+    nouns: [生态, 种子, 根, 枝叶, 果实, 生命力, 有机体, 土壤]
+    anchors:
+      positive: "这个行业正在蓬勃生长，只有把根扎进用户的土壤，才能开花结果。"
+      negative: "它就是个工具，谈不上什么生长不生长。"
+    source: "MetaNet frame ORGANISM；Lakoff 1980 生命域（自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-根隐喻]
+
+  - id: met-006
+    name: 市场/交易隐喻
+    en: market-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把关系/观念/价值描述为可交换、可定价、可买卖的商品？
+    factor: market-metaphor
+    adjectives: [划算的, 廉价的, 值钱的, 贬值的, 溢价的, 有价无市的]
+    synonyms: [交易, 等价交换, 筹码, 价值投资, 买账, 亏本, 溢价, 一文不值]
+    verbs: [交换, 投资, 兑现, 贬值, 套现, 出价, 买单, 估值]
+    nouns: [筹码, 价格, 价值, 交易, 市场, 资本, 利息, 买卖]
+    anchors:
+      positive: "他把这段关系当成一笔投资，处处算计着能不能兑现、值不值这个价。"
+      negative: "感情的事不能用值不值钱来衡量。"
+    source: "MetaNet frame ECONOMIC-EXCHANGE（自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-根隐喻]
+
+  - id: met-007
+    name: 游戏隐喻
+    en: game-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把生活/规则/策略描述为有规则、回合、输赢、玩家的游戏？
+    factor: game-metaphor
+    adjectives: [按规则的, 入局的, 博弈的, 出其不意的, 下注的, 收官的]
+    synonyms: [一场游戏, 入局, 博弈, 出牌, 洗牌, 规则, 翻盘, 玩家, 棋逢对手]
+    verbs: [博弈, 出牌, 入局, 翻盘, 下注, 洗牌, 收官, 设局]
+    nouns: [游戏, 规则, 玩家, 棋局, 筹码, 回合, 棋盘, 对手]
+    anchors:
+      positive: "这是一场多方博弈，谁先出牌谁就占先手，输家出局、赢家通吃。"
+      negative: "生活不是游戏，没有固定的规则可以照章来。"
+    source: "MetaNet frame GAME（自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-根隐喻]
+
+  - id: met-008
+    name: 剧场隐喻
+    en: theater-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把社会/人际描述为舞台、角色、观众与表演？
+    factor: theater-metaphor
+    adjectives: [台前的, 幕后的, 伪装的, 逢场作戏的, 谢幕的, 登场的]
+    synonyms: [舞台, 扮演角色, 台前幕后, 粉墨登场, 观众, 谢幕, 面具, 一出戏]
+    verbs: [扮演, 登场, 谢幕, 表演, 退场, 亮相, 卸妆, 走台]
+    nouns: [舞台, 角色, 观众, 面具, 戏码, 剧本, 灯光, 帷幕]
+    anchors:
+      positive: "在这个舞台上，每个人都得扮演好自己的角色，台前光鲜、幕后却一身疲惫。"
+      negative: "没那么多戏，实实在在做事就行。"
+    source: "MML 条目 #LIFE IS A THEATER / Goertler 舞台隐喻（自举中文词项）"
+    lexicon_grade: A
+    tags: [sketch-根隐喻]
+
+  - id: met-009
+    name: 容器隐喻
+    en: container-metaphor
+    dimension: 概念隐喻
+    question: 文本是否把心智/情绪/群体描述为有边界、可容纳、可溢出的容器？
+    factor: container-metaphor
+    adjectives: [满满当当的, 溢出来的, 封闭的, 空虚的, 塞满的, 敞开的]
+    synonyms: [装满, 充满, 溢出, 心里装着, 容纳不下, 内心世界, 边界, 注入]
+    verbs: [容纳, 装满, 溢出, 注入, 掏空, 塞满, 敞开, 封闭]
+    nouns: [容器, 内心, 边界, 空间, 容量, 框, 袋子, 罐子]
+    anchors:
+      positive: "他心里装满了愤怒，已经容纳不下任何一点别的情绪，随时会溢出来。"
+      negative: "情绪就是情绪，没什么装不装得下。"
+    source: "Lakoff 1980; MML 条目 #MIND IS A CONTAINER"
+    lexicon_grade: A
+    tags: [sketch-根隐喻]
+
+  - id: met-010
+    name: 光-暗隐喻
+    en: light-dark-metaphor
+    dimension: 概念隐喻
+    question: 文本是否以光明/黑暗来比喻知情状态、情绪好坏或道德善恶？
+    factor: light-dark-metaphor
+    adjectives: [明朗的, 阴暗的, 豁然的, 迷茫的, 晦暗的, 光明的]
+    synonyms: [一片光明, 前途黑暗, 豁然开朗, 迷雾, 照亮, 阴影, 黑暗时刻, 拨云见日]
+    verbs: [照亮, 遮蔽, 拨开, 沉没, 闪现, 笼罩, 照亮]
+    nouns: [光明, 黑暗, 阴影, 光, 迷雾, 曙光, 阴霾, 烛火]
+    anchors:
+      positive: "那段日子是他人生最黑暗的时期，直到有人帮他拨开迷雾，才看到曙光。"
+      negative: "就是一段普通时期，没什么光啊暗的。"
+    source: "Lakoff 1980 方位隐喻 HAPPY IS LIGHT（自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-根隐喻]
+
+  - id: met-011
+    name: 上-下方位隐喻
+    en: up-down-orientation
+    dimension: 概念隐喻
+    question: 文本是否用上下方位来隐喻情绪、地位、数量或重要性的升降？
+    factor: up-down-orientation
+    adjectives: [高涨的, 低落的, 上升的, 下滑的, 高昂的, 低沉的]
+    synonyms: [情绪高涨, 情绪低落, 地位上升, 下滑, 巅峰, 跌入谷底, 高人一等, 压低]
+    verbs: [上升, 下降, 抬高, 压低, 攀升, 跌落, 提升, 低落]
+    nouns: [高处, 低处, 巅峰, 谷底, 顶点, 落差, 台阶, 顶端]
+    anchors:
+      positive: "那段时间他情绪低落到了谷底，职位也一路下滑，整个人抬不起头。"
+      negative: "好坏就是好坏，跟上下没什么关系。"
+    source: "Lakoff 1980 方位隐喻 HAPPY IS UP / STATUS IS UP"
+    lexicon_grade: A
+    tags: [sketch-根隐喻]
+
+  - id: met-012
+    name: 时间空间化隐喻
+    en: time-as-space
+    dimension: 概念隐喻
+    question: 文本是否把时间当作可移动、可度量、可"前/后"排布的空间客体？
+    factor: time-as-space
+    adjectives: [临近的, 遥远的, 漫长的, 紧迫的, 过去的, 未来的]
+    synonyms: [前段时间, 后几年, 时间流逝, 迎面而来, 回头看, 展望未来, 倒计时, 漫长]
+    verbs: [流逝, 临近, 追赶, 提前, 推迟, 跨越, 等待, 展望]
+    nouns: [时间, 未来, 过去, 此刻, 光阴, 节点, 倒计时, 长河]
+    anchors:
+      positive: "我们正站在一个关键节点上，往后几年是最紧迫的窗口期，时间不等人。"
+      negative: "什么时候就是什么时候，没那么多讲究。"
+    source: "Lakoff 1980; MML 条目 #TIME IS SPACE"
+    lexicon_grade: A
+    tags: [sketch-根隐喻]
+
+  - id: met-013
+    name: 情感温度隐喻
+    en: warmth-metaphor
+    dimension: 概念隐喻
+    question: 文本是否用冷热温度来比喻人际亲近度或态度友善程度？
+    factor: warmth-metaphor
+    adjectives: [热情的, 冷淡的, 温暖的, 冰冷的, 热烈的, 冷漠的]
+    synonyms: [热情似火, 冷冰冰, 温暖, 寒暄, 冷淡, 炽热, 心寒, 热火朝天]
+    verbs: [温暖, 冷却, 发热, 降温, 寒暄, 心寒, 炙烤, 冰封]
+    nouns: [温度, 热情, 冷漠, 寒意, 热度, 暖气, 冰霜, 暖流]
+    anchors:
+      positive: "他待人一直很热情，那份温暖能把最冰冷的关系也焐热。"
+      negative: "友善不友善，跟温度扯不上关系。"
+    source: "MetaNet frame WARMTH / AFFECTION IS WARMTH（自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-根隐喻]
+
+  - id: met-014
+    name: 情绪即实体/流体隐喻
+    en: emotion-as-substance
+    dimension: 概念隐喻
+    question: 文本是否把情绪当作可累积、可爆发、可流动的液体或实体？
+    factor: emotion-as-substance
+    adjectives: [汹涌的, 压抑的, 决堤的, 满溢的, 沉重的, 沸腾的]
+    synonyms: [情绪爆发, 压抑不住, 涌上心头, 情绪泛滥, 一肚子火, 泄洪, 沉得住气, 暗流]
+    verbs: [压抑, 爆发, 涌上, 倾泻, 沉淀, 翻滚, 克制, 宣泄]
+    nouns: [情绪, 怒火, 潮水, 洪水, 压力, 暗流, 沸点, 闸门]
+    anchors:
+      positive: "他把怒火压抑了太久，终于在那天彻底决堤，情绪像洪水一样倾泻出来。"
+      negative: "有情绪就有情绪，谈不上什么压抑爆发。"
+    source: "Lakoff 1980; MML 条目 #ANGER IS A HOT FLUID IN A CONTAINER"
+    lexicon_grade: A
+    tags: [sketch-根隐喻]
+
+  - id: met-015
+    name: agency 能动性（隐喻-叙事共享）
+    en: agency-theme
+    dimension: 概念隐喻
+    question: 文本叙事中主人公是否主动掌控命运、追求成就与自我实现？
+    factor: agency-theme
+    adjectives: [自主的, 掌控的, 进取的, 独当一面的, 有抱负的, 主导的]
+    synonyms: [凭自己的力量, 掌控人生, 闯出一片天, 独立自主, 发号施令, 独当一面]
+    verbs: [主导, 掌控, 追求, 实现, 引领, 突破, 决策, 开拓]
+    nouns: [自主权, 掌控力, 抱负, 成就, 力量, 目标, 独立, 领导]
+    anchors:
+      positive: "我决定凭自己的力量闯出一条路，亲手掌控命运的方向。"
+      negative: "很多事身不由己，只能随波逐流。"
+    source: "McAdams et al. 2002 Agency/Communion 编码手册；Bakan 1966"
+    lexicon_grade: A
+    tags: [cross-family-F12]
+
+  - id: met-016
+    name: communion 交流/归属（隐喻-叙事共享）
+    en: communion-theme
+    dimension: 概念隐喻
+    question: 文本叙事中是否强调与他人的联结、爱、归属与相互关怀？
+    factor: communion-theme
+    adjectives: [温暖的, 亲密的, 归属的, 利他的, 共情的, 包容的]
+    synonyms: [和大家在一起, 彼此扶持, 归属感, 心连心, 互相照顾, 亲密无间]
+    verbs: [联结, 关怀, 归属, 陪伴, 分享, 接纳, 爱护, 融合]
+    nouns: [归属感, 爱, 联结, 亲密, 社区, 伙伴, 温情, 关怀]
+    anchors:
+      positive: "最让我安心的，是和家人朋友在一起，彼此扶持、互相照顾的那份归属感。"
+      negative: "人终究要靠自己，跟别人不必走太近。"
+    source: "McAdams et al. 2002 Agency/Communion 编码手册；Bakan 1966"
+    lexicon_grade: A
+    tags: [cross-family-F12]

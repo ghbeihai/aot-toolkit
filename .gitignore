@@ -1,0 +1,20 @@
+.env
+*.key
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# 本地运行产物
+data/corpus/
+data/corpus_full/
+data/results/profiles*/
+data/results/scores*/
+data/results/clusters*/
+data/results/criterion*/
+data/results/chunks_clusters/
+data/results/sensitivity/
+
+# Embedding 模型（1.8G+，首次运行自动下载）
+assets/bge-m3/

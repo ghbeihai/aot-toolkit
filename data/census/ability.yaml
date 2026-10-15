@@ -1,0 +1,289 @@
+# =============================================================================
+# F10 认知能力家族 —— SPI 同构因子链编码
+# family_id: F10
+# 来源：CHC 广域能力（文本可代理者优先）+ Bloom 修订版认知目标 6 阶 19 动词。
+# 纯施测类构念（Gv/Ga/Gwm/Gs）仍列出但标注"文本不可代理，低适用性"。
+# =============================================================================
+
+family_id: F10
+family_name: 认知能力
+family_name_en: Cognitive Abilities & Taxonomy
+sketch_dimension: [抽象层级, 推理习惯]
+
+models:
+  - name: CHC 智力理论（16 广域 / 80+ 窄域）
+    author: McGrew, K. S.
+    year: 2009
+    source: Intelligence, 37(1), 1-10（卷期一方称）；分类表 iapsych.com
+    url: http://www.iapsych.com/wj3ewok/LinkedDocuments/wj3chcclassify.pdf
+    verified: claimed-venue
+  - name: Bloom 修订版认知目标分类
+    author: Anderson, L. W. & Krathwohl, D. R. (Eds.)
+    year: 2001
+    source: A Taxonomy for Learning, Teaching, and Assessing, Longman（6 阶 19 动词）
+    url: https://eduq.info/xmlui/handle/11515/18824
+    verified: verified
+
+chinese_applicability: >
+  Bloom 动词梯度可直接编码，但英文动词表需自建中文同义词集（回忆/解释/分析/评价/创造），
+  可借嵌入匹配辅助；CHC 中仅 Gc（词汇广度）、Grw（读写复杂度）可作文本侧代理，
+  Gf/Gs/Gv/Ga/Gwm 多为标准化测验构念，自由写作不可直接反推（标注低适用性）；
+  LIWC "Analytic Thinking" 变量在 SCLIWC 下可用。
+
+iso_groups:
+  - group_id: iso-F10-001
+    primary: 分析
+    aliases: [流体推理 Gf, analytic thinking, 拆解]
+    members: [abil-003, abil-010, abil-014]
+    note: Bloom"分析"（区分/组织/归因）与 CHC Gf（流体推理=抽象关系推导）及 LIWC analytic 三者在文本侧共同指向"拆成部分、找关系"，近同构（Gf 原义偏测验，此处取文本代理义）。
+  - group_id: iso-F10-002
+    primary: 评价
+    aliases: [判断优劣, 元认知评价]
+    members: [abil-011]
+    note: Bloom"评价"(checking/critiquing) 与 F6 元认知评价(meta-008) 跨族同构——均指"按标准下判断"。
+
+constructs:
+
+  - id: abil-001
+    name: 晶体智力/词汇广度
+    en: crystallized intelligence / lexical breadth (Gc)
+    dimension: 认知能力
+    question: 此人用词是否丰富、概念储备是否广博（词汇密度、术语广度）？
+    factor: chc-gc
+    adjectives: [词汇丰富的, 博学的, 旁征博引的, 用词讲究的, 概念密集的]
+    synonyms: [知道得多, 词汇量大, 引经据典, 术语多, 博览, 肚子里有货]
+    verbs: [引用, 调用概念, 举例, 举证, 援引, 对照]
+    nouns: [词汇, 概念, 术语, 典故, 知识储备, 词库]
+    anchors:
+      positive: "这个机制在经济学里叫 X，在控制论里叫 Y，其实是一回事。"
+      negative: "反正就是那么回事，说不出个准词。"
+    source: "CHC Gc (McGrew 2009)"
+    lexicon_grade: A
+    seed_ref: true
+    text_proxy: high
+
+  - id: abil-002
+    name: 读写复杂度
+    en: reading-writing complexity (Grw)
+    dimension: 认知能力
+    question: 此人句子结构是否复杂、长难句与逻辑连接是否密集？
+    factor: chc-grw
+    adjectives: [句子繁复的, 长难句多的, 逻辑嵌套的, 书面化的, 句法复杂的]
+    synonyms: [长句子, 绕, 从句套从句, 复合句, 书面腔, 逻辑链长]
+    verbs: [嵌套, 连接, 从句展开, 铺陈, 串联, 衔接]
+    nouns: [句子, 句法, 连接词, 从句, 篇章, 逻辑链]
+    anchors:
+      positive: "正因为 A 导致 B，而 B 又被 C 放大，所以当 D 出现时系统才失稳。"
+      negative: "就是 A 导致 B。完。"
+    source: "CHC Grw (McGrew 2009)"
+    lexicon_grade: B
+    text_proxy: high
+
+  - id: abil-003
+    name: 流体推理
+    en: fluid reasoning (Gf)
+    dimension: 认知能力
+    question: 此人能否脱离既有知识、从新信息中推出抽象关系与结论？
+    factor: chc-gf
+    adjectives: [会抽象推导的, 举一反三的, 找规律的, 善类比的, 逻辑严密的]
+    synonyms: [能推出, 由此及彼, 找关系, 抽象出规律, 举一反三, 推得出来]
+    verbs: [推导, 抽象, 归纳, 演绎, 类比, 推理, 找出关系]
+    nouns: [规律, 关系, 抽象, 推导, 推理, 模型]
+    anchors:
+      positive: "把这几个案例放一起，能看出一个共同结构……"
+      negative: "这题得背过才行，没见过就推不出来。"
+    source: "CHC Gf (McGrew 2009)"
+    lexicon_grade: B
+    text_proxy: medium
+
+  - id: abil-004
+    name: 加工速度
+    en: processing speed (Gs)
+    dimension: 认知能力
+    question: （文本侧仅弱代理）此人输出是否快捷、行文是否紧凑？
+    factor: chc-gs
+    adjectives: [反应快的, 下笔快的, 紧凑的, 不拖泥带水的]
+    synonyms: [很快, 一下子, 直接, 干脆, 秒出]
+    verbs: [快速反应, 迅速判断, 秒回, 立刻]
+    nouns: [速度, 反应, 节奏, 效率]
+    anchors:
+      positive: "这种题一眼就知道答案。"
+      negative: "得慢慢想，急不来。"
+    source: "CHC Gs (McGrew 2009)"
+    lexicon_grade: B
+    text_proxy: low
+    note_grade: 纯施测类，文本仅弱代理，低适用性
+
+  - id: abil-005
+    name: 视觉加工
+    en: visual processing (Gv)
+    dimension: 认知能力
+    question: （文本不可代理）是否擅长心理旋转、图形空间操作？
+    factor: chc-gv
+    adjectives: [空间感强的, 会脑补图形的]
+    synonyms: [脑子里有图, 空间感, 方向感好]
+    verbs: [想象, 旋转, 表征图形]
+    nouns: [图形, 空间, 心理旋转, 表象]
+    anchors:
+      positive: "我脑子里能把它转过来对一下。"
+      negative: "想不出来长什么样。"
+    source: "CHC Gv (McGrew 2009)"
+    lexicon_grade: B
+    text_proxy: none
+    note_grade: 纯施测类，文本不可代理，低适用性
+
+  - id: abil-006
+    name: 工作记忆
+    en: working memory (Gwm)
+    dimension: 认知能力
+    question: （文本侧仅弱代理）此人能否在脑内同时hold住多个前提？
+    factor: chc-gwm
+    adjectives: [能同时记住几条的, 线索多也不乱的, 多线并行的]
+    synonyms: [同时记着, 几条线一起, 脑子里装得下]
+    verbs: [同时保持, 并行处理, 记住前提, 协调]
+    nouns: [工作记忆, 前提, 线索, 并行]
+    anchors:
+      positive: "这几个条件同时成立时，结论才站得住。"
+      negative: "多两个条件我就乱了，得写下来。"
+    source: "CHC Gwm (McGrew 2009)"
+    lexicon_grade: B
+    text_proxy: low
+    note_grade: 纯施测类，文本弱代理
+
+  - id: abil-007
+    name: 记忆
+    en: remember
+    dimension: 认知能力
+    question: 此人是否停留在"回忆/复现事实"这一最低阶认知动作？
+    factor: bloom-remember
+    adjectives: [复述的, 引述的, 背诵的, 记事实的, 照抄的]
+    synonyms: [记得, 回忆, 引用, 列出, 命名, 复述]
+    verbs: [回忆, 复述, 列出, 命名, 辨认, 引述]
+    nouns: [事实, 定义, 列表, 细节, 记忆, 条目]
+    anchors:
+      positive: "书上写的是：第一条……第二条……"
+      negative: "（直接跳到评价，无事实层铺垫）"
+    source: "Bloom 修订版-记忆 (Anderson & Krathwohl 2001)"
+    lexicon_grade: A
+
+  - id: abil-008
+    name: 理解
+    en: understand
+    dimension: 认知能力
+    question: 此人是否在解释/举例/总结，而非复述？
+    factor: bloom-understand
+    adjectives: [会解释的, 能举例的, 转述到位的, 能概括的, 会打比方的]
+    synonyms: [解释一下, 我的理解是, 也就是说, 打个比方, 概括说, 换句话说]
+    verbs: [解释, 举例, 总结, 转述, 推断, 比较, 说明]
+    nouns: [意思, 含义, 例子, 概括, 转述, 要点]
+    anchors:
+      positive: "说白了就是：……举个例子，……"
+      negative: "（只复述定义，不解释含义）"
+    source: "Bloom 修订版-理解 (19 动词: 解释/举例/分类/总结/推断/比较/说明)"
+    lexicon_grade: A
+
+  - id: abil-009
+    name: 应用
+    en: apply
+    dimension: 认知能力
+    question: 此人是否把抽象规则用到具体情境/执行中？
+    factor: bloom-apply
+    adjectives: [会套用的, 能落地的, 付诸实施的, 拿来用的]
+    synonyms: [用到这里, 套上去, 实际做, 执行, 落地, 照着办]
+    verbs: [应用, 执行, 实施, 使用, 落地, 套用]
+    nouns: [规则, 方法, 情境, 应用, 执行, 实践]
+    anchors:
+      positive: "把这个原则放到这个案子里，就是这么处理。"
+      negative: "道理我懂，但不知道怎么用。"
+    source: "Bloom 修订版-应用 (执行/实施)"
+    lexicon_grade: A
+
+  - id: abil-010
+    name: 分析
+    en: analyze
+    dimension: 认知能力
+    question: 此人是否把整体拆成部分、找出结构关系与隐含立场？
+    factor: bloom-analyze
+    adjectives: [会拆解的, 找结构的, 辨别的, 分层次的, 看透的]
+    synonyms: [拆开来, 分几步看, 里面的关系是, 它其实分三层, 看透结构]
+    verbs: [分解, 区分, 组织, 归因, 解构, 剖析, 找关系]
+    nouns: [结构, 部分, 关系, 层次, 隐含立场, 维度]
+    anchors:
+      positive: "把它拆开看：前提 A、推理 B、结论 C，真正的漏洞在 B。"
+      negative: "（笼统说好坏，不拆结构）"
+    source: "Bloom 修订版-分析 (区分/组织/归因)"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-抽象层级]
+
+  - id: abil-011
+    name: 评价
+    en: evaluate
+    dimension: 认知能力
+    question: 此人是否按明确标准对论据/观点做批判性判断与检验？
+    factor: bloom-evaluate
+    adjectives: [会评判的, 有标准的, 批判的, 掂量分量的, 把关的]
+    synonyms: [按标准看, 这个证据够不够, 值不值, 站不站得住, 打分, 审一审]
+    verbs: [评判, 检验, 批判, 辩护, 掂量, 审查, 下判断]
+    nouns: [标准, 证据, 评判, 批判, 价值, 分量]
+    anchors:
+      positive: "按可重复这条标准，这个证据不够硬。"
+      negative: "我觉得还行/不行，说不出标准。"
+    source: "Bloom 修订版-评价 (checking/critiquing)"
+    lexicon_grade: A
+    tags: [sketch-论证图式]
+
+  - id: abil-012
+    name: 创造
+    en: create
+    dimension: 认知能力
+    question: 此人是否把要素重新组合成新整体、提出新方案/新视角？
+    factor: bloom-create
+    adjectives: [会综合的, 能出新的, 建构的, 原创的, 整合的]
+    synonyms: [拼出个新的, 换个角度, 提出新方案, 综合起来, 重新组合, 另起炉灶]
+    verbs: [创造, 综合, 生成, 规划, 设计, 建构, 重组]
+    nouns: [新方案, 整合, 创造, 建构, 新视角, 作品]
+    anchors:
+      positive: "把这几块拼起来，我提一个新框架试试。"
+      negative: "（只在既有框架内判断，不产出新整体）"
+    source: "Bloom 修订版-创造 (生成/计划/产出)"
+    lexicon_grade: A
+
+  - id: abil-013
+    name: 元认知知识（知识维）
+    en: metacognitive knowledge dimension
+    dimension: 认知能力
+    question: 此人是否意识到自己知道什么、不知道什么、如何管理自己的认知？
+    factor: bloom-metacognitive-knowledge
+    adjectives: [自知的, 会管自己学习的, 有自我策略的]
+    synonyms: [知道自己怎么学, 清楚自己的认知, 自我管理]
+    verbs: [管理认知, 监控自己, 选择策略]
+    nouns: [自我认知, 策略知识, 元认知]
+    anchors:
+      positive: "我知道对我而言，先写后改比憋长稿更有效。"
+      negative: "（不涉及对自身认知过程的描述）"
+    source: "Bloom 知识维-元认知类 (Anderson & Krathwohl 2001)"
+    lexicon_grade: A
+
+  - id: abil-014
+    name: 分析性思维倾向
+    en: analytic thinking disposition
+    dimension: 认知能力
+    question: 此人用词是否呈"分析性"（低代词、高冠词/介词、高逻辑连接）——即离散、去语境化倾向？
+    factor: analytic-thinking-disposition
+    adjectives: [分析型的, 去语境的, 抽离的, 分类式的, 客观陈述的]
+    synonyms: [讲逻辑, 摆事实, 不带人称, 抽象陈述, 分门别类]
+    verbs: [分析, 归类, 抽象, 客观陈述, 分离]
+    nouns: [分析, 分类, 抽象, 逻辑, 客观]
+    anchors:
+      positive: "研究表明：该条件下群体均值上升，与个案无关。"
+      negative: "我当时啊，就觉得……特别……"
+    source: "LIWC Analytic Thinking 变量 (Pennebaker 2015; SCLIWC 可用)"
+    lexicon_grade: A
+    tags: [sketch-抽象层级]
+
+stats:
+  constructs: 14
+  iso_groups: 2
+  grade_A: 9
+  grade_B: 5

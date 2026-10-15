@@ -1,0 +1,325 @@
+# =============================================================================
+# AoT 思维构念普查 · F9 知识论认知/批判性思维家族
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产(量表题面/CCDI) B=LLM自举
+# 文献出处复用 Unit9 综述与总报告
+# =============================================================================
+
+family_id: F9
+family_name: 知识论认知/批判性思维
+dimension: 知识论与批判
+models:
+  - name: 论证推理层级
+    author: Kuhn
+    year: 1991
+    source: Kuhn (1991) The Skills of Argument. Cambridge UP
+    url: ""
+    verified: claimed
+  - name: 反思判断模型(7阶段)
+    author: King & Kitchener
+    year: 1994
+    source: King & Kitchener (1994) Developing Reflective Judgment. Jossey-Bass; Kitchener et al. (1989) J. Appl. Dev. Psych. 10:73-95
+    url: https://www.sciencedirect.com/science/article/pii/0193397389900154
+    verified: verified
+  - name: 知识立场发展(二元/相对/承诺)
+    author: Perry
+    year: 1970
+    source: Perry (1970) Forms of Intellectual and Ethical Development in the College Years. Holt, Rinehart & Winston
+    url: ""
+    verified: claimed
+  - name: 知识论认知
+    author: Moshman
+    year: 2015
+    source: Moshman (2015) Epistemic Cognition and Development. Psychology Press
+    url: ""
+    verified: claimed
+  - name: 批判性思维倾向量表 CCDI/CCTDI
+    author: Facione
+    year: 1992
+    source: Facione (1992/2000) The California Critical Thinking Disposition Inventory (7 子倾向)
+    url: ""
+    verified: claimed
+
+iso_groups:
+  - group_id: iso-f9-openminded
+    primary: epi-014
+    primary_name: 开放思想
+    aliases: [主动开放思维(F2 dp-002)]
+    members: [epi-014]
+    note: CCTDI 开放思想与 AOT 在"愿意考虑对立观点"上同构
+  - group_id: iso-f9-reflection
+    primary: epi-003
+    primary_name: 反思判断
+    aliases: [认知反思(F2 dp-001)]
+    members: [epi-003]
+    note: 反思判断(知识论层)与认知反思(理性层)相邻，聚类时注意区分：前者关乎"知识是否可证"，后者关乎"是否复核直觉"
+
+chinese_applicability: |
+  本家族 A 级资产为 Facione CCTDI 的 7 个子倾向题面（求真/开放/分析/系统/自信/好奇/成熟），中文修订版（CCTDI 中文版）已被中文学界采用。
+  反思判断(RJI)与 Perry 立场原为访谈编码，无公开中文词表，对应词元为 B 级自举；
+  建议聚类后用"论证质量评分"或 Kuhn 论证编码做外部效标。注意本家族与 F2 在开放思维、反思两维上存在跨家族同构，已在 iso_groups 标注。
+
+constructs:
+  - id: epi-001
+    name: 前反思思维
+    en: pre-reflective-thinking
+    dimension: 知识论与批判
+    question: 文本是否把知识当作确定、直接可得、无需论证的？
+    factor: pre-reflective
+    adjectives: [确定的, 直白的, 不加质疑的, 权威即真理的]
+    synonyms: [前反思, 朴素实在, 知识即事实]
+    verbs: [接受, 断定, 不加质疑, 引权威]
+    nouns: [事实, 权威, 确定答案, 直接知道]
+    anchors:
+      positive: 书上都这么写了，肯定就是对的。
+      negative: 这个说法也只是一家之言，得看证据。
+    source: King & Kitchener 1994 (Stage 1-3)
+    lexicon_grade: B
+
+  - id: epi-002
+    name: 准反思思维
+    en: quasi-reflective-thinking
+    dimension: 知识论与批判
+    question: 文本是否承认知识不确定、但把不确定当作"人人各对、无法评判"？
+    factor: quasi-reflective
+    adjectives: [怀疑的, 相对化的, 认为无定论的, 重主观解释的]
+    synonyms: [准反思, 不确定意识, 相对化]
+    verbs: [怀疑, 相对化, 各说各话, 放弃评判]
+    nouns: [不确定性, 主观解释, 无定论, 视角]
+    anchors:
+      positive: 这事谁也说不准，各人有各人看法，没法判对错。
+      negative: 虽然不确定，但证据强弱还是能分出高下的。
+    source: King & Kitchener 1994 (Stage 4-5)
+    lexicon_grade: B
+
+  - id: epi-003
+    name: 反思判断
+    en: reflective-judgment
+    dimension: 知识论与批判
+    question: 文本是否在不确定中仍依据证据质量做出可辩护的判断？
+    factor: reflective-judgment
+    adjectives: [基于证据的, 可辩护的, 权衡的, 渐进逼近的]
+    synonyms: [反思判断, 证据权衡, 可辩护结论]
+    verbs: [权衡证据, 辩护, 渐进修正, 给出可辩护结论]
+    nouns: [证据, 辩护, 可辩护结论, 最佳判断]
+    anchors:
+      positive: 虽然没有定论，但综合现有证据，这个判断最站得住。
+      negative: 反正都不确定，那就随便选一个吧。
+    source: King & Kitchener 1994 (Stage 6-7); Kitchener et al. 1989
+    lexicon_grade: B
+    seed_ref: true
+    tags: [sketch-元认知, sketch-论证图式]
+
+  - id: epi-004
+    name: 二元立场
+    en: dualistic-thinking
+    dimension: 知识论与批判
+    question: 文本是否把世界分作对错黑白、权威给出唯一答案？
+    factor: dualistic
+    adjectives: [二元的, 非黑即白的, 求唯一正确的, 权威导向的]
+    synonyms: [二元论, 非黑即白, 二元立场]
+    verbs: [二分, 站队, 求唯一解, 信权威]
+    nouns: [对与错, 权威, 唯一答案, 黑白]
+    anchors:
+      positive: 正确答案只有一个，老师/权威肯定知道。
+      negative: 很多问题没有唯一正确答案。
+    source: Perry 1970 (Position 1-2)
+    lexicon_grade: B
+
+  - id: epi-005
+    name: 相对主义立场
+    en: multiplistic-relativistic
+    dimension: 知识论与批判
+    question: 文本是否认为观点人人有权、无高下、一切皆相对？
+    factor: multiplistic
+    adjectives: [相对的, 多元的, 各对各的, 无法比较的]
+    synonyms: [相对主义, 多元立场, 人人有理]
+    verbs: [相对化, 并存, 放弃比较, 各持己见]
+    nouns: [观点, 相对, 多元, 主观选择]
+    anchors:
+      positive: 人人都有自己的道理，谁也不比谁高明。
+      negative: 观点虽多，但基于证据的程度是可以比的。
+    source: Perry 1970 (Position 3-5)
+    lexicon_grade: B
+
+  - id: epi-006
+    name: 承诺立场
+    en: committed-relativism
+    dimension: 知识论与批判
+    question: 文本是否在承认相对性后，仍基于证据做出自己的承诺与立场？
+    factor: committed-relativism
+    adjectives: [负责任的, 承诺的, 基于证据选择的, 自觉的]
+    synonyms: [承诺立场, 相对中的承诺, 自觉选择]
+    verbs: [承诺, 选择立场, 为判断负责, 自觉介入]
+    nouns: [承诺, 立场, 证据选择, 责任]
+    anchors:
+      positive: 虽然道理多元，但我基于证据承诺这个立场，并为之负责。
+      negative: 既然都相对，那我随便挑一个就行。
+    source: Perry 1970 (Position 6-9)
+    lexicon_grade: B
+
+  - id: epi-007
+    name: 论证推理层级
+    en: argumentative-reasoning-level
+    dimension: 知识论与批判
+    question: 文本的论证是"陈述信念"，还是"证据-论证-反驳"完整结构？
+    factor: argumentative-reasoning
+    adjectives: [完整论证的, 含反驳的, 仅陈述的, 缺证据的]
+    synonyms: [论证层级, 论证质量, 证据-反驳结构]
+    verbs: [举证, 反驳, 建构论证, 仅断言]
+    nouns: [主张, 证据, 反驳, 论证结构]
+    anchors:
+      positive: 我给出证据，也想到对方会怎么反驳并预先回应。
+      negative: 我就是这么认为的，不需要什么论证。
+    source: Kuhn 1991 (The Skills of Argument)
+    lexicon_grade: B
+    tags: [sketch-论证图式, sketch-推理习惯]
+
+  - id: epi-008
+    name: 证据评估意识
+    en: evidence-evaluation
+    dimension: 知识论与批判
+    question: 文本是否主动评估证据的来源、质量、相关性，而非照单全收？
+    factor: evidence-evaluation
+    adjectives: [审证据的, 查来源的, 批判接收的, 照单全收的]
+    synonyms: [证据评估, 来源审查, 批判接收]
+    verbs: [查来源, 评估质量, 审相关性, 照收]
+    nouns: [证据来源, 证据质量, 相关性, 佐证]
+    anchors:
+      positive: 我先看这证据哪来的、够不够硬、跟问题沾不沾边。
+      negative: 别人这么说，那就当事实用了。
+    source: Kuhn 1991; Facione CCTDI
+    lexicon_grade: B
+    tags: [sketch-论证图式]
+
+  - id: epi-009
+    name: 客观主义知识论
+    en: objectivist-epistemology
+    dimension: 知识论与批判
+    question: 文本是否把知识看作客观存在、可被准确发现的？
+    factor: objectivist-epistemology
+    adjectives: [客观的, 发现真理的, 实证的]
+    synonyms: [客观主义, 知识即发现]
+    verbs: [发现, 实证, 测量, 客观把握]
+    nouns: [客观真理, 事实, 发现]
+    anchors:
+      positive: 真相就在那里，我们要做的是把它找出来。
+      negative: 知识本身就带有人的解释，不是纯客观的。
+    source: Hofer & Pintrich 1997; Moshman 2015
+    lexicon_grade: B
+
+  - id: epi-010
+    name: 主观主义知识论
+    en: subjectivist-epistemology
+    dimension: 知识论与批判
+    question: 文本是否把知识看作个人主观建构、无客观标准？
+    factor: subjectivist-epistemology
+    adjectives: [主观的, 建构的, 相对的]
+    synonyms: [主观主义, 知识即建构]
+    verbs: [建构, 主观解释, 因人而异]
+    nouns: [主观建构, 解释, 个人视角]
+    anchors:
+      positive: 知识说到底是各人主观建构出来的，没有客观标尺。
+      negative: 虽然有人的解释在里面，但仍有客观标准可依。
+    source: Hofer & Pintrich 1997; Moshman 2015
+    lexicon_grade: B
+
+  - id: epi-011
+    name: 评价主义知识论
+    en: evaluativist-epistemology
+    dimension: 知识论与批判
+    question: 文本是否把知识看作在证据与辩论中渐进逼近、可理性评价的？
+    factor: evaluativist-epistemology
+    adjectives: [渐进的, 可评价的, 辩论中的, 有理据的]
+    synonyms: [评价主义, 渐进逼近, 辩论求知]
+    verbs: [评价, 辩论, 渐进修正, 求理据]
+    nouns: [理据, 辩论, 渐进逼近, 最佳解释]
+    anchors:
+      positive: 知识在反复辩论和证据积累中越来越逼近真相。
+      negative: 真相要么已知要么不可知，中间没有过渡。
+    source: Moshman 2015; Kuhn 1991
+    lexicon_grade: B
+
+  - id: epi-012
+    name: 批判性思维倾向
+    en: critical-thinking-disposition
+    dimension: 知识论与批判
+    question: 文本是否整体表现出"审慎反思、不盲从、爱探究"的批判倾向？
+    factor: critical-thinking-disposition
+    adjectives: [审慎的, 不盲从的, 爱探究的, 理智的]
+    synonyms: [批判倾向, 审慎反思, 不盲从]
+    verbs: [审慎, 质疑, 探究, 不盲从]
+    nouns: [审慎, 探究, 批判, 理智]
+    anchors:
+      positive: 我习惯先停下来想想这话对不对，再决定信不信。
+      negative: 别人说什么我基本就信了。
+    source: Facione 1992 (CCTDI 总量表)
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-推理习惯]
+
+  - id: epi-013
+    name: 求真态度
+    en: truth-seeking
+    dimension: 知识论与批判
+    question: 文本是否有"追求真答案、哪怕对自己不利"的求真意愿？
+    factor: truth-seeking
+    adjectives: [求真的, 正直的, 不畏结论的]
+    synonyms: [求真, 求真态度, 理智勇气]
+    verbs: [求真, 追问, 不畏不利结论]
+    nouns: [真相, 求真, 理智勇气]
+    anchors:
+      positive: 哪怕结论对我不利，我也想知道真相。
+      negative: 我更愿意听跟我立场一致的说法。
+    source: Facione CCTDI (truth-seeking 子量表)
+    lexicon_grade: A
+
+  - id: epi-014
+    name: 开放思想
+    en: open-mindedness
+    dimension: 知识论与批判
+    question: 文本是否宽容对待异见、愿意理解不同立场？
+    factor: open-mindedness
+    adjectives: [宽容的, 容纳异见的, 理解对立的]
+    synonyms: [开放思想, 宽容异见, 理解对立]
+    verbs: [容纳, 倾听异见, 换位思考]
+    nouns: [异见, 宽容, 多元立场]
+    anchors:
+      positive: 哪怕不同意，我也愿意先理解对方为什么这么想。
+      negative: 跟我不一样的观点我懒得听。
+    source: Facione CCTDI (open-mindedness 子量表)
+    lexicon_grade: A
+    note: 与 F2 dp-002 主动开放思维跨家族同构
+
+  - id: epi-015
+    name: 系统化倾向
+    en: systematicity
+    dimension: 知识论与批判
+    question: 文本是否有条理、有序、系统地处理复杂问题？
+    factor: systematicity
+    adjectives: [有条理的, 有序的, 系统的, 条理清晰的]
+    synonyms: [系统化, 条理性, 有序处理]
+    verbs: [条理化, 有序, 系统处理, 分层次]
+    nouns: [条理, 系统, 层次, 秩序]
+    anchors:
+      positive: 再乱的问题我也会拆出条理、按层次来。
+      negative: 我想到哪说到哪，不太讲条理。
+    source: Facione CCTDI (systematicity 子量表)
+    lexicon_grade: A
+    tags: [sketch-抽象层级]
+
+  - id: epi-016
+    name: 认知成熟度
+    en: cognitive-maturity
+    dimension: 知识论与批判
+    question: 文本是否表现出对模糊与复杂的容忍、知道知识的暂时性？
+    factor: cognitive-maturity
+    adjectives: [成熟的, 容忍复杂的, 知暂定性的]
+    synonyms: [认知成熟, 容忍复杂, 知识暂定性]
+    verbs: [容忍复杂, 承认暂定性, 悬置判断]
+    nouns: [复杂, 模糊, 暂定性, 悬置]
+    anchors:
+      positive: 我知道现在的结论都只是暂时的，将来可能改。
+      negative: 对就是对、错就是错，没什么暂时不暂时。
+    source: Facione CCTDI (maturity 子量表); King & Kitchener 1994
+    lexicon_grade: A

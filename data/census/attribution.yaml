@@ -1,0 +1,309 @@
+# =====================================================================
+# AoT · 思维层因子链普查 — F4 归因风格家族
+# 阶段：SPI 同构管线 第1-2阶段（模型普查 + 五层词元编码）
+# 编码方式：词元为可直接嵌入的中文词项；五层 = adjectives/synonyms/verbs/nouns + anchors
+# 出处复用：artifacts/思维量化_推理论证归因集群_调研报告.md（F6）
+# =====================================================================
+
+family_id: F4
+family_name: 归因风格（Attributional / Explanatory Style）
+dimension: 归因结构
+
+models:
+  - name: Weiner 归因理论三维
+    author: Weiner, B.
+    year: 1985
+    venue: An Attributional Theory of Achievement Motivation and Emotion, Psychological Review 92(4)（内-外 locus / 稳定 stability / 可控 controllability）
+    url: https://scispace.com/pdf/an-attributional-theory-of-achievement-motivation-and-2eu5g13rxj.pdf
+    status: verified
+  - name: Abramson 归因风格（习得无助重释）
+    author: Abramson, L. Y.; Seligman, M. E. P.; Teasdale, J. D.
+    year: 1978
+    venue: "Learned helplessness in humans: Critique and reformulation, J. Abnormal Psychology 87(1)（内/外 × 稳定/不稳定 × 全局/特定）"
+    url: https://discovery.researcher.life/download/article/604be9cbf0e831238c872676dc7279da/full-text
+    status: verified
+  - name: CAVE 自由文本归因编码
+    author: Schulman, P.; Castellon, C.; Seligman, M. E. P.
+    year: 1989
+    venue: "Assessing Explanatory Style: CAVE and ASQ, Behaviour Research and Therapy 27(5)（与 ASQ 相关 r=0.71）"
+    url: https://discovery.researcher.life/download/article/604be9cbf0e831238c872676dc7279da/full-text
+    status: verified
+  - name: Actor-Observer 元分析
+    author: Malle, B. F.
+    year: 2006
+    venue: "The Actor–Observer Asymmetry in Attribution: A (Surprising) Meta-Analysis, Psychological Bulletin 132(6)"
+    url: https://research.clps.brown.edu/SocCogSci/Publications/Pubs/Malle_(2006)_ActObs_meta.pdf
+    status: verified
+
+chinese_applicability: |
+  中文落地路径：① CAVE 三维评分规则可移植，LLM 零样本对中文事件解释句按"内/外、稳定/不稳定、可控/不可控、全局/特定"7 点评分；② 中文 LIWC（黃金兰等 2012，30 语文类+42 心理类）提供第一人称代词等内归因代理词频；③ 中文归因方式问卷修订版存在【一方称】，用于校准 LLM 打分。
+
+iso_groups:
+  - group_id: iso-internal
+    primary: att-001 内归因
+    aliases: [个人归因, 内因, 归于自己, 归于个人]
+    members: [att-001, att-014 能力归因, att-015 努力归因]
+    note: 能力/努力均属内部可控或不可控原因，并入内归因族
+  - group_id: iso-external
+    primary: att-002 外归因
+    aliases: [情境归因, 结构归因, 环境归因, 归于外部]
+    members: [att-002, att-012 运气归因, att-013 个人-结构倾向(结构极)]
+    note: 运气、任务难度、环境均属外部原因
+  - group_id: iso-pessimistic
+    primary: att-006 悲观解释风格
+    aliases: [自责型, 内-稳-全局归因组合]
+    members: [att-006]
+    note: 悲观风格 = 对坏事件做内+稳定+全局归因的复合倾向，非独立维度
+
+cross_family_iso:
+  - att-005 因果归因倾向: ↔ F3 arg-004 因果论证（因→果推断方向相同）
+  - att-008 基本归因错误: ↔ F5 abs-008 形容词特质化（都偏好特质/个人化语言）
+
+constructs:
+
+  - id: att-001
+    name: 内归因
+    en: internal-locus
+    dimension: 归因结构
+    question: 他把结果主要归于当事人自身的特质/能力/努力，还是归于外部？
+    factor: internal-locus
+    adjectives: [内向的, 自省的, 自责的, 内省的, 反求诸己的]
+    synonyms: [怪自己, 是我的问题, 自身原因, 内归因, 归咎于己]
+    verbs: [归咎于, 自责, 反省, 归因于己, 承担]
+    nouns: [内因, 自身, 能力, 努力, 性格, 责任]
+    anchors:
+      positive: 这次项目延期，根本上是我自己前期排期过于乐观，没有给联调留出缓冲。
+      negative: 项目延期全是供应链拖的，跟我们这边排期没什么关系。
+    source: "Weiner 1985 维度 #locus(internal)；CAVE 内-外评分轴"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-归因结构]
+
+  - id: att-002
+    name: 外归因
+    en: external-locus
+    dimension: 归因结构
+    question: 他把结果主要归于环境/任务难度/运气等外部因素，还是归于个人？
+    factor: external-locus
+    adjectives: [外向的, 外推的, 诿过的, 怨天尤人的]
+    synonyms: [怪环境, 运气不好, 大环境, 外部原因, 形势所迫]
+    verbs: [归咎于, 推给, 归因于外, 抱怨]
+    nouns: [外因, 环境, 运气, 形势, 任务难度, 时机]
+    anchors:
+      positive: 这个季度没达标，主要是大盘整体下行，行业里没有一家独善其身。
+      negative: 没达标就是自己能力没跟上，别往大环境上找补。
+    source: "Weiner 1985 维度 #locus(external)；CAVE 内-外评分轴"
+    lexicon_grade: A
+    tags: [sketch-归因结构]
+
+  - id: att-003
+    name: 稳定归因
+    en: stable-attribution
+    dimension: 归因结构
+    question: 他认为原因是持久不变的，还是暂时会变的？
+    factor: stable-attribution
+    adjectives: [稳定的, 持久的, 恒常的, 根深蒂固的]
+    synonyms: [一直如此, 改不了, 长期, 结构性, 老样子]
+    verbs: [持续, 一贯, 注定, 长期存在]
+    nouns: [稳定性, 常态, 痼疾, 硬约束]
+    anchors:
+      positive: 这个问题是公司组织结构决定的，三年五载内根本不会变。
+      negative: 这只是这阵子的临时状况，过两个月就缓解了。
+    source: "Weiner 1985 维度 #stability；Abramson 1978 稳定/不稳定轴"
+    lexicon_grade: A
+
+  - id: att-004
+    name: 可控归因
+    en: controllable-attribution
+    dimension: 归因结构
+    question: 他认为原因是当事人可以主动掌控改变的，还是无能为力的？
+    factor: controllable-attribution
+    adjectives: [可控的, 可改的, 主动的, 可干预的]
+    synonyms: [可以改变, 努努力就行, 能控制, 人为可干预]
+    verbs: [控制, 改变, 干预, 调整, 掌控]
+    nouns: [可控性, 能动性, 主动权, 可变量]
+    anchors:
+      positive: 转化率上不去是运营动作没做到位，这块我们完全可以自己调整。
+      negative: 转化率上不去是用户习惯使然，我们再怎么努力也撬不动。
+    source: "Weiner 1985 维度 #controllability"
+    lexicon_grade: A
+
+  - id: att-005
+    name: 全局归因
+    en: global-attribution
+    dimension: 归因结构
+    question: 他认为原因会泛化到很多领域，还是只局限于这一件事？
+    factor: global-attribution
+    adjectives: [泛化的, 全盘的, 整体的, 系统性的]
+    synonyms: [处处如此, 方方面面, 整个体系, 一损俱损]
+    verbs: [蔓延, 泛化, 波及, 扩散]
+    nouns: [全局性, 系统性, 泛化, 普遍]
+    anchors:
+      positive: 这一次失败说明我这个人做什么都不成，不只是这一个项目。
+      negative: 这件事没做好只怪这一个环节，不代表其他方面也有问题。
+    source: "Abramson 1978 维度 #global-specific；CAVE 全局轴"
+    lexicon_grade: A
+
+  - id: att-006
+    name: 悲观解释风格
+    en: pessimistic-explanatory-style
+    dimension: 归因结构
+    question: 面对坏结果，他是否倾向于内+稳定+全局地归因（"我不行、永远不行、处处不行"）？
+    factor: pessimistic-style
+    adjectives: [悲观的, 自责的, 宿命的, 负面泛化的]
+    synonyms: [我总是搞砸, 永远这样, 都怪我, 自责型]
+    verbs: [归咎于己, 放大, 泛化, 绝望]
+    nouns: [悲观解释风格, 自责, 无助, 绝望感]
+    anchors:
+      positive: 又搞砸了——我就是这种人，做什么都坚持不下来，这辈子大概就这样了。
+      negative: 这次没做好是具体某个环节的问题，调整过来下次就有机会。
+    source: "Abramson 1978；ASQ(EASQ) 悲观风格；Seligman & Schulman 1989 销售代理预测研究"
+    lexicon_grade: A
+    seed_ref: true
+
+  - id: att-007
+    name: 乐观解释风格
+    en: optimistic-explanatory-style
+    dimension: 归因结构
+    question: 面对坏结果，他是否倾向于外+不稳定+特定地归因（偶然、暂时、个例）？
+    factor: optimistic-style
+    adjectives: [乐观的, 达观的, 弹性的, 外部化的]
+    synonyms: [运气差而已, 下次会好, 个例, 外部归因]
+    verbs: [归因于外, 复原, 翻盘, 调整]
+    nouns: [乐观解释风格, 韧性, 复原力]
+    anchors:
+      positive: 这季度没达标只是大盘一时波动，产品本身没问题，下个季度会回来的。
+      negative: 这季度没达标说明产品从根上就不行，长期没救了。
+    source: "Abramson 1978；ASQ 乐观风格"
+    lexicon_grade: A
+
+  - id: att-008
+    name: 基本归因错误（特质高估）
+    en: fundamental-attribution-error
+    dimension: 归因结构
+    question: 解释他人行为时，他是否系统性高估个人特质、低估情境力量？
+    factor: dispositional-bias
+    adjectives: [归因偏差的, 特质化的, 以偏概全的]
+    synonyms: [人不行, 素质差, 性格使然, 对人不对境]
+    verbs: [高估特质, 归咎于人, 贴标签]
+    nouns: [基本归因错误, 特质偏差,  dispositional]
+    anchors:
+      positive: 他迟到就是个不守时、不靠谱的人，没什么别的解释。
+      negative: 他迟到很可能是今早那条线路临时封路，先别急着下人品结论。
+    source: "Ross 1977 基本归因错误；Alicke et al. 因果概念史"
+    lexicon_grade: B
+    tags: [sketch-归因结构]
+
+  - id: att-009
+    name: Actor-Observer 不对称
+    en: actor-observer-asymmetry
+    dimension: 归因结构
+    question: 他解释自己行为时偏情境、解释别人行为时偏个人，这种方向是否稳定？
+    factor: actor-observer-gap
+    adjectives: [双标的, 内外有别的, 视角不对称的]
+    synonyms: [我是形势所迫，你是性格问题]
+    verbs: [双标, 切换视角, 区别对待]
+    nouns: [行动者-观察者差异, 视角偏差]
+    anchors:
+      positive: 我迟到是因为路堵；他迟到就是因为时间观念差。
+      negative: 不管自己还是别人迟到，都先去看当天线路和排班有没有客观原因。
+    source: "Malle 2006 元分析（173 研究，平均效应极小，仅在特定情境出现）"
+    lexicon_grade: B
+
+  - id: att-010
+    name: 自利归因偏差
+    en: self-serving-bias
+    dimension: 归因结构
+    question: 他是否把成功归于自己、把失败归于外部？
+    factor: self-serving-bias
+    adjectives: [诿过的, 揽功的, 自我服务的]
+    synonyms: [功是我的，过是别人的, 往自己脸上贴金]
+    verbs: [揽功, 诿过, 外推失败]
+    nouns: [自利偏差, 自我服务偏差]
+    anchors:
+      positive: 业绩翻倍是我带队有方；这季度下滑是团队执行不到位。
+      negative: 业绩好是大盘和团队共同作用；下滑则先复盘自己的决策。
+    source: "Malle 2006；自利归因偏差文献"
+    lexicon_grade: B
+
+  - id: att-011
+    name: 意图性归因
+    en: intentionality-attribution
+    dimension: 归因结构
+    question: 他是否把他人行为解读为有意为之/带意图，而非无心之失或系统使然？
+    factor: intentionality
+    adjectives: [有意的, 存心的, 刻意的, 带预谋的]
+    synonyms: [故意的, 存心, 针对我, 蓄谋]
+    verbs: [意图, 存心, 刻意, 算计]
+    nouns: [意图, 动机, 故意, 预谋]
+    anchors:
+      positive: 他这么明显地卡审批，摆明了就是针对我们部门。
+      negative: 他当时可能只是按流程走，未必是有意针对谁。
+    source: "Weiner 1985 提到 intentionality 为附加因果结构；Heider 1958 个人/非个人因果"
+    lexicon_grade: B
+    tags: [sketch-归因结构]
+
+  - id: att-012
+    name: 运气/偶然归因
+    en: luck-chance-attribution
+    dimension: 归因结构
+    question: 他是否把结果归于偶然、运气、概率性事件，而非必然的个人/结构原因？
+    factor: chance-attribution
+    adjectives: [偶然的, 碰运气的, 概率的, 凑巧的]
+    synonyms: [运气, 凑巧, 概率, 碰运气, 冥冥之中]
+    verbs: [碰运气, 赌, 凑巧, 随机]
+    nouns: [运气, 偶然, 概率, 随机性, 巧合]
+    anchors:
+      positive: 这次中标纯粹是运气好，赶上对方预算临时批下来。
+      negative: 中标是前期三个月精准跟进的必然结果，跟运气无关。
+    source: "Weiner 1985 原因举例（luck 属外部不稳定不可控）"
+    lexicon_grade: B
+
+  - id: att-013
+    name: 个人-结构归因倾向
+    en: person-vs-structure
+    dimension: 归因结构
+    question: 面对系统性结果，他归于"某些人不行"还是"制度/结构使然"？
+    factor: person-structure-lens
+    adjectives: [结构性的, 体制性的, 归因于人的]
+    synonyms: [是人不行还是制度不行, 系统性问题, 人为 vs 体制]
+    verbs: [归因于结构, 归咎于人, 制度性归因]
+    nouns: [结构, 制度, 系统, 人为, 体制]
+    anchors:
+      positive: 这个部门效率低，不是员工不努力，是考核和激励结构本身就错位了。
+      negative: 这个部门效率低，就是没招到靠谱的人，换几个人就好了。
+    source: "Weiner 内外维度的社会化延伸；Alexander #MeToo 辩护文本研究（个人 perpetrators vs 结构改变）"
+    lexicon_grade: B
+    tags: [sketch-归因结构]
+
+  - id: att-014
+    name: 能力归因
+    en: ability-attribution
+    dimension: 归因结构
+    question: 他是否把结果归于能力这种稳定的内部因素？
+    factor: ability-attribution
+    adjectives: [能力的, 天资的, 禀赋的]
+    synonyms: [能力不行, 天赋, 水平不够]
+    verbs: [归因于能力, 评估, 衡量]
+    nouns: [能力, 天赋, 水平, 资质]
+    anchors:
+      positive: 这个任务他做不好，根本上是技术能力还没到那个层级。
+      negative: 做不好只是当前经验不够，能力本身是可以随项目成长的。
+    source: "Weiner 1985 原因举例（ability：内部稳定不可控）"
+    lexicon_grade: B
+
+  - id: att-015
+    name: 努力归因
+    en: effort-attribution
+    dimension: 归因结构
+    question: 他是否把结果归于努力/付出这种可控的内部因素？
+    factor: effort-attribution
+    adjectives: [努力的, 投入的, 用功的]
+    synonyms: [不够努力, 投入不够, 没上心]
+    verbs: [归因于努力, 用功, 投入]
+    nouns: [努力, 投入, 付出, 用功]
+    anchors:
+      positive: 业绩不好不是能力问题，是这个季度投入的精力明显不够。
+      negative: 已经很拼了还做不好，说明问题不在努力程度上。
+    source: "Weiner 1985 原因举例（effort：内部不稳定可控）"
+    lexicon_grade: B

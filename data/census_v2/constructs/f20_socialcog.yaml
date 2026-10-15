@@ -1,0 +1,182 @@
+# =============================================================================
+# AoT 思维构念普查 v2 · F20 社会认知（候选小族，第一版不独立成族）
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产 B=LLM自举
+# 处置：candidate——构念并入 F12 叙事身份 / F4 归因风格 作增量，
+#       待嵌入聚类(k=18→v2)涌现后再决定是否转正为独立族；行为 ToM 测验不收。
+# =============================================================================
+
+family_id: F20
+family_name: 社会认知与视角采择（候选）
+dimension: 社会认知与人际推理
+disposition: "candidate：构念并入 F12/F4 作增量，聚类涌现后再决定转正"
+models:
+  - name: 心理理论/心智化
+    author: Premack & Woodruff; Frith & Frith
+    year: 1978
+    source: Premack & Woodruff (1978) BBS 1(4):515-526; Frith & Frith (2003) Phil.Trans.R.Soc.B 358:459-473
+    url: https://carta.ucsd.edu/sites/default/files/file_fields/event/premack_and_woodruff_1978.pdf
+    verified: verified
+  - name: 社会比较理论
+    author: Festinger
+    year: 1954
+    source: Festinger (1954) A Theory of Social Comparison Processes. Human Relations 7(2):117-140
+    url: ""
+    verified: verified
+
+iso_groups:
+  - group_id: iso-f20-f12-mentalstate
+    primary: f20-001
+    primary_name: 心智状态语言
+    aliases: [自传推理(F12 nar-007), 自我掌控(F12 nar-009)]
+    members: [f20-001, f20-002, f20-003, f20-004, f20-005]
+    note: 候选并入 F12——心智状态语言/视角采择/自我中心/I-talk/认知共情作为叙事身份的社会认知增量维。
+  - group_id: iso-f20-f4-socialcomp
+    primary: f20-006
+    primary_name: 向上社会比较
+    aliases: [自利归因偏差(F4 att-010), 个人-结构归因(F4 att-013)]
+    members: [f20-006, f20-007, f20-008]
+    note: 候选并入 F4——社会比较是对自我与他人相对位置的因果/评价性归因，作归因风格增量。
+
+chinese_applicability: |
+  本族为候选增量，不收发展性 false-belief 行为测验（C 级无文本入口）；
+  只收语篇层可测构念：心智状态动词密度（认为/相信/知道/觉得）、视角采择标记、社会比较语言、自我关注代词。
+  中文词元需自建校准（B 级），C-LIWC 代词/认知动词类目可作起点；
+  待 v2 嵌入聚类涌现出独立"社会认知"簇后再转正。
+
+constructs:
+  - id: f20-001
+    name: 心智状态语言
+    en: mental-state-language
+    dimension: 社会认知与人际推理
+    question: 文本是否频繁、精细地使用信念/意图/感受等心智状态词来刻画自己与他人？
+    factor: mental-state-language
+    adjectives: [读心的, 善猜想法的, 重他人内心的, 精细归因心理的]
+    synonyms: [心智状态语言, 读心词汇, 信念意图词, 心理刻画]
+    verbs: [认为, 相信, 知道, 觉得, 猜他想, 以为]
+    nouns: [想法, 信念, 意图, 感受, 心思]
+    anchors:
+      positive: "他嘴上那么说，心里其实不是那么想的，我能体会。"
+      negative: "我不太琢磨别人心里怎么想，看他做什么就是了。"
+    source: Premack & Woodruff 1978; Frith & Frith 2003 (语篇层 mentalizing)
+    lexicon_grade: B
+    tags: ["merge_target: F12"]
+
+  - id: f20-002
+    name: 视角采择
+    en: perspective-taking
+    dimension: 社会认知与人际推理
+    question: 文本是否主动采纳他人立场、说出"在他看来/换作是他"？
+    factor: perspective-taking
+    adjectives: [换位的, 能站对方的, 替人着想的, 会代入的]
+    synonyms: [视角采择, 换位思考, 站对方立场, 代入他人]
+    verbs: [换位, 站对方立场, 代入, 替人着想]
+    nouns: [视角, 立场, 他人角度, 换位]
+    anchors:
+      positive: "换作是他，站在他的处境里，我也会那么想。"
+      negative: "我就是从我自己的角度说，不管别人怎么想。"
+    source: Frith & Frith 2003; 视角采择量表(Davis IRI)
+    lexicon_grade: B
+    tags: ["merge_target: F12"]
+
+  - id: f20-003
+    name: 自我中心偏差
+    en: egocentric-bias
+    dimension: 社会认知与人际推理
+    question: 文本是否默认他人与自己想法一致、从自身视角推人（视角采择的反面）？
+    factor: egocentric-bias
+    adjectives: [自我中心的, 以己度人的, 默认他人同我的, 难换位的]
+    synonyms: [自我中心, 以己度人, 默认一致, 视角自利]
+    verbs: [以己度人, 默认同我, 难换位, 从自己推别人]
+    nouns: [自我中心, 以己度人, 视角, 默认一致]
+    anchors:
+      positive: "这道理谁不懂啊，他肯定跟我想得一样。"
+      negative: "我得先搞清楚他怎么想，再判断他会怎么做。"
+    source: egocentric bias (社会认知经典效应)
+    lexicon_grade: B
+    tags: ["merge_target: F12"]
+
+  - id: f20-004
+    name: 第一人称自我关注语言
+    en: i-talk-self-focus
+    dimension: 社会认知与人际推理
+    question: 文本是否高频使用第一人称单数、自我聚焦（I-talk）？
+    factor: i-talk
+    adjectives: [自我聚焦的, 说我的, 关注自己的, 向内的]
+    synonyms: [I-talk, 自我关注语言, 第一人称密集, 说我]
+    verbs: [说我, 聚焦自己, 我觉得, 我认为]
+    nouns: [我, 自己, 我的感受, 第一人称]
+    anchors:
+      positive: "我觉得、我认为、我当时……通篇都是我怎么怎么。"
+      negative: "我更多谈事、谈别人，不太说自己。"
+    source: Pennebaker I-talk 传统; C-LIWC 代词类目
+    lexicon_grade: B
+    tags: ["merge_target: F12"]
+
+  - id: f20-005
+    name: 认知共情
+    en: cognitive-empathy
+    dimension: 社会认知与人际推理
+    question: 文本是否理解他人情绪与处境（认知侧共情，区别于情感共鸣）？
+    factor: cognitive-empathy
+    adjectives: [善解人意的, 懂他人处境的, 共情的, 体谅的]
+    synonyms: [认知共情, 善解人意, 理解他人, 体谅]
+    verbs: [理解, 体谅, 善解人意, 懂他人处境]
+    nouns: [共情, 理解, 体谅, 他人处境]
+    anchors:
+      positive: "我能理解他为什么这么难受，换谁都不好受。"
+      negative: "别人难不难受我没什么感觉，也不太想去懂。"
+    source: Davis IRI (perspective-taking/empathic concern)
+    lexicon_grade: B
+    tags: ["merge_target: F12"]
+
+  - id: f20-006
+    name: 向上社会比较
+    en: upward-social-comparison
+    dimension: 社会认知与人际推理
+    question: 文本是否频繁拿自己跟更优秀/更幸运的人比，产生不足感或追赶欲？
+    factor: upward-comparison
+    adjectives: [攀比向上的, 比上不足的, 追慕强者的, 自惭的]
+    synonyms: [向上比较, 比上不足, 跟强者比, 追赶]
+    verbs: [跟强者比, 比上不足, 追慕, 自惭]
+    nouns: [强者, 别人更好, 不足, 差距]
+    anchors:
+      positive: "看人家混得那么好，再看看自己，真是差远了。"
+      negative: "我不太跟别人比，过好自己就行。"
+    source: Festinger 1954; upward comparison
+    lexicon_grade: B
+    tags: ["merge_target: F4"]
+
+  - id: f20-007
+    name: 向下社会比较
+    en: downward-social-comparison
+    dimension: 社会认知与人际推理
+    question: 文本是否拿自己跟更差的人比，以获得安心或优越感？
+    factor: downward-comparison
+    adjectives: [比下有余的, 寻求安心的, 自我安慰的, 优越的]
+    synonyms: [向下比较, 比下有余, 自我安慰, 找优越感]
+    verbs: [跟弱者比, 比下有余, 自我安慰, 找优越感]
+    nouns: [更差的人, 比下有余, 安心, 优越感]
+    anchors:
+      positive: "比上不足比下有余，我这情况也不算最糟了。"
+      negative: "我不会去跟更差的人比来安慰自己。"
+    source: Festinger 1954; Wills downward comparison
+    lexicon_grade: B
+    tags: ["merge_target: F4"]
+
+  - id: f20-008
+    name: 相对位置自我评估
+    en: relative-self-evaluation
+    dimension: 社会认知与人际推理
+    question: 文本是否通过相对他人的位置来定义自我价值（我比别人强/弱）？
+    factor: relative-self-evaluation
+    adjectives: [靠比较定义自己的, 相对定位的, 名次导向的]
+    synonyms: [相对自我评估, 靠比较定义自我, 名次感, 相对位置]
+    verbs: [靠比较定位, 相对评估, 排位置, 定名次]
+    nouns: [相对位置, 名次, 比别人, 自我定位]
+    anchors:
+      positive: "我算混得怎么样，全看跟周围人比是个什么位置。"
+      negative: "我好不好有自己的标准，不靠跟别人比。"
+    source: Festinger 1954; 社会比较自我评价
+    lexicon_grade: B
+    tags: ["merge_target: F4"]

@@ -1,0 +1,275 @@
+# =============================================================================
+# AoT Census · F8 内隐动机与防御 (Implicit Motives & Defense)
+# 阶段：SPI 同构管线 第1-2阶段（模型普查 + 因子链五层编码）
+# 复用 artifacts/思维量化_集群调研_*.md（Winter / OMT / Cramer / McClelland）
+# lexicon_grade: A=现成资产（Winter词表/OMT规则/Cramer类目） / B=LLM自举(bootstrap)
+# =============================================================================
+
+family_id: F8
+family_name: 内隐动机与防御机制（Implicit Motives & Defense Mechanisms）
+family_tag: sketch-无意识
+models:
+  - {name: "Winter Motive Imaginary 运行文本动机评分系统", author: "D. G. Winter", year: 1991, source: "Manual for Scoring Motive Imagery in Running Text, U Michigan（经 Schultheiss & Brunstein 2001 转引核验）", url: "https://www.psych2.phil.fau.de/~oschult/humanlab/publications/sb01jpa.pdf", verified: "claimed"}
+  - {name: "内隐-自陈动机区分理论", author: "McClelland, Koestner & Weinberger", year: 1989, source: "How Do Self-Attributed and Implicit Motives Differ? Psychological Review 96(4):690", url: "https://psycnet.apa.org/journals/rev/96/4/690/", verified: true}
+  - {name: "Operant Motive Test (OMT) 及自动化分类器", author: "Scheffer et al. 2008; Johannßen, Biemann & Scheffer", year: 2019, source: "Reviving a Psychometric Measure: OMT, ArgMining@NAACL（20万+标注样本 F≈0.80）", url: "https://aclanthology.org/W19-3014.pdf", verified: true}
+  - {name: "Cramer 防御机制 TAT 编码", author: "P. Cramer", year: 1991, source: "The Development of Defense Mechanisms, Springer（denial/projection/identification）", url: "https://r1learning.com/s/Cramer-The_Development_of_Defense_Mechanisms.pdf", verified: true}
+  - {name: "防御机制观察者评分综述", author: "Perry & Ianni", year: 1998, source: "Observer-Rated Measures of Defense Mechanisms, J. Personality 66(6)", url: "https://onlinelibrary.wiley.com/journal/14676494", verified: "claimed"}
+  - {name: "内隐社会认知", author: "Greenwald & Banaji", year: 1995, source: "Implicit Social Cognition, Psychological Review 102(1)", url: "http://faculty.washington.edu/agg/pdf/Greenwald_Banaji_PsychRev_1995.OCR.pdf", verified: true}
+
+iso_groups:
+  - group_id: iso-npower
+    primary: 权力动机
+    aliases: [nPower, 影响-控制, 支配欲]
+    members: [mot-002, nar-014]   # nar-014 叙事内权力主题见 narrative.yaml
+  - group_id: iso-implicit
+    primary: 内隐动机
+    aliases: [implicit-motive, 无意识动机, 幻想动机]
+    members: [mot-001, mot-002, mot-003, mot-004]
+
+chinese_applicability: >-
+  Winter 动机词表与 OMT 均为英/德文标准化，缺经过验证的中文版；本族 A 级词项为对 Winter/Cramer 编码规则的中文转写（语义对应，非中文常模），
+  B 级为 LLM 自举。工程上建议把编码规则 prompt 化后用 LLM 对中文自由文本零样本打分，并以 OMT 人工编码做外部效度锚（参照 Johannßen r=.85 人工一致性基线）；
+  当前无中文动机词典可直接嵌入，词项需经小样本校准。
+
+# =============================================================================
+constructs:
+
+  - id: mot-001
+    name: 成就动机
+    en: n-achievement
+    dimension: 内隐动机
+    question: 文本是否反复出现挑战卓越、把事做到最好、改进与高标准的意象？
+    factor: n-achievement
+    adjectives: [精益求精的, 上进的, 好强的, 追求卓越的, 不甘平庸的, 高标准的]
+    synonyms: [做到最好, 挑战自我, 突破极限, 精益求精, 胜过过去, 出类拔萃, 追求完美]
+    verbs: [超越, 改进, 挑战, 精通, 做到最好, 攻克, 磨炼, 力争]
+    nouns: [成就, 卓越, 挑战, 标准, 进步,  mastery, 优秀, 精进]
+    anchors:
+      positive: "我总想把这件事做到最好，一次次改进方法，直到突破自己之前的记录。"
+      negative: "差不多就行了，没必要精益求精。"
+    source: "Winter 1991 motive imagery（nAchievement 类目）；McClelland 1961 成就动机"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-无意识]
+
+  - id: mot-002
+    name: 权力动机
+    en: n-power
+    dimension: 内隐动机
+    question: 文本是否强调影响他人、施加控制、赢得地位与声望？
+    factor: n-power
+    adjectives: [有影响力的, 强势的, 支配的, 有掌控欲的, 有威信的, 主导的]
+    synonyms: [影响他人, 掌控局面, 发号施令, 一呼百应, 出人头地, 领导别人, 说了算]
+    verbs: [影响, 支配, 领导, 说服, 控制, 命令, 感召, 左右]
+    nouns: [权力, 影响力, 地位, 声望, 控制, 支配, 权威, 主导权]
+    anchors:
+      positive: "我希望能影响别人、掌控局面，走到哪里都有话语权和威信。"
+      negative: "我不想管别人，也不想被别人管。"
+    source: "Winter 1991 motive imagery（nPower 类目）"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-无意识]
+
+  - id: mot-003
+    name: 亲和-亲密动机
+    en: n-affiliation-intimacy
+    dimension: 内隐动机
+    question: 文本是否反复出现亲近他人、维系友谊、互相照顾与情感联结的意象？
+    factor: n-affiliation-intimacy
+    adjectives: [重感情的, 友善的, 依恋的, 热心的, 合群的, 暖心的]
+    synonyms: [和朋友在一起, 互相照顾, 友谊天长地久, 亲密无间, 陪伴, 牵挂, 心连心]
+    verbs: [结交, 陪伴, 关心, 维系, 分享, 牵挂, 亲近, 接纳]
+    nouns: [友谊, 亲密, 归属, 关爱, 伙伴, 陪伴, 温情, 圈子]
+    anchors:
+      positive: "最让我满足的，是和朋友们常聚在一起、互相惦记、彼此照顾的那份亲密。"
+      negative: "我更喜欢独处，不怎么需要跟谁亲近。"
+    source: "Winter 1991 motive imagery（nAffiliation/Intimacy 类目）"
+    lexicon_grade: A
+    tags: [sketch-无意识]
+
+  - id: mot-004
+    name: 内隐动机（vs 自陈动机）
+    en: implicit-vs-self-attributed
+    dimension: 内隐动机
+    question: 文本流露的动机是否指向情感体验与长期趋势，而非可报告的目标与价值观？
+    factor: implicit-vs-self-attributed
+    adjectives: [潜意识的, 本能的, 默默驱动的, 说不清的, 内在的]
+    synonyms: [心底里, 不自觉地, 本能驱使, 说不清为什么, 骨子里, 冥冥之中]
+    verbs: [驱动, 驱使, 流露, 投射, 迸发, 压抑, 渴望]
+    nouns: [潜意识, 内驱力, 本能, 无意识, 冲动, 情结, 欲求]
+    anchors:
+      positive: "我自己也说不清为什么，就是心底里被一种说不清的冲动推着往前走。"
+      negative: "我的目标很明确，就是为了升职加薪。"
+    source: "McClelland, Koestner & Weinberger 1989（内隐/自陈二分）"
+    lexicon_grade: B
+    tags: [sketch-无意识]
+
+  - id: mot-005
+    name: 活动抑制
+    en: activity-inhibition
+    dimension: 内隐动机
+    question: 文本是否体现对冲动与情绪表达的克制、延迟与自我约束？
+    factor: activity-inhibition
+    adjectives: [克制的, 隐忍的, 内敛的, 压抑的, 三思的, 沉着的]
+    synonyms: [克制情绪, 隐忍不发, 三思而后行, 压住火气, 不动声色, 沉着]
+    verbs: [克制, 压抑, 延迟, 收敛, 忍耐, 三思, 约束, 隐忍]
+    nouns: [克制力, 隐忍, 节制, 自律, 定力, 压抑, 克制]
+    anchors:
+      positive: "我习惯把情绪压在心里，凡事三思而后行，绝不轻易表露冲动。"
+      negative: "我想到就做，不喜欢憋着。"
+    source: "Winter 1991（activity-inhibition 指标，常与 nPower 联测）"
+    lexicon_grade: A
+    tags: [sketch-无意识]
+
+  - id: mot-006
+    name: 否认
+    en: denial
+    dimension: 防御机制
+    question: 文本是否拒绝承认明显的痛苦事实、问题或负面现实？
+    factor: denial
+    adjectives: [回避的, 拒不承认的, 鸵鸟的, 轻描淡写的, 自欺的]
+    synonyms: [没这回事, 不承认, 逃避现实, 当没发生, 自欺欺人, 视而不见]
+    verbs: [否认, 回避, 拒绝面对, 无视, 粉饰, 鸵鸟, 抵赖]
+    nouns: [否认, 逃避, 自欺, 鸵鸟心态, 粉饰, 回避]
+    anchors:
+      positive: "他反复说什么问题都没有，完全不肯承认自己已经陷入了困境。"
+      negative: "他坦然承认自己搞砸了，愿意面对问题。"
+    source: "Cramer 1991 TAT 防御编码（denial 类目）"
+    lexicon_grade: A
+    tags: [sketch-无意识]
+
+  - id: mot-007
+    name: 投射
+    en: projection
+    dimension: 防御机制
+    question: 文本是否把自己不能接受的冲动/动机归因到他人身上？
+    factor: projection
+    adjectives: [多疑的, 以己度人的, 猜忌的, 归咎他人的]
+    synonyms: [他肯定是故意的, 都怪别人, 以小人之心, 疑心别人, 指责他人]
+    verbs: [猜疑, 归咎, 指责, 投射, 揣测, 怀疑, 推责]
+    nouns: [投射, 猜疑, 归咎, 偏见, 猜忌, 以己度人]
+    anchors:
+      positive: "他一口咬定是别人存心要害他，却从不愿看看自己是不是也有同样的心思。"
+      negative: "遇到问题他先反思自己哪里没做好。"
+    source: "Cramer 1991 TAT 防御编码（projection 类目）"
+    lexicon_grade: A
+    tags: [sketch-无意识]
+
+  - id: mot-008
+    name: 认同
+    en: identification
+    dimension: 防御机制
+    question: 文本是否通过模仿强者/偶像、攀附权威来提升自我感？
+    factor: identification
+    adjectives: [效仿的, 攀附的, 模仿的, 依附强者的]
+    synonyms: [像他一样, 以偶像为榜样, 抱大腿, 模仿强者, 与成功者为伍]
+    verbs: [效仿, 模仿, 认同, 攀附, 追随, 靠拢, 依附]
+    nouns: [认同, 榜样, 偶像, 模仿, 攀附, 归属强者]
+    anchors:
+      positive: "他处处模仿那位成功的前辈，以成为和他一样的人为荣，以此获得安全感。"
+      negative: "他更愿意走自己的路，不刻意模仿谁。"
+    source: "Cramer 1991 TAT 防御编码（identification 类目）"
+    lexicon_grade: A
+    tags: [sketch-无意识]
+
+  - id: mot-009
+    name: 压抑
+    en: repression
+    dimension: 防御机制
+    question: 文本是否把不可接受的念头/记忆挤出意识、使其无法被想起？
+    factor: repression
+    adjectives: [压抑的, 遗忘的, 想不起来的, 麻木的]
+    synonyms: [不愿去想, 压到心底, 忘掉它, 想不起来了, 刻意回避回忆]
+    verbs: [压抑, 遗忘, 回避, 压制, 抹去, 淡忘, 封存]
+    nouns: [压抑, 遗忘, 潜意识, 尘封, 麻木, 回避记忆]
+    anchors:
+      positive: "那段经历他根本不愿去想，硬是把它从脑子里压了下去，像从没发生过一样。"
+      negative: "那段经历虽然痛苦，但他愿意直面它。"
+    source: "Freud 防御理论；Cramer 1991（repression 相关，自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-无意识]
+
+  - id: mot-010
+    name: 合理化
+    en: rationalization
+    dimension: 防御机制
+    question: 文本是否为实际动机/失败编造听起来合理的解释？
+    factor: rationalization
+    adjectives: [文过饰非的, 找借口的, 自圆其说的, 牵强的]
+    synonyms: [找个理由, 不是我的错, 其实这样也挺好, 酸葡萄, 自我开脱, 振振有词]
+    verbs: [找借口, 辩解, 开脱, 文饰, 圆谎, 归因, 搪塞]
+    nouns: [合理化, 借口, 托词, 自圆其说, 文饰, 酸葡萄心理]
+    anchors:
+      positive: "失败后他总有一套听起来很合理的解释，把责任都推给了外部环境。"
+      negative: "他坦率承认是自己没做好，不找借口。"
+    source: "Cramer 1991 / Vaillant 防御层级（rationalization，自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-无意识]
+
+  - id: mot-011
+    name: 理智化
+    en: intellectualization
+    dimension: 防御机制
+    question: 文本是否用抽象分析、剥离情感来处理本应带情绪的话题？
+    factor: intellectualization
+    adjectives: [抽离的, 冷漠分析的, 疏离的, 过度理性的]
+    synonyms: [客观分析一下, 不谈感情, 冷静拆解, 抽离情绪, 用数据说话]
+    verbs: [分析, 拆解, 抽象, 抽离, 归类, 建模, 理性化]
+    nouns: [理智化, 抽离, 分析框架, 抽象, 客观, 去情感化]
+    anchors:
+      positive: "他习惯把所有事情都拆成变量来分析，绝不让情绪掺和进来。"
+      negative: "这件事让我很难受，我需要先把情绪说出来。"
+    source: "Vaillant/Cramer 防御层级（intellectualization，自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-无意识]
+
+  - id: mot-012
+    name: 反向形成
+    en: reaction-formation
+    dimension: 防御机制
+    question: 文本是否表现出与真实冲动相反的、过度夸张的态度或行为？
+    factor: reaction-formation
+    adjectives: [过度的, 夸张的, 反向的, 事与愿违的]
+    synonyms: [过分热情, 此地无银, 嘴上说着不要, 过度补偿, 反着来]
+    verbs: [过度补偿, 反向, 矫枉过正, 刻意表现, 反着来]
+    nouns: [反向形成, 过度补偿, 矫枉过正, 事与愿违]
+    anchors:
+      positive: "他嘴上对那件事表现得异常热情，恰恰暴露了他内心相反的真实态度。"
+      negative: "他的态度表里如一，喜欢就是喜欢。"
+    source: "Freud 防御理论（reaction-formation，自举中文词项，【一方称】未直接核验原典）"
+    lexicon_grade: B
+    tags: [sketch-无意识]
+
+  - id: mot-013
+    name: 内隐联想/隐性态度
+    en: implicit-association
+    dimension: 内隐动机
+    question: 文本措辞是否在字里行间流露未经自我审视的自动联想与偏好？
+    factor: implicit-association
+    adjectives: [下意识的, 脱口而出的, 自动的, 未经审视的]
+    synonyms: [下意识觉得, 脱口而出, 第一反应, 自然而然联想到, 本能地认为]
+    verbs: [联想, 流露, 脱口而出, 自动归类, 默认]
+    nouns: [内隐联想, 刻板印象, 自动偏好, 第一反应, 隐性偏见]
+    anchors:
+      positive: "他下意识就把成功和某个群体划了等号，自己都没意识到这种联想。"
+      negative: "他会有意识地审视自己的每一个判断是否带偏见。"
+    source: "Greenwald & Banaji 1995；IAT 传统（文本侧为痕迹推断，【一方称】无文本基线）"
+    lexicon_grade: B
+    tags: [sketch-无意识]
+
+  - id: mot-014
+    name: 动机-目标一致性
+    en: motive-goal-congruence
+    dimension: 内隐动机
+    question: 文本表述的目标是否与其深层内在动机相契合（OMT 一致感）？
+    factor: motive-goal-congruence
+    adjectives: [契合的, 一致的, 拧巴的, 力不从心的, 身心合一的]
+    synonyms: [真心想做, 力不从心, 拧巴, 内外一致, 打心底认同, 言不由衷]
+    verbs: [契合, 拧巴, 强求, 顺应, 内耗, 调和]
+    nouns: [一致性, 契合度, 内耗, 拧巴, 一致感,  congruence]
+    anchors:
+      positive: "做这件事时我身心合一，目标和心底的渴望完全一致，充满干劲。"
+      negative: "我做着一份自己并不真心想要的工作，里外很拧巴。"
+    source: "OMT 动机-特质交互假设（Scheffer et al. 2008；自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-无意识]

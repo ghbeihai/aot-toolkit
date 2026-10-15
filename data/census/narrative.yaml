@@ -1,0 +1,278 @@
+# =============================================================================
+# AoT Census · F12 叙事身份 (Narrative Identity)
+# 阶段：SPI 同构管线 第1-2阶段（模型普查 + 因子链五层编码）
+# 复用 artifacts/思维量化_集群调研_*.md（McAdams 生命故事 / agency-communion / redemption）
+# lexicon_grade: A=现成资产（McAdams 编码手册类目） / B=LLM自举(bootstrap)
+# =============================================================================
+
+family_id: F12
+family_name: 叙事身份（Narrative Identity / Life Story）
+family_tag: sketch-根隐喻
+models:
+  - {name: "McAdams 生命故事模型 + Agency/Communion 编码手册", author: "McAdams et al.", year: 2002, source: "Coding Autobiographical Episodes for Themes of Agency and Communion, Northwestern", url: "https://cpb-us-e1.wpmucdn.com/sites.northwestern.edu/dist/4/3901/files/2020/11/Agency-and-Communion-2002.pdf", verified: true}
+  - {name: "Redemptive Self / 生成性生活故事", author: "McAdams, Diamond, de St. Aubin & Mansfield", year: 1997, source: "Stories of Commitment, JPSP 72(3):678-694", url: "http://www.sesp.northwestern.edu/docs/publications/133501769490a3f03d1d33.pdf", verified: true}
+  - {name: "特质-叙事联结（基调/主题/结构复杂度）", author: "McAdams et al.", year: 2004, source: "Traits and Stories, Journal of Personality", url: "https://languageandcognition.umd.edu/McAdamsEtAl2004.pdf", verified: true}
+  - {name: "LLM 零样本文本人格评分（方法底座）", author: "Wright et al.", year: 2025, source: "Assessing Personality Using Zero-Shot Generative AI Scoring, Nature Human Behaviour", url: "https://static1.squarespace.com/static/53d29678e4b04e06965e9423/t/697c98b9ba193e31278ff204/1769773241399/NHBs41562-025-02389-x.pdf", verified: true}
+  - {name: "Bakan 主体性-群体性二分（agency/communion 思想源头）", author: "Bakan", year: 1966, source: "The Duality of Human Existence（经 McAdams 转引）", url: "https://cpb-us-e1.wpmucdn.com/sites.northwestern.edu/dist/4/3901/files/2020/11/Agency-and-Communion-2002.pdf", verified: "claimed"}
+
+iso_groups:
+  - group_id: iso-agency
+    primary: agency（能动性主题）
+    aliases: [agency-theme, 自我掌控, 自主-掌控]
+    members: [nar-001, nar-009, met-015]
+  - group_id: iso-communion
+    primary: communion（交流/归属主题）
+    aliases: [communion-theme, 亲密-归属, 联结-融合]
+    members: [nar-002, nar-010, met-016]
+  - group_id: iso-npower
+    primary: 权力动机
+    aliases: [nPower, 影响-控制, 支配欲]
+    members: [nar-014, mot-002]
+
+chinese_applicability: >-
+  McAdams agency/communion 编码手册为英文人工编码，无经过验证的中文叙事词典；
+  redemption/contamination、叙事连贯性、自传推理等类目亦为英文编码规则。工程上建议把编码类目 prompt 化后用 LLM 对中文自传文本零样本打分，
+  多模型平均（Wright et al. 2025）以降方差；本族词项为语义对应的中文自举表达（A 级为手册类目直译，B 级为 LLM 自举），需小样本人工校准后才能嵌入聚类。
+
+# =============================================================================
+constructs:
+
+  - id: nar-001
+    name: agency 能动性主题
+    en: agency-theme
+    dimension: 叙事身份
+    question: 自传叙事中主人公是否主动追求掌控、成就、独立与自我实现？
+    factor: agency-theme
+    adjectives: [自主的, 掌控的, 进取的, 独立的, 有抱负的, 主导的]
+    synonyms: [凭自己, 掌控命运, 闯出天地, 独立自主, 自我实现, 独当一面]
+    verbs: [主导, 掌控, 追求, 实现, 突破, 引领, 决策, 开拓]
+    nouns: [自主权, 掌控力, 抱负, 成就, 独立, 目标, 力量, 领导]
+    anchors:
+      positive: "那段经历让我学会凭自己的力量掌控人生，一步步实现了当初的抱负。"
+      negative: "很多事由不得我，我只能被动接受安排。"
+    source: "McAdams et al. 2002 Agency/Communion 编码手册（agency 主类目）"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [cross-family-F7]
+
+  - id: nar-002
+    name: communion 交流/归属主题
+    en: communion-theme
+    dimension: 叙事身份
+    question: 自传叙事是否强调与他人的爱、关怀、归属与相互融合？
+    factor: communion-theme
+    adjectives: [温暖的, 亲密的, 利他的, 共情的, 包容的, 归属的]
+    synonyms: [和大家在一起, 彼此扶持, 归属感, 心连心, 互相照顾, 亲密无间]
+    verbs: [联结, 关怀, 陪伴, 分享, 接纳, 爱护, 融合, 归属]
+    nouns: [归属感, 爱, 亲密, 联结, 社区, 伙伴, 温情, 关怀]
+    anchors:
+      positive: "我最珍视的回忆，是和家人朋友彼此扶持、互相照顾、亲密无间的那些时刻。"
+      negative: "我一直独来独往，跟谁都走得不近。"
+    source: "McAdams et al. 2002 Agency/Communion 编码手册（communion 主类目）"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [cross-family-F7]
+
+  - id: nar-003
+    name: 救赎序列
+    en: redemption-sequence
+    dimension: 叙事身份
+    question: 叙事中负面/痛苦场景是否被主人公转化为好结果、成长或福分？
+    factor: redemption-sequence
+    adjectives: [因祸得福的, 涅槃的, 苦尽甘来的, 化险为夷的]
+    synonyms: [因祸得福, 苦尽甘来, 那次跌倒成就了我, 风雨之后见彩虹, 坏事变好事, 涅槃重生]
+    verbs: [转化, 救赎, 成长, 感恩, 翻盘, 升华, 汲取, 超越]
+    nouns: [救赎, 因祸得福, 成长, 感恩, 福分, 转机, 涅槃]
+    anchors:
+      positive: "那次挫折虽然痛苦，却把我逼上了正确的路，回头看真是因祸得福。"
+      negative: "那件事到现在还是个伤口，没有任何好的转化。"
+    source: "McAdams et al. 1997（redemption sequence 编码类目）"
+    lexicon_grade: A
+    tags: [sketch-叙事]
+
+  - id: nar-004
+    name: 污染序列
+    en: contamination-sequence
+    dimension: 叙事身份
+    question: 叙事中原本好的场景是否被突发的负面事件破坏、变坏无法挽回？
+    factor: contamination-sequence
+    adjectives: [乐极生悲的, 被毁掉的, 无法挽回的, 急转直下的]
+    synonyms: [乐极生悲, 一切都毁了, 从那以后全变了, 好景不长, 急转直下, 万劫不复]
+    verbs: [毁掉, 玷污, 恶化, 崩塌, 急转直下, 拖垮, 玷污]
+    nouns: [污染, 乐极生悲, 毁坏, 转折, 崩塌, 无法挽回]
+    anchors:
+      positive: "原本一切都好，直到那场变故，从此生活急转直下，再也回不去了。"
+      negative: "遇到的波折后来都挺过去了，没有留下不可逆的破坏。"
+    source: "McAdams et al. 1997（contamination sequence 编码类目）"
+    lexicon_grade: A
+    tags: [sketch-叙事]
+
+  - id: nar-005
+    name: 叙事基调
+    en: narrative-emotional-tone
+    dimension: 叙事身份
+    question: 自传叙事整体情感基调偏正向（乐观）还是负向（悲观）？
+    factor: narrative-emotional-tone
+    adjectives: [乐观的, 阴郁的, 温暖的, 苦涩的, 明朗的, 沉重的]
+    synonyms: [总的来说是好的, 充满希望, 一路坎坷, 苦多乐少, 乐观向上, 灰暗]
+    verbs: [感慨, 回味, 展望, 叹息, 感恩, 沮丧]
+    nouns: [基调, 希望, 遗憾, 感恩, 苦涩, 乐观, 灰暗]
+    anchors:
+      positive: "回头看这一生，虽然坎坷，但总体是温暖而充满希望的。"
+      negative: "我的回忆里大多是苦涩和遗憾，没什么值得高兴的。"
+    source: "McAdams et al. 2004（emotional tone 编码）"
+    lexicon_grade: A
+    tags: [sketch-叙事]
+
+  - id: nar-006
+    name: 叙事连贯性
+    en: narrative-coherence
+    dimension: 叙事身份
+    question: 叙事是否在因果、主题与时间上前后一致、逻辑自洽？
+    factor: narrative-coherence
+    adjectives: [连贯的, 条理的, 跳跃的, 自洽的, 零散的, 前后一致的]
+    synonyms: [前后呼应, 说得通, 逻辑连贯, 东一榔头西一棒子, 自圆其说, 条理清晰]
+    verbs: [串联, 衔接, 呼应, 理顺, 跳脱, 闭环, 梳理]
+    nouns: [连贯性, 条理, 因果链, 主线, 逻辑, 自洽, 脉络]
+    anchors:
+      positive: "他把前因后果讲得环环相扣，整段叙事有一条清晰主线，前后呼应。"
+      negative: "他讲的事情东跳西跳，前后对不上，理不出头绪。"
+    source: "McAdams 生命故事模型（coherence 维度，自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-叙事]
+
+  - id: nar-007
+    name: 自传推理
+    en: autobiographical-reasoning
+    dimension: 叙事身份
+    question: 叙事是否对经历进行因果解释、意义提炼与自我转变的反思？
+    factor: autobiographical-reasoning
+    adjectives: [反思的, 领悟的, 内省的, 追问的, 归因的]
+    synonyms: [我明白了, 那段经历教会我, 反思过去, 从中悟到, 为什么会这样, 自我剖析]
+    verbs: [反思, 领悟, 归因, 提炼, 内省, 剖析, 追问]
+    nouns: [反思, 领悟, 意义, 归因, 成长, 教训, 顿悟]
+    anchors:
+      positive: "我反复反思那段经历，终于明白它如何塑造了今天的我，也教会了我很多。"
+      negative: "过去的事就过去了，我没怎么去想过它意味着什么。"
+    source: "McAdams 生命故事模型 / Pasupathi 自传推理（自举中文词项，【一方称】Pasupathi 未直接核验）"
+    lexicon_grade: B
+    tags: [sketch-叙事]
+
+  - id: nar-008
+    name: 生成性
+    en: generativity
+    dimension: 叙事身份
+    question: 叙事是否关注为下一代/社会留下遗产、贡献与传承？
+    factor: generativity
+    adjectives: [有担当的, 利他的, 传承的, 奉献的, 有使命感的]
+    synonyms: [为后人留点什么, 传承, 回馈社会, 培养下一代, 留下遗产, 传帮带]
+    verbs: [传承, 奉献, 培养, 回馈, 留给, 担当, 延续]
+    nouns: [生成性, 传承, 遗产, 奉献, 使命感, 下一代, 回馈]
+    anchors:
+      positive: "我现在最在意的，是把自己积累的经验传给年轻人，为社会留点有用的东西。"
+      negative: "我过好自己的日子就行，没想过要留给后人什么。"
+    source: "McAdams et al. 1997（generativity / commitment story 编码）"
+    lexicon_grade: A
+    tags: [sketch-叙事]
+
+  - id: nar-009
+    name: 自我掌控（agency 子轴）
+    en: agency-self-mastery
+    dimension: 叙事身份
+    question: 叙事中主人公是否通过战胜困难、自我克制来展现力量与掌控？
+    factor: agency-self-mastery
+    adjectives: [坚韧的, 自律的, 迎难而上的, 战胜自我的, 有力的]
+    synonyms: [战胜困难, 凭毅力撑过来, 自我克制, 逆境反击, 掌控局面, 说到做到]
+    verbs: [战胜, 克服, 坚持, 自律, 掌控, 突破, 抗争]
+    nouns: [毅力, 掌控, 力量, 自律, 逆境, 坚韧, 主导权]
+    anchors:
+      positive: "在最难的时候，我靠一股韧劲撑了过来，硬是把局面掌控在了自己手里。"
+      negative: "当时我束手无策，只能听天由命。"
+    source: "McAdams et al. 2002（agency: self-mastery 子类目）"
+    lexicon_grade: A
+    tags: [sketch-叙事]
+
+  - id: nar-010
+    name: 他者之爱（communion 子轴）
+    en: communion-love
+    dimension: 叙事身份
+    question: 叙事是否聚焦亲密关系中的爱、关怀与深度联结？
+    factor: communion-love
+    adjectives: [深情的, 依恋的, 关怀的, 温暖的, 亲密的]
+    synonyms: [深爱, 互相依靠, 无微不至的关怀, 亲密关系, 心灵相通, 牵挂]
+    verbs: [深爱, 关怀, 依靠, 牵挂, 陪伴, 呵护, 联结]
+    nouns: [爱, 亲密, 关怀, 依恋, 联结, 温情, 依靠]
+    anchors:
+      positive: "那段亲密关系里，我们彼此依靠、无微不至，是我最珍贵的联结。"
+      negative: "亲密关系对我来说可有可无。"
+    source: "McAdams et al. 2002（communion: love 子类目）"
+    lexicon_grade: A
+    tags: [sketch-叙事]
+
+  - id: nar-011
+    name: 意义建构
+    en: meaning-making
+    dimension: 叙事身份
+    question: 叙事是否主动为苦难/事件赋予意义、寻找存在价值？
+    factor: meaning-making
+    adjectives: [寻义的, 通透的, 释然的, 追问意义的]
+    synonyms: [寻找意义, 苦难的意义, 活明白了, 释然, 赋予意义, 存在价值]
+    verbs: [建构, 赋予, 寻找, 释然, 参悟, 追问, 安顿]
+    nouns: [意义, 价值, 存在, 释然, 参悟, 安顿, 信念]
+    anchors:
+      positive: "经历过这些后，我一直在为苦难寻找意义，如今终于释然，明白了为什么而活。"
+      negative: "人生哪有那么多意义，过一天算一天。"
+    source: "McAdams 生命故事模型 / 意义建构研究（自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-叙事]
+
+  - id: nar-012
+    name: 未来脚本
+    en: future-script
+    dimension: 叙事身份
+    question: 叙事是否对未来有清晰的目标脚本与期待（希望/恐惧）？
+    factor: future-script
+    adjectives: [憧憬的, 规划的, 担忧的, 乐观前瞻的]
+    synonyms: [未来我要, 十年规划, 展望, 憧憬, 害怕以后, 目标清晰, 前途]
+    verbs: [规划, 憧憬, 展望, 期待, 担忧, 目标, 奔赴]
+    nouns: [未来, 目标, 憧憬, 规划, 前途, 期待, 蓝图]
+    anchors:
+      positive: "我对未来有清晰的规划，憧憬着十年后能成为自己想成为的人。"
+      negative: "未来的事走一步看一步，我没什么特别的规划。"
+    source: "McAdams 生命故事模型（未来脚本/ending script，自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-叙事]
+
+  - id: nar-013
+    name: 场景意象密度
+    en: scene-imagery
+    dimension: 叙事身份
+    question: 叙事是否包含丰富生动的场景描写、人物细节与感官意象？
+    factor: scene-imagery
+    adjectives: [生动的, 细节的, 画面感的, 具象的, 鲜活的]
+    synonyms: [清楚记得当时, 那个画面, 细节历历在目, 场景感, 栩栩如生, 当时的声音]
+    verbs: [描写, 回忆, 浮现, 记得, 描摹, 再现]
+    nouns: [场景, 细节, 画面, 感官, 意象, 氛围, 瞬间]
+    anchors:
+      positive: "我至今清楚记得那天的光线、声音和每个人的表情，那个画面栩栩如生。"
+      negative: "事情大概是那样，具体细节我都记不清了。"
+    source: "McAdams 生命故事模型（imagery 维度，自举中文词项）"
+    lexicon_grade: B
+    tags: [sketch-叙事]
+
+  - id: nar-014
+    name: 叙事内权力主题
+    en: narrative-power-theme
+    dimension: 叙事身份
+    question: 自传叙事是否围绕影响、支配与地位展开（与 F8 nPower 跨族同构）？
+    factor: narrative-power-theme
+    adjectives: [有权威的, 主导的, 支配的, 有影响的]
+    synonyms: [说了算, 领导别人, 一呼百应, 出人头地, 掌控话语权, 权威]
+    verbs: [影响, 支配, 领导, 命令, 左右, 号召]
+    nouns: [权力, 权威, 地位, 影响, 主导权, 声望]
+    anchors:
+      positive: "我最得意的经历，是凭自己的判断一呼百应，主导了整个局面。"
+      negative: "我对支配别人没什么兴趣。"
+    source: "McClelland 权力动机叙事表现（跨族同构 mot-002）"
+    lexicon_grade: B
+    tags: [cross-family-F8]

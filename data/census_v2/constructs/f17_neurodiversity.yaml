@@ -1,0 +1,285 @@
+# =============================================================================
+# AoT 思维构念普查 · F17 神经多样性认知风格家族（v2 新增）
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产(量表题面/LIWC词类) B=LLM自举
+# 文献出处复用 census_v2/s3_learning_language.md 台账（本集群穷尽扫描已核到原始出处）
+# 边界声明：本家族 E-S 轴是"动机-兴趣侧"（为何关注人/系统），非 F1 的"知觉加工风格侧"；
+#          f17-006 局部加工与 cgs-001 分析-整体跨家族相邻但构念层级不同（知觉 vs 辩证推理）
+# =============================================================================
+
+family_id: F17
+family_name: 神经多样性认知风格
+dimension: 神经多样性认知风格
+models:
+  - name: 共情化-系统化 E-S 理论
+    author: Baron-Cohen
+    year: 2009
+    source: "Baron-Cohen (2009) The Empathizing-Systemizing (E-S) Theory of Autism. Annals of the NY Academy of Sciences"
+    url: https://docs.autismresearchcentre.com/papers/2009_BC_nyas.pdf
+    verified: verified
+  - name: 自闭谱系商数 AQ（50 题，五域）
+    author: Baron-Cohen, Wheelwright, Skinner, Martin & Clubley
+    year: 2001
+    source: "Baron-Cohen et al. (2001) The Autism-Spectrum Quotient. J. Autism and Developmental Disorders 31:5-17；α=.90"
+    url: https://neuroscience.cam.ac.uk/publications/the-autismspectrum-quotient-aq-evidence-from-asperger-syndromehighfunctioning-autism-males-and-females-scientists-and-mathematicians/
+    verified: verified
+  - name: 共情商数 EQ（60 题=40+20，α=.93）
+    author: Baron-Cohen & Wheelwright
+    year: 2004
+    source: "Baron-Cohen & Wheelwright (2004) The Empathy Quotient. J. Autism and Developmental Disorders"
+    url: https://docs.autismresearchcentre.com/papers/2004_BCandSW_EQ.pdf
+    verified: verified
+  - name: 系统化商数 SQ（60 题=40+20，α=.78）
+    author: Baron-Cohen, Richler, Bisarya, Gurunathan & Wheelwright
+    year: 2003
+    source: "Baron-Cohen et al. (2003) The Systemizing Quotient. J. Autism and Developmental Disorders"
+    url: ""
+    verified: verified
+  - name: 简体中文版 AQ 成人版
+    author: Zhang et al.
+    year: 2016
+    source: "Zhang et al. (2016) Psychometric properties of the AQ: Chinese version for mainland China. BMC Psychiatry 16:213（back-translation 核验）"
+    url: ""
+    verified: verified
+  - name: ADHD 执行功能模型（行为抑制→四域 EF）
+    author: Barkley
+    year: 1997
+    source: "Barkley (1997) ADHD and the Nature of Self-Control. Guilford；dual-pathway: hot 抑制-动机-延迟厌恶 + cool 执行注意-WM"
+    url: ""
+    verified: claimed
+  - name: 内语/内部言语
+    author: Vygotsky
+    year: 1934
+    source: "Vygotsky (1934/1986) Thought and Language. MIT Press；Barkley 1997 internalized speech"
+    url: ""
+    verified: claimed
+  - name: 从文本检测自闭特质 NLP 先例
+    author: #ActuallyAutistic Twitter dataset / 书面叙事 DNN
+    year: 2023
+    source: "medRxiv 2023.09.19.23295799（6.5M tweets，user 分类 87%）；8 年级书面叙事 DNN >0.85；arXiv 2604.10063 LIWC 差异"
+    url: ""
+    verified: verified
+
+iso_groups:
+  - group_id: iso-f17-local-detail
+    primary: f17-006
+    primary_name: 细节注意/局部加工
+    aliases: [分析-整体(cgs-001)]
+    members: [f17-006]
+    note: "与 F1 cgs-001 分析-整体跨家族相邻，但 f17-006 是知觉层局部偏向+细节觉察（自闭特质连续谱），cgs-001 是辩证推理层分析-整体；聚类层可能靠近但构念来源与层级不同"
+  - group_id: iso-f17-e-motivation-axis
+    primary: f17-001
+    primary_name: 共情化倾向
+    aliases: [系统化倾向(f17-002), 系统化-直觉加工(cgs-014)]
+    members: [f17-001, f17-002, f17-003]
+    note: "E-S 轴是动机-兴趣侧（为什么关注人/关注系统），非知觉加工风格侧；与 cgs-014（按步骤 vs 凭直觉的加工方式）不同构念。为 v1 缺失新轴"
+  - group_id: iso-f17-adhd-attention
+    primary: f17-010
+    primary_name: 持续注意涣散
+    aliases: [注意缺口/mind-wandering(Smallwood 2006)]
+    members: [f17-010, f17-011]
+    note: "与 v1 D2 注意力缺口（Smallwood & Schooler 2006 mind-wandering）跨家族相邻；ADHD 是连续特质维度而非临床诊断"
+
+chinese_applicability: |
+  量表侧：AQ/EQ/SQ 均有自陈题面可直接转词元；AQ 有成熟简体成人版（Zhang et al. 2016 BMC Psychiatry 16:213，back-translation 核验），
+  故 AQ 五域 + 刻板兴趣构念标 A 级。中文 NLP 数据集侧：英文 #ActuallyAutistic Twitter / 书面叙事 DNN 已跑通自闭特质文本检测（0.73-0.87+），
+  但中文对应数据集尚未建立，ADHD/内语/E-S 落差四支为 B 级 LLM 自举，建议后续用 C-LIWC（黄金兰 2012）的第一人称代词/ tentative/clout 类词频做外部粗校验。
+
+constructs:
+  - id: f17-001
+    name: 共情化倾向
+    en: empathizing
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出主动识别他人情绪/想法并给予恰当情绪回应的驱力？
+    factor: empathizing
+    adjectives: [善解人意的, 共情的, 敏感的, 情绪导向的, 体察他人的, 温暖的, 读心的, 同理的]
+    synonyms: [共情化, 共情能力, 心理理论, 读心, 体察他人, 情绪共情]
+    verbs: [体察, 共情, 揣摩, 回应, 理解, 顾及, 安慰, 感知]
+    nouns: [他人感受, 情绪, 心思, 立场, 心情, 氛围]
+    anchors:
+      positive: "他一沉默我就察觉到他不太对，立刻想问问他怎么了。"
+      negative: "别人情绪好不好，我其实不太看得出来，也没特别想去猜。"
+    source: "Baron-Cohen & Wheelwright 2004 EQ; Baron-Cohen 2009 E-S theory"
+    lexicon_grade: A
+    tags: [iso-e-social]
+
+  - id: f17-002
+    name: 系统化倾向
+    en: systemizing
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出主动分析/构建规则系统、拆解机制、寻找规律的驱力？
+    factor: systemizing
+    adjectives: [系统的, 规则的, 机制导向的, 爱拆解的, 重规律的, 分类的, 逻辑的, 寻规的]
+    synonyms: [系统化, 系统化驱力, 规则分析, 机制拆解, 找规律]
+    verbs: [拆解, 分析, 归类, 建模, 推演, 找规律, 建立, 调试]
+    nouns: [系统, 规则, 机制, 规律, 模型, 时间表, 分类]
+    anchors:
+      positive: "我总想搞懂这套东西背后是按什么规则运转的，最好能自己复现一遍。"
+      negative: "我不太关心它怎么运转，能用就行。"
+    source: "Baron-Cohen et al. 2003 SQ; Baron-Cohen 2009 E-S theory"
+    lexicon_grade: A
+    note: "与 cgs-014 systematic-intuitive-processing 边界：本构念是动机-兴趣侧（想建系统），cgs-014 是加工方式（按步骤 vs 凭直觉）"
+
+  - id: f17-003
+    name: 共情-系统化落差
+    en: E-S-discrepancy
+    dimension: 神经多样性认知风格
+    question: 文本是否呈现"对人/情绪钝感、对系统/规则过度投入"的非平衡画像？
+    factor: E-S-discrepancy
+    adjectives: [偏系统的, 偏人的, 失衡的, 极端男性脑式的]
+    synonyms: [E-S落差, 极端男性脑, 系统化高共情低]
+    verbs: [偏向, 失衡, 倾斜, 投入]
+    nouns: [落差, 失衡, 非平衡]
+    anchors:
+      positive: "我对机械和规则比对人有兴趣得多，搞懂一套系统让我更兴奋。"
+      negative: "我更在意人的感受和关系，系统怎么运转我无所谓。"
+    source: "Baron-Cohen 2009 E-S theory（极端男性脑假说）"
+    lexicon_grade: B
+    tags: [iso-e-social]
+
+  - id: f17-004
+    name: 社交技能困难
+    en: AQ-social-skills
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出社交场合不自在、难以跟进多人对话、社交线索处理困难？
+    factor: AQ-social-skills
+    adjectives: [社交吃力的, 独处自在的, 不擅寒暄的, 难合群的]
+    synonyms: [社交技能困难, 社交吃力, 难融入群体]
+    verbs: [周旋, 寒暄, 合群, 跟进, 独处]
+    nouns: [社交场合, 寒暄, 群体对话, 人际]
+    anchors:
+      positive: "一群人七嘴八舌聊天时，我很难同时跟上好几个人在说什么。"
+      negative: "在聚会里跟谁都能聊起来，多人对话我跟得很轻松。"
+    source: "Baron-Cohen et al. 2001 AQ 社交技能子量表; Zhang et al. 2016 简体中文版"
+    lexicon_grade: A
+
+  - id: f17-005
+    name: 注意转换困难
+    en: AQ-attention-switching
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出难以在任务间切换、被打断后难恢复、偏好按既定流程走？
+    factor: AQ-attention-switching
+    adjectives: [难切换的, 固执流程的, 怕打断的, 单线的]
+    synonyms: [注意转换困难, 难分心恢复, 刻板流程]
+    verbs: [切换, 打断, 恢复, 转换, 坚持]
+    nouns: [任务切换, 打断, 既定流程, 转换]
+    anchors:
+      positive: "做事的时候最怕被打断，一旦流程被打乱，我要花很久才能重新接上。"
+      negative: "中途打断一下没关系，我随时能切回原来的事。"
+    source: "Baron-Cohen et al. 2001 AQ 注意转换子量表; Zhang et al. 2016"
+    lexicon_grade: A
+
+  - id: f17-006
+    name: 细节注意/局部加工
+    en: AQ-attention-to-detail
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出对局部细节、模式、规律的超常注意，倾向先看树木后看森林？
+    factor: AQ-attention-to-detail
+    adjectives: [注意细节的, 局部的, 敏锐于模式的, 抠细节的]
+    synonyms: [细节注意, 局部加工, 注意细节, 模式觉察]
+    verbs: [注意到, 察觉, 抠, 聚焦, 比对]
+    nouns: [细节, 模式, 局部, 小地方, 规律]
+    anchors:
+      positive: "我很容易注意到别人忽略的小细节，比如哪个地方跟往常不一样。"
+      negative: "我看东西只看个大概，不太留意细枝末节。"
+    source: "Baron-Cohen et al. 2001 AQ 注意细节子量表; Zhang et al. 2016"
+    lexicon_grade: A
+    note: "与 cgs-001 分析-整体边界：本构念是知觉层局部偏向+细节觉察，cgs-001 是辩证推理层；iso-f17-local-detail"
+
+  - id: f17-007
+    name: 想象局限
+    en: AQ-imagination
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出想象/虚构场景心理化、假装游戏的受限？
+    factor: AQ-imagination
+    adjectives: [务实的, 少幻想的, 难虚构的, 重实际的]
+    synonyms: [想象受限, 少幻想, 务实]
+    verbs: [想象, 虚构, 假装, 设想]
+    nouns: [想象, 虚构, 幻想, 角色扮演]
+    anchors:
+      positive: "让我凭空想象一个故事场景挺难的，我更愿意想实际发生的事。"
+      negative: "我很容易脑补出一整个场景和情节来。"
+    source: "Baron-Cohen et al. 2001 AQ 想象子量表; Zhang et al. 2016"
+    lexicon_grade: A
+
+  - id: f17-008
+    name: 沟通语用偏差
+    en: AQ-communication
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出双向对话语用困难——难读懂言外之意、幽默反讽、对话来回平衡？
+    factor: AQ-communication
+    adjectives: [直译的, 少寒暄的, 难读言外之意的, 单向的]
+    synonyms: [沟通语用困难, 读不懂言外之意, 对话失衡]
+    verbs: [理解, 来回, 寒暄, 品出, 接住]
+    nouns: [言外之意, 反讽, 幽默, 对话, 语气]
+    anchors:
+      positive: "别人话里有话或开玩笑时，我常常要反应半天才能品出来。"
+      negative: "话里的弦外之音和玩笑，我一听就明白。"
+    source: "Baron-Cohen et al. 2001 AQ 沟通子量表; Zhang et al. 2016"
+    lexicon_grade: A
+
+  - id: f17-009
+    name: 窄范围刻板专注
+    en: restricted-repetitive-interests
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出狭窄而强烈的专注兴趣、重复固定习惯、对特定系统（时刻表/机械/分类）的沉迷？
+    factor: restricted-repetitive-interests
+    adjectives: [专注的, 狭窄的, 重复的, 刻板的, 沉迷的]
+    synonyms: [窄范围兴趣, 刻板重复行为, 强烈专注, 沉迷特定系统]
+    verbs: [重复, 沉迷, 专注, 固守, 收集]
+    nouns: [固定习惯, 时刻表, 机械, 收藏, 特定话题]
+    anchors:
+      positive: "我喜欢用老办法做同一件事，对某个特定话题能一头扎进去查很久。"
+      negative: "我兴趣很广，做事情的方式也常变，不太会固守一套。"
+    source: "Baron-Cohen et al. 2001 AQ 重复行为题面; SQ 系统化兴趣题面"
+    lexicon_grade: A
+
+  - id: f17-010
+    name: 持续注意涣散
+    en: ADHD-inattention
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出在枯燥/缺内在奖赏任务上难以维持注意、易分心走神、组织任务困难？
+    factor: ADHD-inattention
+    adjectives: [分心的, 难专注的, 涣散的, 易走神的, 难坚持的]
+    synonyms: [注意不集中, 持续注意困难, 易分心, 走神]
+    verbs: [分心, 走神, 维持, 专注, 组织]
+    nouns: [持续注意, 分心, 走神, 组织任务]
+    anchors:
+      positive: "事情一无聊，我脑子就飘走，很难逼自己把枯燥的任务坚持做完。"
+      negative: "再枯燥的事我也能沉住气从头到尾专注完成。"
+    source: "Barkley 1997 ADHD EF model; dual-pathway cool EF（执行注意/WM）"
+    lexicon_grade: B
+    tags: [iso-adhd-attention]
+
+  - id: f17-011
+    name: 冲动-延迟厌恶
+    en: ADHD-impulsivity-delay-aversion
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出偏好即时小奖赏、难以等待、先行动后思考、时间盲？
+    factor: ADHD-impulsivity-delay-aversion
+    adjectives: [冲动的, 急的, 等不及的, 即时满足的]
+    synonyms: [冲动, 延迟厌恶, 即时满足, 时间盲]
+    verbs: [冲动, 等待, 抢先, 拖延, 估算时间]
+    nouns: [即时奖赏, 延迟, 冲动, 时间感]
+    anchors:
+      positive: "比起以后更大的回报，我更受不了等，眼前的奖励马上就要拿到。"
+      negative: "为了以后更大的目标，我能很好地忍住眼前的诱惑。"
+    source: "Barkley 1997; dual-pathway hot EF（抑制/动机/延迟厌恶）"
+    lexicon_grade: B
+    tags: [iso-adhd-attention]
+
+  - id: f17-012
+    name: 自我指导内语
+    en: inner-speech
+    dimension: 神经多样性认知风格
+    question: 文本是否表现出用内部自言自语/自我对话来指导自己思考与行动的倾向？
+    factor: inner-speech
+    adjectives: [自语的, 自我对话的, 出声思考的, 自我指导的]
+    synonyms: [内语, 内部言语, 自言自语, 自我对话]
+    verbs: [自语, 自我对话, 默念, 提醒自己, 出声想]
+    nouns: [内部言语, 自我对话, 自言自语, 默念]
+    anchors:
+      positive: "做事情的时候我脑子里会一直有个声音在提醒自己下一步该干嘛。"
+      negative: "我不太在心里跟自己说话，做事更靠直接动手。"
+    source: "Vygotsky 1934/1986 Thought and Language; Barkley 1997 internalized speech"
+    lexicon_grade: B

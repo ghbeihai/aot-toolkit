@@ -1,0 +1,323 @@
+# =====================================================================
+# AoT · 思维层因子链普查 — F3 论证图式家族
+# 阶段：SPI 同构管线 第1-2阶段（模型普查 + 五层词元编码）
+# 编码方式：词元为可直接嵌入的中文词项；五层 = adjectives/synonyms/verbs/nouns + anchors
+# 出处复用：artifacts/思维量化_推理论证归因集群_调研报告.md（F1-F4）
+# =====================================================================
+
+family_id: F3
+family_name: 论证图式（Argumentation Schemes）
+dimension: 论证图式
+
+models:
+  - name: Walton 论辩图式体系
+    author: Walton, D.; Reed, C.; Macagno, F.
+    year: 2008
+    venue: Argumentation Schemes, Cambridge University Press（60 顶层图式）
+    url: https://philpapers.org/archive/WALACS-4.pdf
+    status: verified
+  - name: Toulmin 论证布局模型
+    author: Toulmin, S. E.
+    year: 1958
+    venue: The Uses of Argument, Cambridge University Press（Claim/Data/Warrant/Backing/Rebuttal/Qualifier）
+    url: https://link.springer.com/article/10.1007/s10503-010-9185-4
+    status: verified
+  - name: 论辩挖掘标注体系（UKP/ECHR）
+    author: Stab, C.; Gurevych, I.
+    year: 2017
+    venue: Parsing Argumentation Structures in Persuasive Essays, Computational Linguistics 43(3)（402 篇议论文，claim/premise/support/attack）
+    url: https://aclanthology.org/J17-3005.pdf
+    status: verified
+  - name: 图式决策树标注协议
+    author: Lawrence, J.; Visser, J.; Walton, D.; Reed, C.
+    year: 2019
+    venue: A decision tree for annotating argumentation scheme corpora, COMMA/ECA 2019（505 论证，κ=0.723）
+    url: https://discovery.dundee.ac.uk/files/56733322/eca2019proceedings_A_decision_tree_for_annotating_argumentation_scheme_corpora.pdf
+    status: verified
+
+chinese_applicability: |
+  图式为跨语言推理骨架，与表面词法弱绑定。中文落地路径：① 以 Walton 图式定义+批判性问题为提示，用 LLM 零样本判定中文文本所用图式；② 论辩挖掘组件识别（claim/premise/support/attack）可由 BERT/RoBERTa-wwm 迁移中文；③ 标准化中文图式标注语料稀缺【一方称】，首期需自建小样本标注校准。
+
+# 异名同构去重表（iso = isomorphic，语义等价构念合并到主名）
+iso_groups:
+  - group_id: iso-claim
+    primary: arg-016 主张（claim/conclusion）
+    aliases: [结论, 论点, conclusion, thesis]
+    members: [arg-016]
+    note: Toulmin 的 claim ≈ 论辩挖掘的 claim ≈ 论证结论，三者合并
+  - group_id: iso-authority
+    primary: arg-001 专家意见论证
+    aliases: [诉诸权威, appeal-to-authority]
+    members: [arg-001]
+    note: 诉诸权威并入专家意见图式，不单独成构念
+
+# 跨家族同构提示（与 F4/F5 的镜像构念，供聚类时合并）
+cross_family_iso:
+  - arg-004 因果论证: ↔ F4 att-005 因果归因倾向（同一"因→果"推理方向）
+
+constructs:
+
+  - id: arg-001
+    name: 专家意见论证
+    en: argument-from-expert-opinion
+    dimension: 论证图式
+    question: 他是否诉诸领域专家/权威的判断来支持结论？
+    factor: expert-opinion-argument
+    adjectives: [权威的, 专家的, 资深的, 内行的, 公认的, 正统的, 资深, 业界的, 学术的]
+    synonyms: [诉诸权威, 引用专家, 行家背书, 权威说法, 专业意见]
+    verbs: [援引, 引用, 采信, 引证, 依据, 听从, 请教, 证实]
+    nouns: [专家, 权威, 学者, 行家, 机构, 文献, 教科书, 白皮书]
+    anchors:
+      positive: 按照该领域两位首席研究员的结论，这种疗法在三年随访中并未显示出优于安慰剂的效果。
+      negative: 这事我没查过资料，凭感觉觉得应该就是这样。
+    source: "Walton et al. 2008 图式 #专家意见论证；批判性问题：该专家是否真属此领域？其判断是否与同僚一致？"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-论证图式]
+
+  - id: arg-002
+    name: 实践推理
+    en: practical-reasoning
+    dimension: 论证图式
+    question: 他是否从"想要达成某目标"推出"应当采取某手段"？
+    factor: practical-reasoning
+    adjectives: [务实的, 可行的, 实用的, 目标导向的, 可操作的, 性价比的]
+    synonyms: [目的-手段推理, 工具理性, 怎么做, 实用主义]
+    verbs: [要实现, 需要, 应当, 选择, 达成, 达到, 换取, 权衡]
+    nouns: [目标, 目的, 手段, 方案, 成本, 收益, 代价, 行动]
+    anchors:
+      positive: 如果我们想在年底前把获客成本压下来，最直接的做法是砍掉低效的线下投放、把预算全押到转介绍上。
+      negative: 这个话题可以从理论上讨论很久，但先不谈怎么落地。
+    source: "Walton et al. 2008 图式 #实践推理（argument from practical reasoning）"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-论证图式]
+
+  - id: arg-003
+    name: 类比论证
+    en: argument-by-analogy
+    dimension: 论证图式
+    question: 他是否用一个熟悉领域的相似情形来推出陌生领域的结论？
+    factor: analogy-argument
+    adjectives: [相似的, 类似的, 相仿的, 可比的, 形同的, 相仿]
+    synonyms: [打比方, 类比, 好比, 正如, 相当于, 同理, 类推]
+    verbs: [类比, 比拟, 类推, 比照, 类比于, 相当于]
+    nouns: [类比, 比方, 参照, 镜像, 相似性, 对照, 隐喻]
+    anchors:
+      positive: 企业做风险管理其实跟人存钱应急一样——平时看着没用，真出事的时候才知道那笔备用金救了命。
+      negative: 这两件事性质完全不同，没法放在一起比较。
+    source: "Walton et al. 2008 图式 #类比论证；参 STORYANALOGY 语料(EMNLP 2023)"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-论证图式]
+
+  - id: arg-004
+    name: 因果论证
+    en: argument-from-cause
+    dimension: 论证图式
+    question: 他是否主张 A 事件导致了 B 结果，并据此推出预测/责任？
+    factor: causal-argument
+    adjectives: [因果的, 直接的, 间接的, 根本的, 连锁的, 诱发的]
+    synonyms: [因为, 所以, 导致, 引起, 造成, 源于, 由此可见]
+    verbs: [导致, 引起, 造成, 诱发, 源于, 归因于, 催生, 推动]
+    nouns: [原因, 结果, 因果链, 机制, 诱因, 后果, 链条]
+    anchors:
+      positive: 正是因为那条主干道施工封了半个月，周边三个小区的租金才跟着一起跌了下来。
+      negative: 这两件事只是时间上碰巧凑到一起，谈不上谁影响谁。
+    source: "Walton et al. 2008 图式 #因果论证；LIWC causal 词类(Tausczik & Pennebaker 2010)"
+    lexicon_grade: A
+    tags: [sketch-推理习惯]
+
+  - id: arg-005
+    name: 迹象论证
+    en: argument-from-sign
+    dimension: 论证图式
+    question: 他是否用可观察的征兆/指标作为推断隐藏状态的依据？
+    factor: sign-argument
+    adjectives: [可见的, 表面的, 征兆性的, 指示性的, 苗头的]
+    synonyms: [迹象, 征兆, 苗头, 信号, 指标, 可见一斑]
+    verbs: [显示, 表明, 预示, 暗示, 折射, 反映出]
+    nouns: [迹象, 征兆, 信号, 指标, 苗头, 看板, 晴雨表]
+    anchors:
+      positive: 连续三个季度核心员工主动离职率翻倍，这通常说明内部管理已经出了结构性问题。
+      negative: 单看这一个数字说明不了什么，得放在大背景里看。
+    source: "Walton et al. 2008 图式 #迹象论证（argument from sign）"
+    lexicon_grade: A
+
+  - id: arg-006
+    name: 语辞归类论证
+    en: argument-from-verbal-classification
+    dimension: 论证图式
+    question: 他是否先给某事物贴一个定性标签，再由该标签推出评价？
+    factor: verbal-classification-argument
+    adjectives: [定性的, 归类的, 定性式, 贴标签的]
+    synonyms: [定性, 归类, 贴上标签, 这就是, 本质上属于]
+    verbs: [定性为, 归类为, 贴上, 定义为, 本质上是]
+    nouns: [标签, 定性, 归类, 范畴, 帽子]
+    anchors:
+      positive: 这种做法本质上就是对客户数据的违规使用，根本不存在所谓的灰色地带。
+      negative: 这事不好简单地贴上"违规"或"合规"的标签，得分开看。
+    source: "Walton et al. 2008 图式 #语辞归类（argument from verbal classification）"
+    lexicon_grade: B
+
+  - id: arg-007
+    name: 针对人论证（ad hominem）
+    en: ad-hominem
+    dimension: 论证图式
+    question: 他是否回避论点本身，转而攻击说话者的人品/处境/动机？
+    factor: ad-hominem-argument
+    adjectives: [人身的, 诛心的, 刻薄的, 带节奏的]
+    synonyms: [对人不对事, 人身攻击, 诛心之论, 动机质疑]
+    verbs: [攻击, 质疑动机, 讽刺, 扣帽子, 翻旧账]
+    nouns: [人身攻击, 诛心, 动机, 人品, 立场]
+    anchors:
+      positive: 他自己都拿过竞争对手的资助，说这些话有什么可信度可言。
+      negative: 不管是谁说的，先看这个论据本身站不站得住。
+    source: "Walton et al. 2008 图式 #针对人论证（ad hominem）"
+    lexicon_grade: B
+    tags: [sketch-论证图式]
+
+  - id: arg-008
+    name: 滑坡论证
+    en: slippery-slope
+    dimension: 论证图式
+    question: 他是否主张一旦开了头，就会沿连锁反应一路滑到灾难性后果？
+    factor: slippery-slope-argument
+    adjectives: [连锁的, 递进的, 一发不可收的, 多米诺的]
+    synonyms: [滑坡, 多米诺, 一旦开了头, 后果不堪设想, 越滚越大]
+    verbs: [一步步, 最终会, 终将, 蔓延, 失控]
+    nouns: [滑坡, 连锁反应, 多米诺, 临界点, 泥潭]
+    anchors:
+      positive: 今天松一个口子，明天就会有十个类似请求跟进，最后整个审批制度就形同虚设了。
+      negative: 开了这一个口子未必会带动后面一连串，没必要把后果想得这么远。
+    source: "Walton et al. 2008 图式 #滑坡论证"
+    lexicon_grade: B
+
+  - id: arg-009
+    name: 诉诸怜悯
+    en: appeal-to-pity
+    dimension: 论证图式
+    question: 他是否用同情/弱势群体处境来替代实质论证？
+    factor: appeal-to-pity
+    adjectives: [可怜的, 弱势的, 令人同情的]
+    synonyms: [博同情, 卖惨, 可怜, 不容易]
+    verbs: [同情, 体谅, 照顾, 网开一面]
+    nouns: [同情, 弱势, 苦衷, 不易]
+    anchors:
+      positive: 这些小商户撑了三年已经很难了，这时候再加一笔罚款实在说不过去。
+      negative: 处境可怜是一回事，合规与否是另一回事，不能混为一谈。
+    source: "Walton et al. 2008 图式 #诉诸怜悯（argument from pity）"
+    lexicon_grade: B
+
+  - id: arg-010
+    name: 诉诸流行（从众）
+    en: ad-populum-bandwagon
+    dimension: 论证图式
+    question: 他是否以"大家都这么做/都这么认为"作为论据？
+    factor: bandwagon-argument
+    adjectives: [流行的, 主流的, 大多数的, 随大流的]
+    synonyms: [大家都, 主流, 随大流, 跟风, 人云亦云]
+    verbs: [跟风, 效仿, 追随, 跟随]
+    nouns: [大流, 趋势, 共识, 潮流, 多数]
+    anchors:
+      positive: 同行头部三家都已经把这条产线砍掉了，我们继续硬扛只是在拖时间。
+      negative: 别人都这么做不代表就是对的，先想清楚适不适合自己。
+    source: "Walton et al. 2008 图式 #诉诸大众（ad populum）"
+    lexicon_grade: B
+
+  - id: arg-011
+    name: 诉诸无知
+    en: argument-from-ignorance
+    dimension: 论证图式
+    question: 他是否以"没有证据证明为假"来论证"为真"，或反之？
+    factor: ignorance-argument
+    adjectives: [存疑的, 悬置的]
+    synonyms: [没证据, 查无实据, 谁也说不准, 宁可信其有]
+    verbs: [没法证明, 未被证伪, 查不到]
+    nouns: [无知, 存疑, 悬案, 未知]
+    anchors:
+      positive: 至今没有人能拿出反例证明这套机制不成立，那我们就先按成立来推进。
+      negative: 没有证据证明它成立，也没有证据证明它不成立，这种情况下不能直接下结论。
+    source: "Walton et al. 2008 图式 #诉诸无知（argument from ignorance）"
+    lexicon_grade: B
+
+  - id: arg-012
+    name: 反例归谬
+    en: reductio-ad-absurdum
+    dimension: 论证图式
+    question: 他是否先假设对方主张成立，再推出荒谬后果来反驳？
+    factor: reductio-argument
+    adjectives: [反证的, 归谬的, 反例的]
+    synonyms: [反例, 归谬, 反过来想, 照这个逻辑, 假设如此]
+    verbs: [反证, 归谬, 反驳, 推出荒谬, 证伪]
+    nouns: [反例, 归谬, 反证, 极端情形]
+    anchors:
+      positive: 照你这个标准，那任何一次正常波动都得算成重大风险，最后团队什么都不敢做了。
+      negative: 对方这个主张我们先顺着推一遍，看会不会真的推出明显站不住的结果。
+    source: "Walton et al. 2008 图式；MICE contrastive editing(Ross et al. 2021) 反事实解释"
+    lexicon_grade: B
+    tags: [sketch-论证图式]
+
+  - id: arg-013
+    name: 担保（warrant）
+    en: warrant
+    dimension: 论证图式
+    question: 他给出数据后，是否显式交代"为什么这个数据能推出这个结论"的桥梁规则？
+    factor: warrant-explicit
+    adjectives: [显式的, 桥接的, 默会的]
+    synonyms: [凭什么, 道理何在, 中间环节, 推理规则]
+    verbs: [推出, 桥接, 支撑, 导出]
+    nouns: [担保, 桥接规则, 推理依据, 隐含前提]
+    anchors:
+      positive: 转化率从 2% 跌到 1.2%——而行业经验是低于 1.5% 时新客留存会跌破盈亏线，所以这已经是危险信号。
+      negative: 转化率跌了，所以业务不行了（中间为什么跌会导致不行，一句没说）。
+    source: "Toulmin 1958 组件 #Warrant；von der Mühlen et al. 2019 训练研究"
+    lexicon_grade: A
+
+  - id: arg-014
+    name: 反驳（rebuttal）
+    en: rebuttal
+    dimension: 论证图式
+    question: 他是否主动承认反方观点、例外情形或自己结论的适用边界？
+    factor: rebuttal-aware
+    adjectives: [审慎的, 留余地的, 有边界的]
+    synonyms: [例外, 但是, 除非, 边界条件, 不过也有]
+    verbs: [承认, 限定, 排除, 让步]
+    nouns: [反驳, 例外, 边界, 限定条件, 反方]
+    anchors:
+      positive: 这个结论在大多数情况下成立，但如果用户主要是低频使用场景，结论就要反过来。
+      negative: 我的判断就是绝对正确的，没有任何例外。
+    source: "Toulmin 1958 组件 #Rebuttal"
+    lexicon_grade: A
+
+  - id: arg-015
+    name: 攻击关系（attack）
+    en: attack-relation
+    dimension: 论证图式
+    question: 他是否明确地反对/削弱前一个论点，而非单纯叠加支持？
+    factor: attack-relation
+    adjectives: [对立的, 反驳的, 对冲的]
+    synonyms: [反对, 反驳, 削弱, 不成立, 站不住]
+    verbs: [反对, 反驳, 削弱, 质疑, 否定]
+    nouns: [攻击, 反驳, 对冲, 反论]
+    anchors:
+      positive: 上面那个推断不成立——它忽略了样本只来自一线城市这一前提。
+      negative: 紧接着又补了一条支持前面结论的论据。
+    source: "Stab & Gurevych 2017 标注体系 #attack"
+    lexicon_grade: A
+
+  - id: arg-016
+    name: 主张（claim）
+    en: claim
+    dimension: 论证图式
+    question: 他是否清楚地给出一个可被支持/反对的核心主张？
+    factor: claim-stated
+    adjectives: [明确的, 可辩的, 清晰的]
+    synonyms: [主张, 论点, 结论, 观点是]
+    verbs: [主张, 断言, 声称, 认为]
+    nouns: [主张, 论点, 结论, 论题]
+    anchors:
+      positive: 我的核心判断是：下半年最大的风险不在获客，而在留存。
+      negative: 东说一句西说一句，始终没讲清楚自己到底主张什么。
+    source: "Stab & Gurevych 2017 #claim；Toulmin #Claim"
+    lexicon_grade: A

@@ -1,0 +1,290 @@
+# =============================================================================
+# AoT 思维构念普查 v2 · F19 持续性/重复性认知家族（社会认知/情绪/动机/价值集群贡献）
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产 B=LLM自举
+# 文献出处：s4_social_emotion.md 台账（Nolen-Hoeksema 1991; Treynor et al. 2003; Meyer et al. 1990; Gross & John 2003; Smallwood & Schooler 2006）
+# =============================================================================
+
+family_id: F19
+family_name: 持续性/重复性认知
+dimension: 重复性思维与情绪应对
+disposition: independent-v2
+models:
+  - name: 反应风格理论/反刍量表 RRS
+    author: Nolen-Hoeksema
+    year: 1991
+    source: Nolen-Hoeksema (1991) Responses to depression... J. Abnorm. Psychol. 100(4):569-582; 中文版 韩秀&杨宏飞 2009
+    url: https://doi.org/10.1037/0021-843X.100.4.569
+    verified: verified
+  - name: RRS 拆分(思虑/反省)
+    author: Treynor, Gonzalez & Nolen-Hoeksema
+    year: 2003
+    source: Treynor et al. (2003) Rumination Reconsidered. Cognitive Therapy and Research 27(3):247-259
+    url: https://doi.org/10.1023/A:1023910315561
+    verified: verified
+  - name: 宾州忧虑量表 PSWQ
+    author: Meyer, Miller, Metzger & Borkovec
+    year: 1990
+    source: Meyer et al. (1990) Penn State Worry Questionnaire. Behav. Res. Ther. 28(6):487-495 (16 题)
+    url: https://doi.org/10.1016/0005-7967(90)90135-6
+    verified: verified
+  - name: 情绪调节问卷 ERQ(重评/抑制)
+    author: Gross & John
+    year: 2003
+    source: "Gross & John (2003) JPSP 85(2):348-362 (10 题: 重评 6 + 抑制 4); 中文版 ERQ-C"
+    url: https://journal.psych.ac.cn/xlxb/article/2023/0439-755X/0439-755X-55-6-892.shtml
+    verified: verified
+  - name: 心智游移
+    author: Smallwood & Schooler
+    year: 2006
+    source: Smallwood & Schooler (2006) The Restless Mind. Psychological Bulletin 132(6):946-958
+    url: https://pubmed.ncbi.nlm.nih.gov/17073528/
+    verified: verified
+
+iso_groups:
+  - group_id: iso-f19-f4-rumination-vs-attribution
+    primary: f19-002
+    primary_name: 思虑 brooding
+    aliases: [悲观解释风格(F4 att-006), 自利归因偏差(F4 att-010)]
+    members: [f19-002, f19-001]
+    note: 切开关系——反刍是"重复性、时间锚定的思维过程"，归因是"对事件的因果解释内容"；聚类时勿把 brooding 并入悲观解释风格。
+  - group_id: iso-f19-f8-suppression-vs-repression
+    primary: f19-008
+    primary_name: 表达抑制
+    aliases: [压抑(F8 mot-009), 活动抑制(F8 mot-005)]
+    members: [f19-008]
+    note: 表达抑制是有意识的情绪表达策略，F8 压抑是无意识防御机制；相邻但意识层面不同。
+
+chinese_applicability: |
+  A-/B 级资产：RRS 中文版（韩秀&杨宏飞 2009）与 ERQ-C（10 题，结构/重测/内部一致性良好）均有成熟题面；
+  PSWQ 中文版已修订（16 题）。反刍/忧虑的典型题句可直接转文本判定（过去指向、自我聚焦、"为什么是我"、未来"万一"灾难化语言）。
+  心智游移为注意脱离现象，文本侧信号弱（写作跑题可粗测），定为 B/C-；
+  聚类后可用 RRS/PSWQ 中文版得分做外部效标，校准"重复性思维"画像刻度。
+
+constructs:
+  - id: f19-001
+    name: 抑郁反刍总量
+    en: depressive-rumination
+    dimension: 重复性思维与情绪应对
+    question: 文本是否反复聚焦于自身抑郁情绪及其原因、含义、后果？
+    factor: depressive-rumination
+    adjectives: [反复想的, 纠缠情绪的, 钻牛角尖的, 停不下来的]
+    synonyms: [反刍, 反复想, 纠缠情绪, 钻牛角尖]
+    verbs: [反复想, 纠缠, 回想, 停不下来地想]
+    nouns: [情绪, 为什么, 原因, 反复]
+    anchors:
+      positive: "我老在想自己为什么会这么难受，越想越出不来。"
+      negative: "难受一阵就过去了，我不会反复去琢磨它。"
+    source: Nolen-Hoeksema 1991 (RRS); 韩秀&杨宏飞 2009 中文版
+    lexicon_grade: B
+
+  - id: f19-002
+    name: 思虑
+    en: brooding
+    dimension: 重复性思维与情绪应对
+    question: 文本是否用被动、比对式的负面沉思盯着自己"现在多糟"（反刍的病态成分）？
+    factor: brooding
+    adjectives: [闷闷盯着的, 被动比对的, 怨自己的, 闷闷不乐的]
+    synonyms: [思虑, 闷闷沉思, 被动反刍, 拿自己跟理想比]
+    verbs: [盯着自己的感受, 暗自比对, 怨叹, 闷闷想]
+    nouns: [差距, 现状, 自己多糟, 怨叹]
+    anchors:
+      positive: "我就呆呆地想，怎么我现在变成这个样子了。"
+      negative: "难受时我会去想怎么解决，而不是干坐着跟自己较劲。"
+    source: Treynor et al. 2003 (brooding 5 题)
+    lexicon_grade: A-
+    tags: [iso-f19-f4]
+
+  - id: f19-003
+    name: 反省
+    en: reflection
+    dimension: 重复性思维与情绪应对
+    question: 文本是否用有意识、问题解决式的自我反省去理解情绪（反刍的适应成分）？
+    factor: reflection
+    adjectives: [内省的, 建设性的, 找原因的, 求改进的]
+    synonyms: [反省, 内省, 建设性反思, 找改进]
+    verbs: [内省, 找原因, 求改进, 审视自己]
+    nouns: [反省, 原因, 改进, 自我审视]
+    anchors:
+      positive: "我会有意识地想想这次为什么会这样，好下次改进。"
+      negative: "我根本不敢去想自己情绪的事，一碰上就躲开。"
+    source: Treynor et al. 2003 (reflection 5 题)
+    lexicon_grade: A-
+
+  - id: f19-004
+    name: 特质忧虑
+    en: worry
+    dimension: 重复性思维与情绪应对
+    question: 文本是否对未来事件反复、泛化、难以控制地担忧（PSWQ 特质忧虑）？
+    factor: worry
+    adjectives: [担忧的, 放不下的, 泛化焦虑的, 难控制的]
+    synonyms: [忧虑, 担忧, 放不下心, 反复担心]
+    verbs: [担心, 放不下, 反复忧虑, 难以停止]
+    nouns: [担忧, 万一, 放心不下, 焦虑]
+    anchors:
+      positive: "我总是忍不住担心这担心那，明明没事也放不下。"
+      negative: "该发生的会发生，我很少提前担心。"
+    source: Meyer et al. 1990 (PSWQ 16 题)
+    lexicon_grade: B
+
+  - id: f19-005
+    name: 未来灾难化
+    en: future-catastrophizing
+    dimension: 重复性思维与情绪应对
+    question: 文本是否把未来模糊情境解读为最坏结局、反复"万一"推演？
+    factor: future-catastrophizing
+    adjectives: [灾难化的, 往最坏处想的, 危言耸听的, 悲观推演的]
+    synonyms: [灾难化, 万一思维, 往最坏处想, 灾难预演]
+    verbs: [往最坏处想, 预演灾难, 万一推演, 夸大风险]
+    nouns: [万一, 最坏结局, 灾难, 风险]
+    anchors:
+      positive: "万一搞砸了怎么办，我脑子里全是最坏的结果。"
+      negative: "就算出点小问题，我也能应付，不至于想最坏结果。"
+    source: Meyer et al. 1990; Borkovec worry
+    lexicon_grade: B
+
+  - id: f19-006
+    name: 侵入性思维
+    en: intrusive-thoughts
+    dimension: 重复性思维与情绪应对
+    question: 文本是否出现不受欢迎、强行闯入、挥之不去的念头？
+    factor: intrusive-thoughts
+    adjectives: [挥之不去的, 强行闯入的, 烦人的, 赶不走的]
+    synonyms: [侵入思维, 挥之不去, 赶不走的念头, 闯入性想法]
+    verbs: [闯入, 挥之不去, 压不下去, 反复冒出]
+    nouns: [念头, 闯入, 挥之不去, 反复]
+    anchors:
+      positive: "有些念头赶都赶不走，老自己冒出来。"
+      negative: "念头来了我基本能转移开，不让它缠着我。"
+    source: Borkovec; perseverative cognition
+    lexicon_grade: B
+
+  - id: f19-007
+    name: 认知重评
+    en: cognitive-reappraisal
+    dimension: 重复性思维与情绪应对
+    question: 文本是否通过重新解读情境、改变意义来调节情绪（ERQ 重评策略）？
+    factor: cognitive-reappraisal
+    adjectives: [换角度的, 重新解读的, 重构意义的, 豁达的]
+    synonyms: [认知重评, 换个角度看, 重新解读, 重构意义]
+    verbs: [换角度看, 重新解读, 重构意义, 转念]
+    nouns: [重新解读, 角度, 意义, 转念]
+    anchors:
+      positive: "我会换个角度看这件事，它就没那么吓人了。"
+      negative: "事情就是糟，我也改不了怎么想它。"
+    source: Gross & John 2003 (ERQ reappraisal 6 题); ERQ-C
+    lexicon_grade: B
+
+  - id: f19-008
+    name: 表达抑制
+    en: expressive-suppression
+    dimension: 重复性思维与情绪应对
+    question: 文本是否靠压住情绪表达、不流露来应对（ERQ 抑制策略）？
+    factor: expressive-suppression
+    adjectives: [压抑的, 不露声色的, 硬扛的, 藏情绪的]
+    synonyms: [表达抑制, 压抑情绪, 不露声色, 藏着情绪]
+    verbs: [压住情绪, 不流露, 硬扛, 藏着]
+    nouns: [压抑, 不流露, 情绪外露, 硬扛]
+    anchors:
+      positive: "再难受我也不表现出来，自己扛着就行。"
+      negative: "该表露就表露，我不硬憋着情绪。"
+    source: Gross & John 2003 (ERQ suppression 4 题); ERQ-C
+    lexicon_grade: B
+    tags: [iso-f19-f8]
+
+  - id: f19-009
+    name: 自我聚焦反刍
+    en: self-focused-rumination
+    dimension: 重复性思维与情绪应对
+    question: 文本是否把重复思考全部对准自身（"我为什么这样/我怎么了"），而非外部问题？
+    factor: self-focused-rumination
+    adjectives: [向内看的, 盯着自己的, 自我纠缠的, 内耗的]
+    synonyms: [自我聚焦, 内耗, 盯着自己, 自我纠缠]
+    verbs: [盯着自己, 问自己怎么了, 内耗, 向内归因]
+    nouns: [我怎么了, 自己, 内耗, 自我]
+    anchors:
+      positive: "我满脑子都是我自己怎么了、为什么会这样。"
+      negative: "我更多想的是事情本身怎么解决，不是我自己。"
+    source: Nolen-Hoeksema 1991; RRS self-focus
+    lexicon_grade: B
+
+  - id: f19-010
+    name: 过去时间指向
+    en: past-oriented-thinking
+    dimension: 重复性思维与情绪应对
+    question: 文本的重复性思维是否锚定在过去事件（反复回味、复盘、追悔）？
+    factor: past-oriented
+    adjectives: [念旧的, 追悔的, 反复复盘的, 活在过去的]
+    synonyms: [过去指向, 追悔, 反复回味, 活在过去]
+    verbs: [回味, 追悔, 反复复盘, 回想过去]
+    nouns: [过去, 当初, 后悔, 回味]
+    anchors:
+      positive: "我老在想当初那事要是换个做法就好了。"
+      negative: "过去就过去了，我更多想接下来怎么办。"
+    source: Treynor et al. 2003; temporal orientation
+    lexicon_grade: B
+
+  - id: f19-011
+    name: 模糊情境威胁化解释
+    en: interpretation-bias-threat
+    dimension: 重复性思维与情绪应对
+    question: 文本是否把模糊/中性情境自动解读为威胁、恶意或坏消息（解释偏差）？
+    factor: interpretation-bias
+    adjectives: [多疑的, 往坏处解读的, 敏感敌意的, 自动负面解释的]
+    synonyms: [解释偏差, 威胁化解读, 自动负面解释, 多疑]
+    verbs: [往坏处解读, 脑补恶意, 自动负面解释, 多疑]
+    nouns: [威胁, 恶意, 误会, 负面解释]
+    anchors:
+      positive: "他半天没回我消息，肯定是对我有意见。"
+      negative: "他没回消息，可能就是忙，我不会多想。"
+    source: Mathews & Mackintosh 2000 (ambiguous scenario CBM-I)
+    lexicon_grade: B
+
+  - id: f19-012
+    name: 心智游移
+    en: mind-wandering
+    dimension: 重复性思维与情绪应对
+    question: 文本是否显示注意脱离当前任务、自发想到别处（stimulus-independent thought）？
+    factor: mind-wandering
+    adjectives: [走神的, 跑题的, 心不在焉的, 胡思乱想的]
+    synonyms: [心智游移, 走神, 跑题, 心不在焉]
+    verbs: [走神, 跑题, 想别处去了, 心猿意马]
+    nouns: [走神, 跑题, 走神念头, 分心]
+    anchors:
+      positive: "写着写着我脑子就飘到别的事上去了。"
+      negative: "我做一件事时基本能一直专注在上面。"
+    source: Smallwood & Schooler 2006
+    lexicon_grade: B-
+
+  - id: f19-013
+    name: 任务聚焦思维
+    en: task-focused-thought
+    dimension: 重复性思维与情绪应对
+    question: 文本是否保持注意锚定当前任务、思路连贯不跑题（心智游移的对照极）？
+    factor: task-focused
+    adjectives: [专注的, 聚焦的, 思路连贯的, 不分心的]
+    synonyms: [任务聚焦, 专注, 思路连贯, 不分心]
+    verbs: [专注, 聚焦, 保持思路, 不分心]
+    nouns: [专注, 焦点, 任务, 连贯]
+    anchors:
+      positive: "我能一直顺着当前的事想下去，思路不断。"
+      negative: "我经常想着想着就不知道飘到哪去了。"
+    source: Smallwood & Schooler 2006 (focused/wandering 轴)
+    lexicon_grade: B
+
+  - id: f19-014
+    name: 持续性认知总构念
+    en: perseverative-cognition
+    dimension: 重复性思维与情绪应对
+    question: 文本整体是否表现出反复、持续、难以停止的负面思维倾向（反刍+忧虑的统一伞）？
+    factor: perseverative-cognition
+    adjectives: [反复不停的, 挥之不去的, 黏滞的, 难停止的]
+    synonyms: [持续性认知, 反复不停, 思维黏滞, 停不下来]
+    verbs: [反复不停, 持续想, 难以停止, 黏滞思考]
+    nouns: [反复, 持续, 停不下来, 黏滞]
+    anchors:
+      positive: "一件事我能翻来覆去想很久，停都停不下来。"
+      negative: "事情想通了我就放下了，不会一直纠缠。"
+    source: Borkovec; Brosschot perseverative cognition 框架
+    lexicon_grade: B
+    seed_ref: true

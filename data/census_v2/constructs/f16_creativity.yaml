@@ -1,0 +1,294 @@
+# =============================================================================
+# AoT 思维构念普查 v2 · F16 创造力与发散思维家族
+# 编码方式：对齐 SPI 因子链五层（factor / adjectives / synonyms / verbs / nouns）
+# 词元为可直接嵌入的中文词项；lexicon_grade: A=现成资产(量表题面/RAT/Aha词元) B=LLM自举
+# 文献出处复用 s2_problem_solving.md 台账（已核到原始出处，含 verified/claimed）
+# =============================================================================
+
+family_id: F16
+family_name: 创造力与发散思维
+dimension: 创造力与发散思维
+models:
+  - name: 智力结构论 SOI（发散生产四因子）
+    author: Guilford
+    year: 1967
+    source: Guilford (1967) The Nature of Human Intelligence. McGraw-Hill. 操作×内容×产物三维=120；发散生产=流畅/变通/独创/精致
+    url: https://kiecon.org/wp-content/uploads/2022/02/J.P.-GUILFORD.pdf
+    verified: verified
+  - name: 托兰斯创造性思维测验 TTCT（中文版）
+    author: Torrance / 叶仁敏、洪德厚
+    year: 1974
+    source: Torrance (1974) TTCT. Scholastic Testing Service；叶仁敏、洪德厚、Torrance (1988) 托兰斯创造性思维测验的测试和中美学生的跨文化比较. 应用心理学 3(3):22-29
+    url: https://people.uncw.edu/caropresoe/giftedfoundations/SocialEmotional/Creativity-articles/Kim_Can-we-trust-creativity-tests.pdf
+    verified: verified
+  - name: 远隔联想测验 RAT（中文版）
+    author: Mednick / 肖微、姚翔、邱永桃
+    year: 1962
+    source: Mednick (1962) The Associative Basis of the Creative Productive Process. Psychological Review 69(3):220-232；肖微等 (2015) 用项目反应理论编制中文版远程联想测验(RAT). 北京大学学报(自然科学版)（IRT 91 题, N=2659）
+    url: https://xbna.pku.edu.cn/CN/10.13209/j.0479-8023.2015.123
+    verified: verified
+  - name: 同感评估技术 CAT
+    author: Amabile
+    year: 1982
+    source: "Amabile (1982) Social psychology of creativity: A consensual assessment technique. JPSP 43(5):997-1013"
+    url: https://www.rider.edu/sites/default/files/2024-05/GoldStandard.pdf
+    verified: verified
+  - name: 创造四阶段论
+    author: Wallas
+    year: 1926
+    source: Wallas (1926) The Art of Thought. 准备→酝酿→豁朗→验证
+    url: ""
+    verified: claimed
+  - name: 类比问题解决
+    author: Gick & Holyoak
+    year: 1980
+    source: Gick & Holyoak (1980) Analogical Problem Solving. Cognitive Psychology 12(3):306-355（辐射问题；注意→映射→应用）
+    url: https://nmoer.pressbooks.pub/cognitivepsychology/chapter/problem-solving-by-analogy/
+    verified: verified
+  - name: Aha 顿悟体验（复合远隔联想范式）
+    author: Bowden & Jung-Beeman
+    year: 2003
+    source: Bowden & Jung-Beeman (2003) Aha! Insight experience correlates with solution activation in the right hemisphere. Psychonomic Bulletin & Review 10(4):730-737（144 复合远隔联想题；顿悟自评 1/2/3）
+    url: https://cseweb.ucsd.edu//~gary/cs200/f06/papers/PsychSci_2006_Kounios_MJB.pdf
+    verified: verified
+
+iso_groups:
+  - group_id: iso-f16-divergent-convergent
+    primary: f16-006
+    primary_name: 发散-收敛切换
+    aliases: [cgs-013 发散-聚合思维]
+    members: [f16-006, cgs-013]
+    note: 与 v1 F1 cgs-013 同内核（多解 vs 唯一解）；F16 侧重创造产出的放收机制，F1 侧重风格倾向，聚类层先合并观测
+  - group_id: iso-f16-analogy-transfer
+    primary: f16-012
+    primary_name: 类比迁移
+    aliases: [arg-003 类比论证]
+    members: [f16-012, arg-003]
+    note: 关键区分——arg-003 类比论证是修辞说服手段（拿彼事佐证此事，用于论证图式）；f16-012 类比迁移是问题解决认知过程（注意源域→结构映射→把源解法搬到靶域）。二者词面相邻但功能不同，不得混编码
+  - group_id: iso-f16-illumination-aha
+    primary: f16-009
+    primary_name: 豁朗期
+    aliases: [f16-011 Aha顿悟事件]
+    members: [f16-009, f16-011]
+    note: 豁朗期是 Wallas 过程阶段倾向；Aha 是可计数的文本事件标记，前者为倾向、后者为事件
+
+chinese_applicability: |
+  本家族 A 级资产齐备：TTCT 言语式有叶仁敏、洪德厚 1988 中文修订版（流畅/变通/独创/精致四指标可对诱发文本评分，独创性已有自动评分 ERIC EJ1356011）；
+  RAT 有肖微、姚翔、邱永桃 2015 北大 IRT 中文版（91 题）；Aha 顿悟事件词元可直接建中文词表（突然想到/顿悟/原来如此/茅塞顿开/豁然开朗/灵光一现）。
+  其余构念（精致性、Wallas 阶段、CAT、类比迁移）无现成中文词表，按 B 级 LLM 从理论自举。
+  注意：v1 cgs-008 适应-创新(KAI) 与本家族相邻但保留在 F1，不迁入；建议聚类后用中文 RAT/TTCT 得分做外部效标反标定。
+
+constructs:
+  - id: f16-001
+    name: 流畅性
+    en: ideational-fluency
+    dimension: 创造力与发散思维
+    question: 面对开放问题时，文本是否能快速连续地产出多个点子/用途/方案，还是很快卡壳？
+    factor: ideational-fluency
+    adjectives: [多产的, 源源不断的, 点子多的, 联想快的, 数量密集的, 寡断的, 卡壳的, 才思枯竭的]
+    synonyms: [流畅性, 观念流畅, 点子数量, 思维流畅, 思路多]
+    verbs: [联想, 列举, 冒出, 罗列, 生发, 堆叠, 卡壳, 断档]
+    nouns: [点子, 数量, 用途, 方案, 清单, 灵感流]
+    anchors:
+      positive: 关于这个旧纸箱，我一口气能想出二十种用法——装东西、当凳子、做猫窝、画成画板。
+      negative: 让我想这东西还能干嘛？我一时半会儿真说不出第二个用途。
+    source: Guilford 1967 SOI；TTCT 流畅性（叶仁敏、洪德厚 1988 中文修订版）
+    lexicon_grade: A
+    seed_ref: true
+
+  - id: f16-002
+    name: 变通性
+    en: ideational-flexibility
+    dimension: 创造力与发散思维
+    question: 文本提出的点子是否横跨多个类别/视角，还是反复在同一类里打转？
+    factor: ideational-flexibility
+    adjectives: [灵活的, 跨类的, 多视角的, 跳跃的, 刻板的, 钻牛角尖的, 单一视角的]
+    synonyms: [变通性, 思维灵活, 类别转换, 视角切换, 弹性]
+    verbs: [换类, 跳视角, 切换, 跨域, 钻死胡同, 绕回]
+    nouns: [类别, 视角, 角度, 范畴, 切换]
+    anchors:
+      positive: 我既能从实用角度、又能从审美角度、还能从社交角度来想这件事。
+      negative: 我翻来覆去就是在省钱这一个角度里打转，出不去。
+    source: Guilford 1967；TTCT 变通性（叶仁敏 1988）
+    lexicon_grade: A
+
+  - id: f16-003
+    name: 独创性
+    en: originality
+    dimension: 创造力与发散思维
+    question: 文本产出的点子是否罕见、出人意料、不落俗套，还是常人第一反应就能想到？
+    factor: originality
+    adjectives: [新颖的, 独特的, 出人意料的, 罕见的, 陈腐的, 老生常谈的, 随大流的]
+    synonyms: [独创性, 独特性, 新颖度, 罕见反应, 不落俗套]
+    verbs: [另辟蹊径, 别出心裁, 出人意料, 落俗套, 跟风]
+    nouns: [新颖性, 独特反应, 罕见度, 新意, 俗套]
+    anchors:
+      positive: 别人都没想到我会把蜡烛粘在墙上当挂钩——连我自己都觉得这招有点离谱。
+      negative: 我想出来的办法和大家差不多，都是最常规那一种。
+    source: Guilford 1967；TTCT 独创性（自动 originality 评分 ERIC EJ1356011）；叶仁敏 1988
+    lexicon_grade: A
+    seed_ref: true
+
+  - id: f16-004
+    name: 精致性
+    en: elaboration
+    dimension: 创造力与发散思维
+    question: 文本是否对一个想法补充细节、展开情节、把方案做厚，还是只给一句干巴巴的点子？
+    factor: elaboration
+    adjectives: [精致的, 细节丰富的, 展开的, 铺陈的, 干巴的, 一句话的, 粗略的]
+    synonyms: [精致性, 精细加工, 细节展开, 充实度]
+    verbs: [展开, 铺陈, 补细节, 细化, 一笔带过, 缩略]
+    nouns: [细节, 展开, 情节, 补充, 厚度]
+    anchors:
+      positive: 我不仅说要办活动，还把时间、场地、怎么吸引路人、预算怎么分都一步步写了出来。
+      negative: 我就一句话：搞个活动。具体怎么办我没多想。
+    source: Guilford 1967；TTCT 精致性（叶仁敏 1988）
+    lexicon_grade: B
+
+  - id: f16-005
+    name: 远隔联想
+    en: remote-association
+    dimension: 创造力与发散思维
+    question: 文本是否能把表面上毫不相干的概念/词语/领域连到一起，形成远距离语义跳跃？
+    factor: remote-association
+    adjectives: [远距离的, 跨界的, 八竿子打着的, 风马牛的, 近邻的, 就事论事的]
+    synonyms: [远隔联想, 远距离联想, 跨界联结, 语义跳跃, RAT]
+    verbs: [联结, 牵线, 搭界, 跨界, 硬扯, 拉近]
+    nouns: [远距离, 联结, 桥梁词, 跨域, 关联]
+    anchors:
+      positive: 把睡眠、豆子、垃圾放一块儿，我一下想到袋子——睡袋、豆袋、垃圾袋。
+      negative: 这三个词八竿子打不着，我怎么也看不出它们有什么共同的连接点。
+    source: Mednick 1962 Psych Rev 69:220-232；中文版 RAT 肖微等 2015 北大学报自科版（IRT 91 题）
+    lexicon_grade: A
+
+  - id: f16-006
+    name: 发散-收敛切换
+    en: divergent-convergent-switching
+    dimension: 创造力与发散思维
+    question: 文本能否在放开想一堆可能与收回来定唯一解之间灵活切换，而不是一直发散或一直收束？
+    factor: divergent-convergent-switching
+    adjectives: [能放能收的, 张弛有度的, 只会发散的, 只会收敛的, 摇摆的]
+    synonyms: [发散收敛切换, 放收自如, 多转一, 一归多]
+    verbs: [放开, 收束, 切换, 归并, 聚焦, 铺开]
+    nouns: [发散, 收敛, 切换, 多解, 焦点]
+    anchors:
+      positive: 我先放开列出十种可能，再一个一个砍掉，最后留下最靠谱那一个。
+      negative: 我要么一直列下去收不住，要么一上来就锁死一个答案，中间切不过来。
+    source: Guilford 1967；双过程
+    lexicon_grade: B
+    note: 与 v1 F1 cgs-013 同组（iso-f16-divergent-convergent）
+
+  - id: f16-007
+    name: 准备期
+    en: preparation-stage
+    dimension: 创造力与发散思维
+    question: 文本在创造前是否强调收集资料、铺垫、把问题想清楚的阶段？
+    factor: preparation-stage
+    adjectives: [蓄力的, 铺垫的, 收集的, 调研的, 仓促上马的, 裸奔的]
+    synonyms: [准备期, 酝酿前的蓄力, 资料收集, 铺垫阶段]
+    verbs: [收集, 调研, 铺垫, 吃透, 仓促动手]
+    nouns: [准备, 资料, 铺垫, 调研, 素材]
+    anchors:
+      positive: 动笔之前我先把相关文献、案例、数据翻了个遍，心里有底了才开始。
+      negative: 我几乎不做准备，想到就直接上手干。
+    source: Wallas 1926 The Art of Thought（准备期）
+    lexicon_grade: B
+
+  - id: f16-008
+    name: 酝酿期
+    en: incubation-stage
+    dimension: 创造力与发散思维
+    question: 文本是否有放下问题、搁在一边、做别的事反而想出答案的经历描述？
+    factor: incubation-stage
+    adjectives: [搁置的, 悬置的, 后台加工的, 放一放的, 死磕的, 硬碰硬的]
+    synonyms: [酝酿期, 孵化, 搁一搁, 后台加工, 冷却]
+    verbs: [搁置, 放下, 冷却, 后台运行, 死磕]
+    nouns: [酝酿, 孵化, 悬置, 后台, 冷却期]
+    anchors:
+      positive: 这个题我卡了三天，干脆放下去散步，结果走着走着答案自己冒了出来。
+      negative: 我卡壳的时候就死盯着它硬想，从不放下去做别的。
+    source: Wallas 1926（酝酿期）；沈汪兵、刘昌等中文酝酿效应研究
+    lexicon_grade: B
+
+  - id: f16-009
+    name: 豁朗期
+    en: illumination-stage
+    dimension: 创造力与发散思维
+    question: 文本是否描述了突然一下全通了、答案整体浮现的创造过程阶段？
+    factor: illumination-stage
+    adjectives: [豁然的, 贯通的, 整体浮现的, 渐进的, 慢慢拼的]
+    synonyms: [豁朗期, 顿悟时刻, 灵光一现, 贯通]
+    verbs: [贯通, 豁然开朗, 灵光一闪, 逐步拼凑]
+    nouns: [豁朗, 贯通, 灵光, 顿悟, 浮现]
+    anchors:
+      positive: 就在那一瞬间，整个方案在脑子里一下子连起来了，前后全通。
+      negative: 我的答案是一点点试出来的，没有那种一下全通的时刻。
+    source: Wallas 1926（豁朗期）；Gestalt insight
+    lexicon_grade: B
+    note: 与 f16-011 Aha 事件标记同组（iso-f16-illumination-aha）
+
+  - id: f16-010
+    name: 验证期
+    en: verification-stage
+    dimension: 创造力与发散思维
+    question: 文本在灵光之后是否强调回头检验、打磨、把灵感落到实处的阶段？
+    factor: verification-stage
+    adjectives: [检验的, 打磨的, 落地的, 严谨的, 放任的, 不计后果的]
+    synonyms: [验证期, 打磨, 检验, 落地, 后加工]
+    verbs: [检验, 打磨, 落地, 证伪, 照搬灵感]
+    nouns: [验证, 打磨, 检验, 落地, 推敲]
+    anchors:
+      positive: 那个灵感出来后，我又花了两周去验证它到底成不成立、哪里有漏洞。
+      negative: 一想通我就直接用了，从来不再回头检验。
+    source: Wallas 1926（验证期）
+    lexicon_grade: B
+
+  - id: f16-011
+    name: Aha 顿悟事件标记
+    en: aha-event-marker
+    dimension: 创造力与发散思维
+    question: 文本中是否出现突然想到、原来如此、茅塞顿开这类顿悟体验的词元事件？
+    factor: aha-event-marker
+    adjectives: [顿悟的, 茅塞顿开的, 豁然的, 突然的, 渐进的, 无感的]
+    synonyms: [Aha时刻, 顿悟事件, 突然想到, 原来如此, 茅塞顿开, 豁然开朗, 灵光一现, eureka]
+    verbs: [顿悟, 突然想到, 茅塞顿开, 豁然开朗, 灵光一现, 恍然大悟]
+    nouns: [顿悟, Aha, 原来如此, 灵光, 一下子]
+    anchors:
+      positive: 我突然想到——原来这两件事是同一个道理！茅塞顿开。
+      negative: 我是一步步慢慢弄明白的，没有突然一下的感觉。
+    source: Bowden & Jung-Beeman 2003 Psychon Bull Rev 10:730-737；中文词元清单为本扫描拟建
+    lexicon_grade: A
+    seed_ref: true
+
+  - id: f16-012
+    name: 类比迁移
+    en: analogical-transfer
+    dimension: 创造力与发散思维
+    question: 文本是否把另一个领域/故事里的解法映射过来解决眼前的问题（问题解决迁移）？
+    factor: analogical-transfer
+    adjectives: [跨域迁移的, 借他山之石的, 对号映射的, 就事论事的, 闭门造车的]
+    synonyms: [类比迁移, 类比问题解决, 借源域解法, 结构映射, 举一反三]
+    verbs: [迁移, 映射, 借用, 举一反三, 对号, 照搬]
+    nouns: [类比, 迁移, 源域, 靶域, 映射, 结构对应]
+    anchors:
+      positive: 我想起那支军队分路攻城的故事，于是让好几束弱射线从不同方向照过去，既不伤组织又能灭瘤。
+      negative: 我只盯着眼前这道题本身，从没想过别的故事里有没有类似解法。
+    source: Gick & Holyoak 1980 Cognitive Psychology 12(3):306-355（注意→映射→应用三步）
+    lexicon_grade: B
+    note: 关键区分——v1 arg-003 类比论证是修辞说服，本构念是问题解决迁移（iso-f16-analogy-transfer）
+
+  - id: f16-013
+    name: 产品创造性同感评估
+    en: consensual-creativity-assessment
+    dimension: 创造力与发散思维
+    question: 文本产出的作品/方案，是否在领域专家独立盲评下被一致判定为新颖且合用？
+    factor: consensual-creativity-assessment
+    adjectives: [被公认有创意的, 专家一致认可的, 新颖且合用的, 自嗨的, 曲高和寡的]
+    synonyms: [同感评估, 产品创造性, CAT, 专家盲评, 新颖合用]
+    verbs: [盲评, 独立打分, 公认, 判定新颖, 自嗨]
+    nouns: [创造性产品, 同感评估, 专家评级, 新颖性, 合用性]
+    anchors:
+      positive: 五位评委都不看作者、独立打分，一致说这个方案既新颖又能落地。
+      negative: 我自己觉得很有创意，但拿去给业内人看，没人觉得特别。
+    source: Amabile 1982 JPSP 43(5):997-1013（CAT）；LLM 多模型平均打分参照 Wright 2025
+    lexicon_grade: B

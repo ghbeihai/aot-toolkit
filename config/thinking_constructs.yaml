@@ -1,0 +1,213 @@
+# =============================================================================
+# AoT（思维图谱 Atlas of Thinking）v0.1 —— 思维构念词元库（自上而下资产层）
+# -----------------------------------------------------------------------------
+# 定位：把"人类是怎么想问题的"拆成可计算、可判定、有文献依据的思维构念。
+# 编码格式：对齐 SPI 因子链五层（factor/adjectives/synonyms/verbs/nouns），
+#           另加 设问（question）、正反锚句（anchors，供 LLM 判定参照）与文献出处。
+# 性质：v0.1 探索版，未冻结。任何词元/提示词变更需记录并重跑基线。
+# 文献底座：思维量化总调研（2026-10-11，95+31 条文献，含第七·无预置分类专项）。
+# =============================================================================
+
+project:
+  name: 思维图谱 Atlas of Thinking（AoT）
+  version: 0.1.0
+  status: exploratory
+  frozen: false
+  frozen_at: null
+  basis: |
+    基于「思维量化总调研」（Poldrack 认知本体 / Walton 论证图式 / LIWC 词元 /
+    CMT·MetaNet 隐喻 / 归因 CAVE / LCM 抽象层级 / 元认知 MAI / OMT 内隐动机）
+    将用户 8 维草图 + 文献新增维度统一编码为 12 个可判定思维构念。
+  change_rule: |
+    v0.1 探索期：词元与提示词可迭代；进入 v1.0 冻结时须补外部效标反标定
+    （D3 类分数 vs CRT/NFC；D5 vs 归因风格问卷；D8 vs OMT 人工编码）。
+
+scoring:
+  schema: "{score: 1-7, evidence: [...], confidence: 0-1}"
+  meaning: |
+    score = 该文本在多大程度上表现出此思维构念（1=几乎不/相反，7=强烈且一致）。
+    构念若定义了两极（如归因：外因结构 vs 个人特质），定义文本中会写明方向。
+  rounds: 2
+  temperatures: [0.3, 0.7]
+  evidence_max: 3
+
+constructs:
+  - id: causal_mechanism
+    name: 因果机制推理
+    en: Mechanistic Causal Reasoning
+    dimension: D3 推理习惯
+    question: 他用"因果/机制/背后的逻辑"解释现象，还是停在结论本身？
+    factor: 机制因果
+    adjectives: [机制性的, 因果性的, 链条式的, 解释性的]
+    synonyms: [因果推理, 机制解释, 因果链条, 前因后果, 背后逻辑]
+    verbs: [因为, 所以, 导致, 引发, 促成, 取决于, 意味着, 背后是, 说明]
+    nouns: [机制, 原理, 原因, 环节, 路径, 链条, 逻辑, 传导, 根源]
+    anchors:
+      positive: ["大家一定要看清楚这个行业背后的逻辑", "这背后的推手一定会浮出来"]
+      negative: ["就是这样的，没有为什么", "反正大家都这么做"]
+    source: Lombrozo 2006 机制论 vs 功能论；Walton 因果图式；LIWC causation
+
+  - id: analogical_transfer
+    name: 类比迁移推理
+    en: Analogical Transfer
+    dimension: D3 推理习惯
+    question: 他靠类比/比喻把陌生问题迁移到熟悉场景来理解吗？
+    factor: 类比迁移
+    adjectives: [类比性的, 比喻式的, 迁移性的]
+    synonyms: [类比推理, 打比方, 换个说法, 借喻]
+    verbs: [好比, 如同, 就像, 相当于, 类比, 比作]
+    nouns: [比喻, 类比, 模型, 场景, 例子]
+    anchors:
+      positive: ["这就好比……", "就像是……一样"]
+      negative: ["这事没有可比性", "别拿这个类比"]
+    source: Walton 类比图式；Gentner 结构映射理论
+
+  - id: data_evidence
+    name: 数据证据校准
+    en: Evidence-Based Calibration
+    dimension: D3 推理习惯（兼 D5）
+    question: 他靠数据/证据/事实校准判断，还是靠印象/权威/感觉下结论？
+    factor: 数据证据
+    adjectives: [数据化的, 实证的, 有依据的, 可核查的]
+    synonyms: [数据说话, 证据意识, 事实核查, 实证取向]
+    verbs: [数据显示, 统计, 概率, 调研, 验证, 查证, 引用, 数据表明, 测算]
+    nouns: [数据, 证据, 事实, 样本, 调研, 报告, 概率, 数字, 来源]
+    anchors:
+      positive: ["数据显示……", "我查证过权威来源……"]
+      negative: ["感觉就是这样", "大家都这么说"]
+    source: Walton 实证前提图式；Peters & Matz；LIWC
+
+  - id: counterexample
+    name: 反例证伪意识
+    en: Counterexample / Falsification Awareness
+    dimension: D3 推理习惯（兼 D6）
+    question: 他会主动找反例/例外/证伪条件，还是把判断当成确定结论？
+    factor: 反例证伪
+    adjectives: [证伪性的, 批判性的, 例外敏感的]
+    synonyms: [找反例, 证伪意识, 例外意识, 边界条件]
+    verbs: [但是, 例外, 未必, 万一, 反过来, 不可一概而论, 除非, 需警惕]
+    nouns: [反例, 例外, 边界, 条件, 局限, 前提, 风险]
+    anchors:
+      positive: ["但万一……呢？", "不能一概而论"]
+      negative: ["从来没有例外", "绝对是这样"]
+    source: Walton 反例图式；Popper 证伪主义
+
+  - id: attribution_external
+    name: 外因结构归因（两极：外部结构 ↔ 个人特质）
+    en: Structural vs Dispositional Attribution
+    dimension: D5 归因结构
+    question: 他把结果归因于外部结构/环境/制度（7 分），还是归因于个人特质/能力/意愿（1 分）？
+    factor: 外部结构归因
+    adjectives: [结构性的, 系统性的, 环境性的]
+    synonyms: [归因于环境, 结构归因, 制度归因, 大环境使然]
+    verbs: [受限于, 取决于环境, 被制度, 大势所趋, 时代使然, 平台决定]
+    nouns: [大环境, 政策, 制度, 行业, 结构, 平台, 资源, 运气, 市场]
+    anchors:
+      positive: ["这是整个行业的结构问题", "大环境决定的"]
+      negative: ["是他自己不努力", "个人性格决定的"]
+    source: Weiner 1985 归因三维；Abramson 1978 习得性无助；CAVE（Schulman 1989，r=0.71）
+
+  - id: abstraction_level
+    name: 抽象层级（两极：概念抽象 ↔ 具体实例）
+    en: Abstraction Level
+    dimension: D4 抽象层级
+    question: 他上升为概念/原则/本质（7 分），还是停留在具体事实/实例/细节（1 分）？
+    factor: 抽象层级
+    adjectives: [抽象的, 概念化的, 原则性的]
+    synonyms: [抽象概括, 本质思考, 提炼原则, 底层逻辑]
+    verbs: [上升到, 本质上, 归根结底, 抽象成, 总结为]
+    nouns: [本质, 规律, 原理, 原则, 层面, 维度, 模型, 框架]
+    anchors:
+      positive: ["本质上这是一件事", "底层逻辑是……"]
+      negative: ["具体来说……", "你看这个例子"]
+    source: LCM（Semin & Fiedler 1989 四级抽象梯度）；CLT（Trope & Liberman 2010）
+
+  - id: deductive_reasoning
+    name: 演绎必然推理
+    en: Deductive Reasoning
+    dimension: D6 论证图式
+    question: 他靠"前提→必然结论"的演绎推理说服/思考吗？
+    factor: 演绎必然
+    adjectives: [演绎的, 必然的, 逻辑严密的]
+    synonyms: [演绎推理, 必然结论, 逻辑推出]
+    verbs: [必然, 一定, 推出, 逻辑上, 毫无疑问, 因此, 既然]
+    nouns: [逻辑, 前提, 结论, 推理, 必然性]
+    anchors:
+      positive: ["既然……那么必然……", "逻辑上一定成立"]
+      negative: ["走着瞧吧", "说不准"]
+    source: Walton 演绎图式
+
+  - id: inductive_reasoning
+    name: 归纳概括推理
+    en: Inductive Reasoning
+    dimension: D6 论证图式
+    question: 他靠经验/样本归纳出一般规律吗？
+    factor: 归纳概括
+    adjectives: [归纳的, 经验性的, 概率倾向的]
+    synonyms: [归纳推理, 经验总结, 趋势判断]
+    verbs: [通常, 往往, 大多, 倾向, 一般, 总结, 大概率]
+    nouns: [经验, 规律, 样本, 比例, 趋势, 概率]
+    anchors:
+      positive: ["大多数情况下……", "根据我的经验……"]
+      negative: ["个别案例说明不了问题"]
+    source: Walton 归纳图式
+
+  - id: tentativeness
+    name: 试探确定性（两极：试探留白 ↔ 绝对断言）
+    en: Tentativeness vs Certainty
+    dimension: D1 元认知（兼 D3）
+    question: 他下判断的确定度——高度试探、留有余地（7 分），还是绝对断言（1 分）？
+    factor: 试探留白
+    adjectives: [试探性的, 留有余地的, 不确定的]
+    synonyms: [可能性语言, 试探性判断, 认知留白]
+    verbs: [也许, 可能, 大概, 或许, 不一定, 有待观察, 我怀疑, 猜测]
+    nouns: [可能性, 不确定性, 假设, 疑问, 余地]
+    anchors:
+      positive: ["这可能只是我的猜测", "不一定对"]
+      negative: ["绝对是这样", "毫无疑问"]
+    source: LIWC tentative/certainty 词类；Pennycook 2016
+
+  - id: metaphor_density
+    name: 概念隐喻密度
+    en: Conceptual Metaphor Density
+    dimension: D7 根隐喻/叙事主题
+    question: 他频繁用隐喻框架（战争/旅程/机器/有机体/容器/戏剧）理解事物吗？
+    factor: 概念隐喻
+    adjectives: [隐喻性的, 框架性的, 意象化的]
+    synonyms: [概念隐喻, 隐喻框架, 意象图式]
+    verbs: [对抗, 攻克, 前进, 倒退, 运转, 失效, 生长, 衰亡, 容纳, 溢出, 上演]
+    nouns: [战争, 战役, 战场, 敌人, 旅途, 道路, 方向, 机器, 引擎, 故障, 有机体, 养分, 容器, 舞台, 角色]
+    anchors:
+      positive: ["这是一场战争", "我们走在对的路上"]
+      negative: ["没有比喻，直说事实"]
+    source: Lakoff & Johnson 1980；Master Metaphor List 1991；MetaNet（Dodge 2015）
+
+  - id: metacognition
+    name: 元认知监控
+    en: Metacognitive Monitoring
+    dimension: D1 元认知
+    question: 他显式监控/反思自己的思维过程、盲点与假设吗？
+    factor: 元认知监控
+    adjectives: [反思性的, 自省的, 监控性的]
+    synonyms: [元认知, 自我监控, 反思, 认知复盘]
+    verbs: [我意识到, 我注意到, 换个角度, 重新审视, 反思, 自我检查, 复盘]
+    nouns: [思维过程, 认知偏差, 盲点, 视角, 假设]
+    anchors:
+      positive: ["我意识到我可能想错了", "换个角度想"]
+      negative: ["就这么定了，不用多想"]
+    source: Flavell 1979；Schraw & Dennison 1994（MAI）；Jersakova 元认知文本计算
+
+  - id: implicit_motivation
+    name: 内隐动机意象（成就/权力/亲和）
+    en: Implicit Motive Imagery
+    dimension: D8 无意识/内隐
+    question: 文本中内隐动机意象的突出度——成就（目标/标准/做得更好）、权力（影响/控制/领导/地位）、亲和（关系/陪伴/交流/和谐）？
+    factor: 内隐动机
+    adjectives: [动机性的, 目标导向的, 进取的]
+    synonyms: [内隐动机, 动机意象, 成就动机, 权力动机, 亲和动机]
+    verbs: [做得更好, 超越, 达标, 影响, 掌控, 领导, 团结, 陪伴, 交流]
+    nouns: [目标, 标准, 成就, 冠军, 权力, 地位, 控制, 关系, 团队, 朋友, 和谐]
+    anchors:
+      positive: ["我们一定要做到最好", "只有掌控局面才能……"]
+      negative: ["无所谓，随便"]
+    source: McClelland 1989；Winter 1991；OMT（Johannßen 2019，F≈0.80）

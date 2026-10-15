@@ -1,0 +1,318 @@
+# =============================================================================
+# F11 启发式与偏差家族 —— SPI 同构因子链编码
+# family_id: F11
+# 来源：Kahneman & Tversky 启发式目录 + Gigerenzer 快速节俭启发式。
+# 多为行为实验构念，无现成中文文本词表，故多为 B 级（LLM 从理论自举）。
+# =============================================================================
+
+family_id: F11
+family_name: 启发式与偏差
+family_name_en: Heuristics and Biases
+sketch_dimension: [推理习惯, 归因结构]
+
+models:
+  - name: 启发式与偏差目录（代表性/可得性/锚定）
+    author: Tversky, A. & Kahneman, D.
+    year: 1974
+    source: "Judgment under Uncertainty: Heuristics and Biases, Science, 185(4157), 1124-1131"
+    url: https://www.science.org/doi/10.1126/science.185.4157.1124
+    verified: claimed-textbook
+  - name: 前景理论（损失厌恶）
+    author: Kahneman, D. & Tversky, A.
+    year: 1979
+    source: Prospect Theory, Econometrica, 47(2), 263-291
+    url: https://www.jstor.org/stable/1914185
+    verified: claimed-textbook
+  - name: 合取谬误
+    author: Tversky, A. & Kahneman, D.
+    year: 1983
+    source: "Extensional versus Intuitive Reasoning: The Conjunction Fallacy, Psychological Review, 90(4)"
+    url: https://psycnet.apa.org/record/1984-03045-001
+    verified: claimed-textbook
+  - name: 快速节俭启发式
+    author: Gigerenzer, G. & Todd, P. M.
+    year: 1999
+    source: Simple Heuristics That Make Us Smart, Oxford UP
+    url: https://academic.oup.com/book/27659
+    verified: claimed-textbook
+  - name: 认知反射测验（System2 压制直觉）
+    author: Frederick, S.
+    year: 2005
+    source: Cognitive Reflection and Decision Making, J. Economic Perspectives, 19(4), 25-42
+    url: https://www.aeaweb.org/articles?id=10.1257/089533005775196732
+    verified: claimed-textbook
+
+chinese_applicability: >
+  本族构念多为实验心理学指标（反应时/选择率），无现成中文文本词表；
+  绝大多数为 B 级（LLM 从理论自举，待人工抽审）。
+  弱代理：损失/负面情绪类可借 SCLIWC 情感词类；框架/锚定类需 LLM 判定。
+  LLM 对中文自由文本做"该段是否流露某偏差"的零样本判定可行（与 Wright 2025 同范式）。
+
+iso_groups:
+  - group_id: iso-F11-001
+    primary: 损失规避倾向
+    aliases: [现状偏差, 沉没成本]
+    members: [heur-007, heur-008, heur-012]
+    note: 沉没成本、现状偏差在理论上常由损失厌恶解释（Kahneman & Tversky），三者共享"不愿放弃已投入/现状"内核。
+  - group_id: iso-F11-002
+    primary: 过度自信
+    aliases: [校准偏差, 元认知过度自信]
+    members: [heur-009]
+    note: 与 F6 元认知校准(meta-011) 跨族同构——同一现象的偏差侧 vs 能力侧。
+  - group_id: iso-F11-003
+    primary: 反思压制
+    aliases: [System2, 认知反思]
+    members: [heur-014, heur-015]
+    note: Frederick CRT 与 Kahneman & Frederick 双过程论的 System2 干预同指。
+
+constructs:
+
+  - id: heur-001
+    name: 代表性启发
+    en: representativeness heuristic
+    dimension: 启发式与偏差
+    question: 此人是否用"像不像典型形象"代替概率判断（以貌取人、贴标签式推理）？
+    factor: representativeness
+    adjectives: [看面相的, 凭印象的, 以貌取人的, 贴标签的, 刻板的]
+    synonyms: [一看就像, 这就是那种人, 典型的, 像极了, 一看就是, 跟模板一样]
+    verbs: [类比, 对号入座, 贴标签, 刻板判断, 匹配模板]
+    nouns: [典型, 刻板印象, 模板, 相似, 原型, 类别]
+    anchors:
+      positive: "他这种说话方式，一看就是搞技术的。"
+      negative: "他到底属于哪类，得看数据，不能凭感觉。"
+    source: "Tversky & Kahneman 1974"
+    lexicon_grade: B
+    seed_ref: true
+    tags: [sketch-推理习惯]
+
+  - id: heur-002
+    name: 可得性启发
+    en: availability heuristic
+    dimension: 启发式与偏差
+    question: 此人是否根据"容易想到的例子/最近的印象"来估计频率与风险？
+    factor: availability
+    adjectives: [凭印象鲜活度的, 记最近的, 想得起就觉得常见的]
+    synonyms: [我最近见过, 印象里很多, 想都想得到, 活生生的例子, 这不刚发生]
+    verbs: [回忆, 联想, 凭印象估计, 举例子, 想起]
+    nouns: [印象, 例子, 鲜活记忆, 频率, 可得性, 最近事件]
+    anchors:
+      positive: "这种事太多了，前阵子刚出了一例。"
+      negative: "多不多得看统计，最近一例说明不了频率。"
+    source: "Tversky & Kahneman 1974"
+    lexicon_grade: B
+
+  - id: heur-003
+    name: 锚定与调整
+    en: anchoring and adjustment
+    dimension: 启发式与偏差
+    question: 此人判断是否被第一个数字/初始值牵住，调整不充分？
+    factor: anchoring
+    adjectives: [被第一数字带偏的, 围着初始值转的, 起步价锚住的]
+    synonyms: [一开始说多少就多少, 从这个数出发, 差不多就在这附近, 先报个数]
+    verbs: [锚定, 围绕, 调整, 起步, 参照]
+    nouns: [锚, 初始值, 起点, 参照系, 报价, 基准]
+    anchors:
+      positive: "既然对方先开价一百万，那咱们在这附近谈。"
+      negative: "他开多少跟合理价是两码事，先别被带。"
+    source: "Tversky & Kahneman 1974"
+    lexicon_grade: B
+
+  - id: heur-004
+    name: 情感启发
+    en: affect heuristic
+    dimension: 启发式与偏差
+    question: 此人是否凭好恶/直觉快感判断风险与收益（喜欢就觉得风险低）？
+    factor: affect-heuristic
+    adjectives: [凭感觉好恶的, 跟着情绪走的, 直觉喜欢的]
+    synonyms: [我就觉得好, 看着顺眼, 讨厌它所以不行, 凭直觉, 喜欢就没问题]
+    verbs: [凭感觉判断, 好恶, 直觉评估, 心算好恶]
+    nouns: [好恶, 直觉, 情绪, 好感, 反感, 快感]
+    anchors:
+      positive: "这项目我喜欢，风险肯定不大。"
+      negative: "喜不喜欢归喜欢，风险该算还得算。"
+    source: "Slovic et al.（情感启发，教科书经典）"
+    lexicon_grade: B
+
+  - id: heur-005
+    name: 基础率忽视
+    en: base rate neglect
+    dimension: 启发式与偏差
+    question: 此人是否忽视先验概率/整体基准，只盯着个案细节？
+    factor: base-rate-neglect
+    adjectives: [不看基准的, 只盯个案的, 不顾大样本的]
+    synonyms: [个例就是这样, 别说整体, 他就是例外, 这案子特殊, 基准不管用]
+    verbs: [忽视基准, 只看个案, 脱离先验, 特例化]
+    nouns: [基础率, 先验, 基准, 个案, 特例, 大样本]
+    anchors:
+      positive: "虽然这病罕见，但他症状全中，就是它了。"
+      negative: "再像，乘以它的低发病率，概率还是很低。"
+    source: "Tversky & Kahneman 1974; Kahneman & Tversky"
+    lexicon_grade: B
+
+  - id: heur-006
+    name: 合取谬误
+    en: conjunction fallacy
+    dimension: 启发式与偏差
+    question: 此人是否认为"两个条件同时成立"比"单个条件成立"更可能（越具体越像真）？
+    factor: conjunction-fallacy
+    adjectives: [越编越具体越信的, 细节堆砌当证据的]
+    synonyms: [既……又……所以更可能, 加了细节更像了, 具体得不像假的]
+    verbs: [叠加条件, 越想越具体, 细化即增信]
+    nouns: [合取, 细节, 具体情节, 叠加, 故事性]
+    anchors:
+      positive: "他既懂技术又懂人脉，所以比单纯懂技术更可能成。"
+      negative: "加条件只会让概率更小，不会更大。"
+    source: "Tversky & Kahneman 1983"
+    lexicon_grade: B
+
+  - id: heur-007
+    name: 损失厌恶
+    en: loss aversion
+    dimension: 启发式与偏差
+    question: 此人是否对"失去"比对"得到"敏感得多，宁可不行动也不愿承受损失？
+    factor: loss-aversion
+    adjectives: [怕亏的, 损失敏感的, 捂盘子的, 输不起的]
+    synonyms: [亏不起, 丢了比赚了难受, 宁可不要也不能亏, 落袋为安, 止损难]
+    verbs: [规避损失, 回避, 死守, 落袋为安, 扛住不割]
+    nouns: [损失, 获得, 盈亏, 损失厌恶, 参照点, 落袋]
+    anchors:
+      positive: "这已经亏了这么多，现在卖就真亏了，不能卖。"
+      negative: "已经投进去的不该影响接下来的决定。"
+    source: "Kahneman & Tversky 1979 前景理论"
+    lexicon_grade: B
+
+  - id: heur-008
+    name: 沉没成本谬误
+    en: sunk cost fallacy
+    dimension: 启发式与偏差
+    question: 此人是否因已投入的时间/钱而继续本应终止的事？
+    factor: sunk-cost
+    adjectives: [舍不得已投入的, 越陷越深的, 不肯止损的]
+    synonyms: [都花这么多了, 来都来了, 投入这么多不能白费, 半途而废可惜]
+    verbs: [舍不得停, 继续投入, 硬撑, 不肯止损]
+    nouns: [沉没成本, 已投入, 来都来了, 可惜, 坚持]
+    anchors:
+      positive: "都读了三年了，现在放弃太可惜。"
+      negative: "已经花的三年收不回，只看接下来值不值。"
+    source: "Arkes & Blumer（沉没成本，教科书经典）"
+    lexicon_grade: B
+
+  - id: heur-009
+    name: 过度自信
+    en: overconfidence
+    dimension: 启发式与偏差
+    question: 此人是否高估自己判断的准确度（把握远超实际）？
+    factor: overconfidence
+    adjectives: [过于自信的, 拍胸脯的, 想当然的, 蜜汁自信的]
+    synonyms: [肯定没错, 我有把握, 这还不简单, 绝对是, 想都不用想]
+    verbs: [高估, 拍胸脯, 断言, 想当然, 过于肯定]
+    nouns: [过度自信, 把握, 错觉, 自信, 校准偏差]
+    anchors:
+      positive: "这方案我拍胸脯，肯定成。"
+      negative: "我先打个七折再说，别太把自己判断当回事。"
+    source: "Kahneman & Tversky; 与 F6 meta-011 同构"
+    lexicon_grade: B
+
+  - id: heur-010
+    name: 框架效应
+    en: framing effect
+    dimension: 启发式与偏差
+    question: 此人反应是否随"说成收益还是说成损失"而翻转（同一事实，换说法就改主意）？
+    factor: framing
+    adjectives: [被说法牵着走的, 换个角度就改主意的]
+    synonyms: [说存活率90%就选, 说死亡率10%就不选, 换个说法我就动摇了]
+    verbs: [被框架带, 随说法翻转, 换框即改判]
+    nouns: [框架, 说法, 收益/损失框, 表述, 角度]
+    anchors:
+      positive: "说'九成存活'我就上，说'一成死亡'我就怕。"
+      negative: "九成存活和一成死亡是一回事，别被说法绕。"
+    source: "Tversky & Kahneman 框架效应"
+    lexicon_grade: B
+
+  - id: heur-011
+    name: 规划谬误
+    en: planning fallacy
+    dimension: 启发式与偏差
+    question: 此人是否系统性低估任务所需时间/成本（只看乐观剧本，忽略历史同类）？
+    factor: planning-fallacy
+    adjectives: [过于乐观的, 低估工期的, 想当然顺利的]
+    synonyms: [一个月肯定够, 很顺利的话, 这次不一样, 按理想情况算]
+    verbs: [低估, 乐观估计, 忽略历史, 想当然排期]
+    nouns: [工期, 乐观, 规划, 历史同类, 顺利剧本]
+    anchors:
+      positive: "这项目一个月搞定，没什么难的。"
+      negative: "上次同类花了三个月，这次至少按这个数备着。"
+    source: "Kahneman & Tversky; Flyvbjerg（教科书经典）"
+    lexicon_grade: B
+
+  - id: heur-012
+    name: 现状偏差
+    en: status quo bias
+    dimension: 启发式与偏差
+    question: 此人是否倾向维持现状、抗拒改变，即便改变更优？
+    factor: status-quo-bias
+    adjectives: [安于现状的, 怕变动的, 维持现状的]
+    synonyms: [一直这样挺好, 别动, 习惯了, 没必要改, 维持就行]
+    verbs: [维持, 抗拒改变, 守成, 不动]
+    nouns: [现状, 改变, 习惯, 守成, 惯性]
+    anchors:
+      positive: "现在这样用着也行，换它干嘛。"
+      negative: "虽然现在能用，但更优的替代值得换。"
+    source: "Samuelson & Zeckhauser（教科书经典）"
+    lexicon_grade: B
+
+  - id: heur-013
+    name: 快速节俭启发式
+    en: fast and frugal heuristic
+    dimension: 启发式与偏差
+    question: 此人是否用单一理由/少线索快速决断（再认、取最好者），而非穷尽信息？
+    factor: fast-frugal
+    adjectives: [单线索决断的, 快刀斩乱麻的, 够用就好的]
+    synonyms: [就看这一条, 够了不用查了, 哪个先冒出来就选它, 一眼定, 少即是多]
+    verbs: [单线索判断, 取最好, 再认即选, 停止搜索, 快速决定]
+    nouns: [单一线索, 再认, 节俭, 启发式, 快决断]
+    anchors:
+      positive: "品牌我认得，就买它，别比了。"
+      negative: "光认品牌不够，多比几条再定。"
+    source: "Gigerenzer & Todd 1999"
+    lexicon_grade: B
+
+  - id: heur-014
+    name: 认知反思
+    en: cognitive reflection
+    dimension: 启发式与偏差
+    question: 此人是否压制第一直觉、启动慢思考复核（而非脱口而出）？
+    factor: cognitive-reflection
+    adjectives: [会停下来想的, 压制直觉的, 慢半拍但准的]
+    synonyms: [先别急着答, 直觉可能是错的, 再想想, 慢一点, 反过来看]
+    verbs: [反思, 压制直觉, 复核, 慢思考, 质疑第一反应]
+    nouns: [直觉, 反思, 慢思考, 复核, 第一反应]
+    anchors:
+      positive: "第一反应是 X，但等等，再算一遍——其实是 Y。"
+      negative: "脱口而出，第一感觉就是答案。"
+    source: "Frederick 2005 CRT"
+    lexicon_grade: A
+    seed_ref: true
+    tags: [sketch-推理习惯]
+
+  - id: heur-015
+    name: 双过程倾向
+    en: dual-process System1/System2
+    dimension: 启发式与偏差
+    question: 此人更依赖直觉快思(System1)还是审慎慢思(System2)？
+    factor: dual-process
+    adjectives: [直觉型的, 深思熟虑的, 凭第一感的, 反复推敲的]
+    synonyms: [凭直觉, 得推一遍, 想都不想, 琢磨半天]
+    verbs: [凭直觉, 推敲, 审慎, 快思, 慢思]
+    nouns: [直觉, 审慎, System1, System2, 双过程]
+    anchors:
+      positive: "这种事得慢慢推，不能靠感觉。"
+      negative: "凭感觉就行，想多了反而乱。"
+    source: "Kahneman & Frederick 双过程论"
+    lexicon_grade: B
+
+stats:
+  constructs: 15
+  iso_groups: 3
+  grade_A: 1
+  grade_B: 14
