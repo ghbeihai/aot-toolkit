@@ -15,13 +15,13 @@
 from __future__ import annotations
 
 import json
+import sys
 import os
-import random
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import List, Optional
 
 import yaml
 
@@ -165,7 +165,8 @@ class ThinkingScorer:
                         print(f"    [warn] {name} t={t} 失败: {ex}")
                     time.sleep(1.5)
         if not raw_scores:
-            return {"score": 0.0, "raw_scores": [], "evidence": [], "confidence": 0.0, "simulated": True}
+            return {"score": None, "raw_scores": [], "evidence": [], "confidence": 0.0,
+                    "simulated": False, "failed": True}  # 全部重试失败：不伪装成 0 分
         return {
             "score": round(sum(raw_scores) / len(raw_scores), 2),
             "raw_scores": raw_scores,
@@ -207,7 +208,6 @@ def main():
         people = [dict(p, items=p["items"][:n_c]) for p in people[:n_p]]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    total_calls = sum(len(p["items"]) * len(constructs) * 2 for p in people)
     done_calls = 0
 
     def build_tasks():
@@ -221,7 +221,7 @@ def main():
                 cid = item["id"]
                 for c in constructs:
                     key = f"{cid}::{c['id']}"
-                    if key in existing and existing[key].get("score", 0) > 0 and not existing[key].get("simulated", False):
+                    if key in existing and (existing[key].get("score") or 0) > 0 and not existing[key].get("simulated", False):
                         continue  # 断点续跑
                     yield p, out_path, existing, key, c, text
 

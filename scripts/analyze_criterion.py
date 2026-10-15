@@ -55,7 +55,7 @@ def load_scores(pid: str, d: dict, dim_names: dict) -> dict[str, dict]:
     """返回 {chunk: {dim: score}}"""
     by_chunk: dict[str, dict] = defaultdict(dict)
     for key, v in d.items():
-        if v.get("score", 0) <= 0 or v.get("simulated"):
+        if (v.get("score") or 0) <= 0 or v.get("simulated"):
             continue
         if "::dim" not in key:
             continue
@@ -67,7 +67,7 @@ def load_scores(pid: str, d: dict, dim_names: dict) -> dict[str, dict]:
 def load_crit(pid: str, d: dict) -> dict[str, dict]:
     by_chunk: dict[str, dict] = defaultdict(dict)
     for key, v in d.items():
-        if v.get("score", 0) <= 0 or v.get("simulated"):
+        if (v.get("score") or 0) <= 0 or v.get("simulated"):
             continue
         if "::" not in key:
             continue
@@ -116,8 +116,6 @@ def main():
     for t in tools:
         mat[t] = {}
         for d in dims:
-            xs = [r["tool"].get(t, 0) for r in rows if r["tool"].get(t)]
-            ys = [r["dim"].get(d, 0) for r in rows if r["dim"].get(d)]
             pairs = [(r["tool"][t], r["dim"][d]) for r in rows if t in r["tool"] and d in r["dim"]]
             if len(pairs) >= 3:
                 mat[t][d] = spearman([a for a, _ in pairs], [b for _, b in pairs])

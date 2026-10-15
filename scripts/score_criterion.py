@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -172,7 +173,8 @@ class ToolScorer:
                         print(f"    [warn] t={temp} 失败: {ex}")
                     time.sleep(1.5)
         if not scores:
-            return {"score": 0.0, "raw_scores": [], "evidence": [], "confidence": 0.0, "simulated": True}
+            return {"score": None, "raw_scores": [], "evidence": [], "confidence": 0.0,
+                    "simulated": False, "failed": True}  # 全部重试失败：不伪装成 0 分
         return {
             "score": round(sum(scores) / len(scores), 2),
             "raw_scores": scores,
@@ -220,7 +222,7 @@ def main():
             text = item["text"][:MAX_TEXT_CHARS]
             for t in TOOLS:
                 key_t = f"{item['id']}::{t['tool']}"
-                if key_t in existing and existing[key_t].get("score", 0) > 0 and not existing[key_t].get("simulated", False):
+                if key_t in existing and (existing[key_t].get("score") or 0) > 0 and not existing[key_t].get("simulated", False):
                     continue
                 tasks.append((p, out_path, existing, key_t, t, text))
 
