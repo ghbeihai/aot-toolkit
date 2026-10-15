@@ -3,14 +3,8 @@
 """
 AoT 人物画像汇总：把 score_dimensions.py 产出的扁平结果汇总成 people_profiles.json。
 
-输入结构（score_dimensions.py 产出）：
-  {"chunk_id::dimN": {"score": 1-7, "dim": "dimN", "dim_name": "...", "person": "pid", ...}, ...}
-
 输出结构：
-  {"pid": {"name": "...", "n_dims": 25, "top5": [{"dim", "dim_name", "mean", "evidence"}]}}
-
-用法：
-  python3 aggregate_profiles.py <scores_dir> --out people_profiles.json
+  {"pid": {"name": "...", "n_dims": 25, "top5": [{"dim", "dim_name", "mean", "evidence": [...]}]}}
 """
 import argparse
 import json
@@ -30,8 +24,8 @@ def main():
         print(f"错误：目录不存在 {scores_dir}", file=sys.stderr)
         sys.exit(1)
 
-    # 按 pid → dim → scores[] 分组
-    by_person = defaultdict(lambda: defaultdict(list))
+    # 按 pid → dim → scores[] + evidence[] 分组
+    by_person = defaultdict(lambda: defaultdict(lambda: {"scores": [], "evidences": []}))
     person_names = {}
 
     for f in sorted(scores_dir.glob("*.json")):
@@ -50,26 +44,33 @@ def main():
             score = entry.get("score", 0)
             if score <= 0:
                 continue
-            by_person[pid][dim].append({"score": score, "dim_name": dim_name})
+            by_person[pid][dim]["scores"].append(score)
+            # 收集 evidence
+            evs = entry.get("evidence", [])
+            if evs:
+                by_person[pid][dim]["evidences"].extend(evs[:2])  # 每维最多存 2 条
             if "person" in entry and pid not in person_names:
                 person_names[pid] = entry["person"]
 
     profiles = {}
     for pid, dims in by_person.items():
-        # 算每维均值
         dim_means = []
-        for dim, entries in dims.items():
-            scores = [e["score"] for e in entries]
-            dim_name = entries[0]["dim_name"] if entries else dim
+        for dim, data in dims.items():
+            scores = data["scores"]
+            if not scores:
+                continue
+            dim_name = dim
             mean = sum(scores) / len(scores)
+            # 取该维前 2 条 evidence
+            evidence = data["evidences"][:2] if data["evidences"] else []
             dim_means.append({
                 "dim": dim,
                 "dim_name": dim_name,
                 "mean": round(mean, 2),
                 "n_chunks": len(scores),
+                "evidence": evidence,
             })
 
-        # 按均值排序取 top5
         dim_means.sort(key=lambda x: -x["mean"])
         top5 = dim_means[:5]
 
@@ -83,7 +84,8 @@ def main():
     out_path.write_text(json.dumps(profiles, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"汇总完成：{len(profiles)} 人 → {out_path}")
     for pid, p in profiles.items():
-        print(f"  {pid}: {p['n_dims']} 维, top1={p['top5'][0]['dim_name']} ({p['top5'][0]['mean']})")
+        top1 = p["top5"][0] if p["top5"] else {}
+        print(f"  {pid}: {p['n_dims']} 维, top1={top1.get('dim_name','?')} ({top1.get('mean',0)})")
 
 
 if __name__ == "__main__":
