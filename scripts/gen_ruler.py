@@ -9,14 +9,16 @@
 from __future__ import annotations
 
 import json
-import time
+import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+import llm_common
 
 AOT_ROOT = Path(__file__).resolve().parent.parent
 NAMED_PATH = AOT_ROOT / "data" / "results" / "clusters_v2" / "k25_named.json"
 OUT_DIR = AOT_ROOT / "data" / "results" / "ruler"
-ENV_PATH = AOT_ROOT / ".env"
+LLM_PATH = AOT_ROOT / "config" / "llm.yaml"
 
 SYSTEM_PROMPT = """你是一位严谨的心理学测量量表开发专家（psychometric scale developer），为思维画像系统编写【维度特化评分锚点】（behavioral anchors）。
 
@@ -40,18 +42,9 @@ SYSTEM_PROMPT = """你是一位严谨的心理学测量量表开发专家（psyc
 4. 示例句服务于人类审阅理解，不进入判定提示词。"""
 
 
-def load_key() -> str | None:
-    if ENV_PATH.exists():
-        for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line.startswith("DEEPSEEK_API_KEY="):
-                return line.split("=", 1)[1].strip().strip('"').strip("'")
-    return None
-
-
 def render_dimension(cl) -> str:
     dim = cl["dimension"]
-    members = [m["name"] for m in cl["members"]]
+    members = [m["name"] if isinstance(m, dict) else str(m) for m in cl.get("members", [])]
     return "\n".join([
         f"维度名称：{dim.get('name', '')}（{dim.get('name_en', '')}）",
         f"判定设问：{dim.get('question', '')}",
@@ -64,13 +57,10 @@ def render_dimension(cl) -> str:
 def main():
     import argparse
     argparse.ArgumentParser(description=f"生成 AoT 尺子锚点（需 DEEPSEEK_API_KEY）→ {OUT_DIR}").parse_args()
-    from openai import OpenAI
-
-    key = load_key()
-    if not key:
-        print("[!] 无 API key，无法生成尺子锚点")
-        return
-    client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=120)
+    cfg = llm_common.load_llm_cfg(LLM_PATH, section="llm")
+    client = llm_common.make_client(llm_common.require_key(AOT_ROOT), cfg)  # 无 key → 退出 1
+    if not NAMED_PATH.exists():
+        sys.exit(f"错误：缺少 {NAMED_PATH}（先跑 embed_cluster.py + name_clusters.py --v2 --k 25）")
 
     named = json.loads(NAMED_PATH.read_text(encoding="utf-8"))
     clusters = named["clusters"]
@@ -90,22 +80,16 @@ def main():
             return cid, existing[cid], True
         definition = render_dimension(cl)
         user = f"【思维维度定义】\n{definition}\n\n请为该维度设计评分锚点并输出 JSON。"
-        for attempt in range(2):
+        for attempt in range(2):  # 外层：锚点过短时重生成；网络/429 退避在 chat_json 内
             try:
-                resp = client.chat.completions.create(
-                    model="deepseek-chat",
-                    temperature=0.4,
-                    response_format={"type": "json_object"},
-                    messages=[
-                        {"role": "system", "content": SYSTEM_PROMPT},
-                        {"role": "user", "content": user},
-                    ],
-                )
-                data = json.loads(resp.choices[0].message.content or "{}")
+                data = llm_common.chat_json(
+                    client, cfg,
+                    [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user}],
+                    temperature=float(cfg.get("naming_temperature", 0.4)), log_prefix=f"dim{cid} ")
                 rec = {
                     "cluster": cid,
                     "dimension": cl["dimension"],
-                    "members": [m["name"] for m in cl["members"]],
+                    "members": [m["name"] if isinstance(m, dict) else str(m) for m in cl["members"]],
                     "anchors": {
                         "anchor_low": str(data.get("anchor_low", "")).strip(),
                         "anchor_mid": str(data.get("anchor_mid", "")).strip(),
@@ -122,9 +106,8 @@ def main():
                 if ok:
                     return cid, rec, False
                 print(f"  [warn] dim{cid} 锚点过短，重试")
-            except Exception as ex:
-                print(f"  [err] dim{cid} 失败: {ex}")
-                time.sleep(2)
+            except Exception as ex:  # noqa: BLE001
+                print(f"  [err] dim{cid} 失败: {ex}", file=sys.stderr)
         return cid, {"cluster": cid, "dimension": cl["dimension"], "anchors": {}, "error": "generation_failed"}, False
 
     results = {}
@@ -133,7 +116,7 @@ def main():
         print("[ok] 全部维度已有锚点，跳过生成")
     else:
         print(f"[info] 待生成锚点维度 {len(todo)} 个")
-        with ThreadPoolExecutor(max_workers=8) as ex:
+        with ThreadPoolExecutor(max_workers=int(cfg.get("concurrency", 8))) as ex:
             futs = {ex.submit(gen, cl): cl for cl in todo}
             for fut in as_completed(futs):
                 cid, rec, skipped = fut.result()
@@ -197,6 +180,10 @@ def main():
     md = out_dir / "AoT尺子_v1.0.md"
     md.write_text("\n".join(L), encoding="utf-8")
     print(f"[ok] 尺子人读版：{md}")
+    n_bad = sum(1 for d in dims if d and d.get("error"))
+    if n_bad:
+        print(f"[warn] {n_bad} 个维度锚点生成失败", file=sys.stderr)
+        sys.exit(3)
 
 
 if __name__ == "__main__":

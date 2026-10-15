@@ -11,11 +11,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+import llm_common
 
 AOT_ROOT = Path(__file__).resolve().parent.parent
 CLUSTERS_DIR = AOT_ROOT / "data" / "results" / "clusters"
-ENV_PATH = AOT_ROOT / ".env"
+LLM_PATH = AOT_ROOT / "config" / "llm.yaml"
 
 SYSTEM_PROMPT = """你是一位认知科学方法学专家。我给你一个"思维构念簇"——它是由 270 个学术思维构念（来自认知风格、双过程、论证图式、归因、解释水平、元认知、概念隐喻、内隐动机、知识论、认知能力、启发式偏差、叙事身份、决策风格、时间取向、反事实、创造力、神经多样性、道德认知、持续性认知、社会认知等 20 大模型家族）经高维语义嵌入聚类得到的、语义相近的一组构念。
 
@@ -29,15 +32,6 @@ SYSTEM_PROMPT = """你是一位认知科学方法学专家。我给你一个"思
 - question 要能被 LLM 直接用于 1-7 打分。"""
 
 
-def load_key() -> str | None:
-    if ENV_PATH.exists():
-        for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line.startswith("DEEPSEEK_API_KEY="):
-                return line.split("=", 1)[1].strip().strip('"').strip("'")
-    return None
-
-
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--k", type=int, default=18)
@@ -46,14 +40,12 @@ def main():
 
     clusters_dir = CLUSTERS_DIR if not args.v2 else AOT_ROOT / "data" / "results" / "clusters_v2"
 
-    key = load_key()
-    if not key:
-        print("[!] 无 API key，无法命名")
-        return
-    from openai import OpenAI
-    client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=120)
-
     src = clusters_dir / f"k{args.k}.json"
+    if not src.exists():
+        sys.exit(f"错误：缺少聚类结果 {src}（先跑 embed_cluster.py；v2 全量用 --v2 --k 25）")
+    cfg = llm_common.load_llm_cfg(LLM_PATH, section="llm")
+    client = llm_common.make_client(llm_common.require_key(AOT_ROOT), cfg)  # 无 key → 退出 1
+    n_failed = 0
     data = json.loads(src.read_text(encoding="utf-8"))
 
     for cl in data["clusters"]:
@@ -67,25 +59,22 @@ def main():
             + "\n\n请归纳这条思维维度并输出 JSON。"
         )
         try:
-            resp = client.chat.completions.create(
-                model="deepseek-chat",
-                temperature=0.4,
-                response_format={"type": "json_object"},
-                messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
-                    {"role": "user", "content": user},
-                ],
-            )
-            named = json.loads(resp.choices[0].message.content or "{}")
-        except Exception as ex:
-            print(f"[err] 簇{cl['cluster']} 命名失败: {ex}")
+            named = llm_common.chat_json(
+                client, cfg,
+                [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user}],
+                temperature=float(cfg.get("naming_temperature", 0.4)), log_prefix=f"簇{cl['cluster']} ")
+        except Exception as ex:  # noqa: BLE001
+            n_failed += 1
+            print(f"[err] 簇{cl['cluster']} 命名失败: {ex}", file=sys.stderr)
             named = {"name": "命名失败", "name_en": "", "question": "", "essence": str(ex)[:50], "keywords": []}
         cl["dimension"] = named
         print(f"[ok] 簇{cl['cluster']:>2} (n={cl['size']:>2}) → {named.get('name','?')} | {named.get('essence','')[:40]}")
 
     out = clusters_dir / f"k{args.k}_named.json"
     out.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"\n[ok] 已写 {out.name}")
+    print(f"\n[ok] 已写 {out.name}（命名失败 {n_failed} 簇）")
+    if n_failed:
+        sys.exit(3)
 
 
 if __name__ == "__main__":
