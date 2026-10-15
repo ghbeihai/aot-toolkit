@@ -26,31 +26,44 @@
 ## 目录
 
 ```
-config/thinking_constructs.yaml   思维构念词元库（单一配置源，尺子 v0.1）
-config/llm.yaml                   LLM 打分协议
-data/corpus/                      每人抽样语料（prepare_corpus.py 产出）
-data/results/scores/              每人 × 每构念分数（断点续跑）
-data/results/clusters.json        自下而上聚类结果
-data/results/cluster_names.json   LLM 簇命名
-scripts/prepare_corpus.py         从 SPI 清洗语料抽样
-scripts/score_thinking.py         LLM 零样本打分（主入口）
-scripts/cluster_thinking.py       文本嵌入→聚类→每人簇分布
-scripts/name_clusters.py          LLM 给簇命名
-scripts/build_report.py           汇总画像报告
+config/thinking_constructs.yaml   12 种子构念词元库（score_thinking 用）
+config/llm.yaml                   LLM 协议：model / temperatures / 并发 / 退避重试 / 截断阈值
+data/results/ruler/AoT尺子_v1.0.json  冻结尺子：25 维定义 + 锚点（仓库内，开箱即用）
+data/corpus/<pid>.json            每人语料 {person, name, n_total, n_sampled, items:[{id,title,text}]}（gitignore，prepare_corpus.py 生成）
+data/corpus_full/                 全量语料（可选，--full 用；同格式，gitignore）
+data/results/clusters_v2/         embed_cluster + name_clusters 产物（k25.json / k25_named.json，gitignore）
+data/results/scores_dim_v2/       25 维块级分数（score_dimensions 输出，断点续跑）
+
+scripts/prepare_corpus.py         txt/md 目录或 SPI JSON → data/corpus/<pid>.json
+scripts/score_dimensions.py       25 维打分（主入口；无 k25_named 时自动用冻结尺子定义）
+scripts/aggregate_profiles.py     块级分数 → people_profiles.json（--names pid=人读名）
+scripts/score_criterion.py        6 个效标工具代理打分（CRT/NFC/ASQ/MFQ/MAI/ABS）
+scripts/score_thinking.py         12 种子构念打分
+scripts/analyze_criterion.py      25 维 × 效标相关分析
+scripts/embed_cluster.py / name_clusters.py / gen_ruler.py   构建尺子（研究用，需嵌入模型）
+scripts/report_md.py              画像报告（默认 v2；--full 读 profiles_full）
+scripts/llm_common.py             LLM 公共模块（与 WFP/SPI 同一实现）
 ```
 
-## 运行
+## 运行（复刻流水线用到的部分）
 
 ```bash
-cd AoT
-python3 scripts/prepare_corpus.py
-python3 scripts/score_thinking.py       # 断点续跑：重复运行只补未完成项
-python3 scripts/cluster_thinking.py
-python3 scripts/name_clusters.py
-python3 scripts/build_report.py
+cd $AOT_ROOT
+python3 scripts/prepare_corpus.py ./原文 --person zhanglinjun --name 张林军     # → data/corpus/zhanglinjun.json
+python3 scripts/score_dimensions.py --person zhanglinjun --dry-run              # 先看调用次数
+python3 scripts/score_dimensions.py --person zhanglinjun                        # 断点续跑：重复运行只补未完成/失败项
+python3 scripts/aggregate_profiles.py data/results/scores_dim_v2 --names zhanglinjun=张林军 --out people_profiles.json
+# 可选：
+python3 scripts/score_criterion.py   # 效标代理（data/results/criterion/）
+python3 scripts/score_thinking.py    # 12 种子构念（data/results/scores/）
 ```
 
-API key：放在 `.env`（DEEPSEEK_API_KEY=sk-...），脚本自动读取；无 key 时进入模拟模式（结果带 simulated 标记）。
+`--full` 只是把语料/输出目录切到 `data/corpus_full` / `scores_full`（或 `criterion_full`）；该目录不随仓库提供，需自己用
+`prepare_corpus.py --out-dir data/corpus_full` 生成，否则脚本会直接报错说明。
+
+API key：`DEEPSEEK_API_KEY` 环境变量 → `$WENBI_ENV_FILE` → 本仓 `.env` → `$SPI_ROOT/$WFP_ROOT` 的 `.env`；
+**无 key 报错退出 1**（模拟模式已移除）。429/5xx/截断自动指数退避；`WENBI_MOCK_LLM=1` 为离线假客户端（测试用）。
+退出码：0 成功；1 参数/输入/key 错误；3 有打分项失败（重跑即续跑）。
 
 ## 12 个思维构念（v0.1）
 
