@@ -110,6 +110,11 @@ SYSTEM_PROMPT = """你是一位严谨的心理学测量编码器（psychometric 
 
 
 def load_key() -> str | None:
+    # 优先读环境变量
+    env_key = os.environ.get("DEEPSEEK_API_KEY")
+    if env_key:
+        return env_key.strip()
+    # 回退读 .env 文件
     if ENV_PATH.exists():
         for line in ENV_PATH.read_text(encoding="utf-8").splitlines():
             line = line.strip()
@@ -124,12 +129,15 @@ def render_tool(t) -> str:
 
 class ToolScorer:
     def __init__(self, key: str | None):
+        if not key:
+            print("错误：未检测到 DEEPSEEK_API_KEY。\n"
+                  "请先 export DEEPSEEK_API_KEY=sk-... 或在 .env 文件中配置。",
+                  file=sys.stderr)
+            sys.exit(1)
         self.key = key
-        self.simulated = not key
-        self.client = None
-        if key:
-            from openai import OpenAI
-            self.client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=120)
+        self.simulated = False
+        from openai import OpenAI
+        self.client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=120)
 
     def _call(self, desc: str, text: str, temp: float) -> dict:
         user = f"【效标工具构念】\n{desc}\n\n【待分析文本】\n{text}\n\n请按系统要求输出 JSON。"

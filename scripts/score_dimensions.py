@@ -76,12 +76,15 @@ def render_dimension(cl, anchors: dict | None = None) -> str:
 
 class DimScorer:
     def __init__(self, key: str | None):
+        if not key:
+            print("错误：未检测到 DEEPSEEK_API_KEY。\n"
+                  "请先 export DEEPSEEK_API_KEY=sk-... 或在 .env 文件中配置。",
+                  file=sys.stderr)
+            sys.exit(1)
         self.key = key
-        self.simulated = not key
-        self.client = None
-        if key:
-            from openai import OpenAI
-            self.client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=120)
+        self.simulated = False
+        from openai import OpenAI
+        self.client = OpenAI(api_key=key, base_url="https://api.deepseek.com", timeout=120)
 
     def _call(self, definition: str, name: str, text: str, temp: float) -> dict:
         user = f"【思维维度定义】\n{definition}\n\n【待分析文本】\n{text}\n\n请按系统要求输出 JSON。"
