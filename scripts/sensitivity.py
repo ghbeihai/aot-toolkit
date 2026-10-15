@@ -26,7 +26,6 @@ AOT_ROOT = Path(__file__).resolve().parent.parent
 CENSUS_DIR = AOT_ROOT / "data" / "census"
 NEW_DIR = AOT_ROOT / "data" / "census_v2" / "constructs"
 OUT_DIR = AOT_ROOT / "data" / "results" / "sensitivity"
-OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # 加载 embed_cluster 模块并复用 clean / factor_chain_text
 spec = importlib.util.spec_from_file_location("embed_cluster", AOT_ROOT / "scripts" / "embed_cluster.py")
@@ -161,4 +160,5 @@ if __name__ == "__main__":
     ap.add_argument("--k-min", type=int, default=15)
     ap.add_argument("--k-max", type=int, default=25)
     args = ap.parse_args()
+    OUT_DIR.mkdir(parents=True, exist_ok=True)  # 原在模块级：--help/import 也会建目录
     run(bool(args.with_new), args.k_min, args.k_max)
