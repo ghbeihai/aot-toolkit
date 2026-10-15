@@ -61,7 +61,9 @@ def main():
     matrix = json.loads(mat_path.read_text(encoding="utf-8"))
     dims = {d["dim"]: d["name"] for d in matrix["dims"]}
     people = matrix["people"]
-    names = {p: profiles[p]["name"] for p in order}
+    # 人物顺序：矩阵中出现且有画像的人（原代码引用了未定义的 order → NameError）
+    order = [p for p in people if p in profiles]
+    names = {p: profiles[p].get("name", p) for p in order}
 
     L = []
     L.append(f"# AoT 思维图谱 {version} —— 7 人思维画像报告（270 构念全量重跑）\n")
