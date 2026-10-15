@@ -78,9 +78,10 @@ def main():
         dim = cl["dimension"]
         fams = {}
         for m in cl["members"]:
-            fams[m["family_name"]] = fams.get(m["family_name"], 0) + 1
+            fam = m.get("family_name") or m.get("family_id", "?")
+            fams[fam] = fams.get(fam, 0) + 1
         fam_str = "、".join(f"{f}×{n}" for f, n in sorted(fams.items(), key=lambda x: -x[1])[:3])
-        seeds = "、".join(m["name"] for m in cl["members"] if m["seed_ref"]) or "—"
+        seeds = "、".join(m["name"] for m in cl["members"] if m.get("seed_ref")) or "—"
         q = dim.get("question", "")[:42] + ("…" if len(dim.get("question", "")) > 42 else "")
         L.append(f"| {cl['cluster']} | **{dim.get('name','')}** | {q} | {fam_str} | {seeds} |")
     L.append("")
@@ -115,7 +116,7 @@ def main():
         L.append(f"### {prof['name']}\n")
         for r in prof["top5"]:
             ev = (r["evidence"][0][:50] + "…") if r["evidence"] else ""
-            L.append(f"- **{r['dim_name']}** {r['mean']}（块间 σ={r['std']}）—— {ev}")
+            L.append(f"- **{r['dim_name']}** {r['mean']}（块间 σ={r.get('std', '—')}）—— {ev}")
         L.append("")
 
     if full:
